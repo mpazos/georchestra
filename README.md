@@ -8,6 +8,14 @@ It features a **metadata catalog** (GeoNetwork), an **OGC server** (GeoServer), 
 How to build ?
 ==============
 
+First, install the required packages : 
+
+    $ sudo apt-get install ant openjdk-6-jdk
+
+(Note: GeoServer is known to perform better with Oracle JDK)
+
+Then :
+
     $ git clone --recursive https://github.com/georchestra/georchestra.git
     $ cd georchestra
     $ ./mvn -Dmaven.test.skip=true -Ptemplate install
@@ -19,8 +27,7 @@ Copy the "template" config directory and edit "yourown" to match your needs:
 
     $ cp -r config/configuration/template config/configuration/yourown
     (edit files in config/configuration/yourown)
-    (declare "yourown" profile in the root pom.xml)
-    $ ./mvn -Dmaven.test.skip=true -Pyourown install
+    $ ./mvn -Dmaven.test.skip=true -Dserver=yourown -Pyourown install
 
 How to deploy ?
 ===============
@@ -51,7 +58,7 @@ Copy WAR files in Tomcat webapps dir:
 Want to run the advanced viewer without Tomcat ?
 ================================================
 
-This mode is useful for demo or development purposes.
+This mode is useful for **demo** or **development** purposes.
 
     $ cd mapfishapp
     $ ../mvn -Ptemplate jetty:run
