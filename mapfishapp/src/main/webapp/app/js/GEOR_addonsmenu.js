@@ -1,7 +1,7 @@
 /*
- * Copyright (C) Geobretagne
+ * Copyright (C) GeoBretagne, Camptocamp
  *
- * This file is NOT part of geOrchestra (well, not yet)
+ * This file is part of geOrchestra
  *
  * geOrchestra is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -11,7 +11,6 @@
  * You should have received a copy of the GNU General Public License
  * along with geOrchestra.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 
 Ext.namespace("GEOR");
 
@@ -45,7 +44,7 @@ GEOR.addonsmenu = (function () {
     var initialized = false;
 
     /**
-     *Method : getGroupItem
+     * Method: getGroupItem
      * this method returns menuItem index corresponding at the label group passed in parameter
      * Parameter: menuaddons : {Ext.Action}, group: string.
      *
@@ -63,7 +62,7 @@ GEOR.addonsmenu = (function () {
     };
 
     /**
-     *Method : loadCssFiles
+     * Method: loadCssFiles
      * this method loads dynamically the css files passed in parameter
      * this method is used because Ext.Loader does not works with css files
      * Parameter:
@@ -82,7 +81,7 @@ GEOR.addonsmenu = (function () {
     };
 
     /**
-     *Method : checkRoles
+     * Method: checkRoles
      * this method checks the addon permissions
      * Parameter: okRoles {addonItems.roles}.
      *
@@ -102,7 +101,7 @@ GEOR.addonsmenu = (function () {
     };
 
     /**
-     *Method : lazyLoad
+     * Method : lazyLoad
      * this method loads dynamically all js and css files registered in
      * addons.js and addons.css using Ext.Loader.
      */
@@ -124,7 +123,7 @@ GEOR.addonsmenu = (function () {
             }
             Ext.Loader.load(libs, function (test) {
                 var i = 0;
-                var menuaddons = Ext.getCmp('menuaddons'); // éviter le getCmp : lent ! (utiliser une référence interne au présent module)
+                var menuaddons = Ext.getCmp('menuaddons'); // eviter le getCmp : lent ! (utiliser une reference interne au present module)
                 for (i = 0; i < addons.length; i += 1) {
                     var addon = addons[i].addon;
                     var addonObject = GEOR[addon];
@@ -144,10 +143,6 @@ GEOR.addonsmenu = (function () {
             initialized = true;
         }
     };
-
-
-
-
 
     return {
         /*

@@ -60,7 +60,7 @@ GEOR.custom = {
             css: ["app/addons/profile/profile.css"],
             options: {
                 title: "profil en long",
-                abstract: "résumé 1",
+                "abstract": "résumé 1",
                 group: "MNT",
                 wpsurl: "http://geobretagne.fr/wps/mnt",
                 identifier: "getProfileProcess3",
@@ -79,7 +79,7 @@ GEOR.custom = {
             css: ["app/addons/agrocampus/agrocampus.css"],
             options: {
                 title: "Agrocampus",
-                abstract: "test agrocampus",
+                "abstract": "test agrocampus",
                 group: "MNT",
                 wpsurl: "http://geowww.agrocampus-ouest.fr/cgi-bin/mntsurf.cgi",
                 identifier: "infomnt"
@@ -127,7 +127,7 @@ GEOR.custom = {
             css: ["app/addons/magnifier/magnifier.css"],
             options: {
                 title: "Loupe ortho",
-                abstract: "Afficher l'ortho dans une fenêtre de balayage",
+                "abstract": "Afficher l'ortho dans une fenêtre de balayage",
                 roles: [],
                 mode: "static",
                 layer: "satellite",
@@ -146,7 +146,7 @@ GEOR.custom = {
             css: ["app/addons/model/model.css"],
             options: {
                 title: "Démo",
-                abstract: "Démo",
+                "abstract": "Démo",
                 roles: ["ROLE_SV_USER"],
                 option1: "modele",
                 option2: 3
