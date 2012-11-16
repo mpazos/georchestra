@@ -1,7 +1,7 @@
 /*
- * Copyright (C) Geobretagne
+ * Copyright (C) GeoBretagne, Camptocamp
  *
- * This file is NOT part of geOrchestra (well, not yet)
+ * This file is part of geOrchestra
  *
  * geOrchestra is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -12,8 +12,65 @@
  * along with geOrchestra.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 Ext.namespace("GEOR");
+
+GEOR.addonloader = Ext.extend(Ext.util.Observable, {
+    ptype: "geor_addon",
+    initialized: false,
+    
+    constructor: function(config) {
+        this.initialConfig = config || {};
+        Ext.apply(this, config);
+        this.addEvents(
+            "initialized"
+        );
+        GEOR.addonloader.superclass.constructor.apply(this, arguments);
+    },
+
+    init: function(menuitem) {
+        // register listener to load files on click and run them ...
+        var eventName = menuitem.menu ? "mouseover" : "click";
+        
+        // TODO: think of "hover" if this is a menu
+        menuitem.on(eventName, function() {
+            alert("loading");
+            if (!this.initialized) {
+                this.initialized = true;
+                // load CSS
+                if (this.css) {
+                    this.loadCssFiles(this.css);
+                }
+                // load JS
+                Ext.Loader.load(this.js, function () {
+                    this.fireEvent("initialized");
+                    // do stuff
+                    GEOR[this.addonName].init(menuitem, this.map, this.options); // FIXME: config object
+                    
+                }, this, true);
+            }
+        }, this);
+    },
+    
+    /**
+     * Method: loadCssFiles
+     * this method loads dynamically the css files passed in parameter
+     * this method is used because Ext.Loader does not works with css files
+     * Parameter:
+     * [filename - css files].
+     */
+    loadCssFiles: function (files) {
+        Ext.each(files, function(file) {
+            var css = document.createElement("link");
+            css.setAttribute("rel", "stylesheet");
+            css.setAttribute("type", "text/css");
+            css.setAttribute("href", file);
+            document.getElementsByTagName("head")[0].appendChild(css);
+        });
+    }
+});
+Ext.preg(GEOR.addonloader.prototype.ptype, GEOR.addonloader);
+
+
 
 GEOR.addonsmenu = (function () {
     /*
@@ -44,55 +101,18 @@ GEOR.addonsmenu = (function () {
      */
     var initialized = false;
 
-    /**
-     *Method : getGroupItem
-     * this method returns menuItem index corresponding at the label group passed in parameter
-     * Parameter: menuaddons : {Ext.Action}, group: string.
-     *
-    */
-    var getGroupItem = function (menuaddons, group) {
-        var index = -1;
-        var i = 0;
-        for (i = 0; i < menuaddons.menu.items.items.length; i += 1) {
-            if (menuaddons.menu.items.items[i].text === group) {
-                index = i;
-                break;
-            }
-        }
-        return index;
-    };
 
     /**
-     *Method : loadCssFiles
-     * this method loads dynamically the css files passed in parameter
-     * this method is used because Ext.Loader does not works with css files
-     * Parameter:
-     * [filename - css files].
-     */
-    var loadCssFiles = function (filenames) {
-        var i = 0;
-        for (i = 0; i < filenames.length; i += 1) {
-            var fileref = document.createElement("link");
-            fileref.setAttribute("rel", "stylesheet");
-            fileref.setAttribute("type", "text/css");
-            fileref.setAttribute("href", filenames[i]);
-            document.getElementsByTagName("head")[0].appendChild(fileref);
-        }
-
-    };
-
-    /**
-     *Method : checkRoles
+     * Method: checkRoles
      * this method checks the addon permissions
      * Parameter: okRoles {addonItems.roles}.
      *
-     */
+     *
     var checkRoles = function (okRoles) {
         // addon is available for everyone if okRoles is empty:
         var ok = (okRoles.length === 0);
-        var i = 0;
         // else, check existence of required role to activate addon:
-        for (i = 0; i < okRoles.length; i += 1) {
+        for (var i = 0; i < okRoles.length; i += 1) {
             if (GEOR.config.ROLES.indexOf(okRoles[i]) >= 0) {
                 ok = true;
                 break;
@@ -101,11 +121,7 @@ GEOR.addonsmenu = (function () {
         return ok;
     };
 
-    /**
-     *Method : lazyLoad
-     * this method loads dynamically all js and css files registered in
-     * addons.js and addons.css using Ext.Loader.
-     */
+
     var lazyLoad = function () {
         if (initialized === false) {
             var libs, i, j;
@@ -124,13 +140,14 @@ GEOR.addonsmenu = (function () {
             }
             Ext.Loader.load(libs, function (test) {
                 var i = 0;
-                var menuaddons = Ext.getCmp('menuaddons'); // �viter le getCmp : lent ! (utiliser une r�f�rence interne au pr�sent module)
+                var menuaddons = Ext.getCmp('menuaddons'), addon, name; // eviter le getCmp : lent ! (utiliser une reference interne au present module)
                 for (i = 0; i < addons.length; i += 1) {
-                    var addon = addons[i].addon;
-                    var addonObject = GEOR[addon];
-                    if (addonObject && checkRoles(addons[i].options.roles ? addons[i].options.roles : [])) {
-                        if (addons[i].options.group) {
-                            var menuGroup = getGroupItem(menuaddons, addons[i].options.group);
+                    addon = addons[i];
+                    name = addon.name;
+                    var addonObject = GEOR[name]; // FIXME: the module pattern is probably not the best pattern for addons ! (cf inheritance)
+                    if (addonObject && checkRoles(addon.roles ? addon.roles : [])) {
+                        if (addon.group) {
+                            var menuGroup = getGroupItem(menuaddons, addon.group);
                             menuaddons.menu.items.items[menuGroup].menu.addItem(
                                 addonObject.create(map, addons[i])
                             );
@@ -143,11 +160,7 @@ GEOR.addonsmenu = (function () {
             }, this, true);
             initialized = true;
         }
-    };
-
-
-
-
+    };*/
 
     return {
         /*
@@ -163,21 +176,77 @@ GEOR.addonsmenu = (function () {
          */
 
         create: function (m) {
+            /*
+            
+            TO BE RESTORED LATER !!!!!!!!
+            
             if (GEOR.config.ADDONS.length == 0) {
                 return null;
             }
-
+            */
             map = m;
             tr = OpenLayers.i18n;
             addons = GEOR.config.ADDONS;
-
-            var groups = {};
-            Ext.each(addons, function(addon) {
-                if (addon.options && addon.options.group) {
-                    groups[addon.options.group] = 1;
-                }
-            });
-
+            
+            return {
+                text: tr("Tools"),
+                menu: [
+                    // TODO: the content of this "items" should be got from GEOR.config.ADDONS
+                    {
+                        // TODO: handle restrictions to specific ROLES
+                        text: "Loupe ortho",
+                        checked: false,
+                        qtip: "Afficher l'ortho dans une fenêtre déplaçable",
+                        plugins: [{
+                            // idée : un addon = un plugin, qui étend un plugin de base, celui-ci fournissant les fonctionnalités de base (chargement JS, etc)
+                            ptype: 'geor_addon',
+                            addonName: 'magnifier',
+                            map: map,
+                            js: [
+                                // build into single file ?
+                                "app/addons/magnifier/Magnifier.js", 
+                                "app/addons/magnifier/GEOB_magnifier.js" // TODO: rename into GEOR_*
+                            ],
+                            css: ["app/addons/magnifier/magnifier.css"],
+                            options: {
+                                mode: "static",
+                                layer: "satellite",
+                                format: "image/jpeg",
+                                buffer: 8,
+                                wmsurl: "http://tile.geobretagne.fr/gwc02/service/wms"
+                            }
+                        }]
+                    }, {
+                        text: "addon model",				
+                        iconCls: 'model-icon',
+                        qtip: "test",
+                        menu: new Ext.menu.Menu({ // TODO : ce sera du ressort de ce module de créer cette structure si menu = true est détecté dans la config
+                            items: [{
+                                text: "loading..."
+                            }]
+                        }), // sera rempli a posteriori par l'addon
+                        plugins: [{
+                            ptype: 'geor_addon',
+                            addonName: 'addonmodel',
+                            //menu: true, // fixme (à recuperer de menuitem.menu)
+                            js: [
+                                "app/addons/model/lang.js",
+                                "app/addons/model/GEOB_addonmodel.js"
+                            ],
+                            css: ["app/addons/model/model.css"],
+                            options: {
+                                option1: "modele",
+                                option2: 3
+                            },
+                            map: map
+                        }]
+                        
+                    }
+                ]
+            };
+        }
+            
+            /*
             var menuitems = new Ext.Action({
                 text: tr("Tools"),
                 id: 'menuaddons',
@@ -198,9 +267,8 @@ GEOR.addonsmenu = (function () {
                     })
                 });
             });
+            */
 
-            return menuitems;
-        }
 
     };
 })();
