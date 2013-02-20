@@ -16,6 +16,7 @@ import org.xml.sax.SAXException;
 
 /**
  * This service handles the storage and the loading of a wmc file on a temporary directory.
+ * 
  * @author yoann buch  - yoann.buch@gmail.com
  *
  */

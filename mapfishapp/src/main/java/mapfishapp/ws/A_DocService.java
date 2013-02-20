@@ -40,7 +40,7 @@ public abstract class A_DocService {
     protected static final String DOC_PREFIX = "geodoc";
     
     /**
-     * files are stored in the OS tmp directory
+     * files are stored in the OS tmp directory 
      */
     private String tempDirectory;  
 
