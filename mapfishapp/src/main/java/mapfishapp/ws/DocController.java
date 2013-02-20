@@ -48,8 +48,15 @@ public class DocController {
      * Time (in minutes) before files are purged automatically from DIR
      */
     private int maxDocAgeInMinutes = 60 * 24;
+    
 	public int getMaxDocAgeInMinutes() {return maxDocAgeInMinutes;}
 	public void setMaxDocAgeInMinutes(int maxDocAgeInMinutes) {this.maxDocAgeInMinutes = maxDocAgeInMinutes;}
+    
+	/** the temporal directory used by the document services*/
+    private String docTempDir;
+
+    public String getDocTempDir() {return docTempDir;}
+	public void setDocTempDir(String docTempDir) {	this.docTempDir = docTempDir; }
 
 	/**
 	 * mapping from hostname -> credentials
@@ -95,7 +102,7 @@ public class DocController {
      */
     @RequestMapping(value="/wmc/", method=RequestMethod.POST)
     public void storeWMCFile(HttpServletRequest request, HttpServletResponse response) {   
-        storeFile(new WMCDocService(maxDocAgeInMinutes), WMC_URL, request, response);   
+        storeFile(new WMCDocService(maxDocAgeInMinutes, this.docTempDir), WMC_URL, request, response);   
     }
     
     /**
@@ -105,7 +112,7 @@ public class DocController {
      */
     @RequestMapping(value="/wmc/*", method=RequestMethod.GET)
     public void getWMCFile(HttpServletRequest request, HttpServletResponse response) { 
-        getFile(new WMCDocService(maxDocAgeInMinutes), request, response);
+        getFile(new WMCDocService(maxDocAgeInMinutes,  this.docTempDir), request, response);
     }
 
     /*======================= JSON to CSV =====================================================================*/
@@ -116,7 +123,7 @@ public class DocController {
      */
     @RequestMapping(value="/csv/", method=RequestMethod.POST)
     public void storeCSVFile(HttpServletRequest request, HttpServletResponse response) {   
-        storeFile(new CSVDocService(maxDocAgeInMinutes), CSV_URL, request, response);   
+        storeFile(new CSVDocService(maxDocAgeInMinutes, this.docTempDir), CSV_URL, request, response);   
     }
     
     /**
@@ -126,7 +133,7 @@ public class DocController {
      */
     @RequestMapping(value="/csv/*", method=RequestMethod.GET)
     public void getCSVFile(HttpServletRequest request, HttpServletResponse response) { 
-        getFile(new CSVDocService(maxDocAgeInMinutes), request, response);
+        getFile(new CSVDocService(maxDocAgeInMinutes, this.docTempDir), request, response);
     }
     
     /*======================= SLD =====================================================================*/
