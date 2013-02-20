@@ -42,11 +42,7 @@ public abstract class A_DocService {
     /**
      * files are stored in the OS tmp directory
      */
-    private static String tempDirectory; //FIXME= System.getProperty("java.io.tmpdir"); 
-    
-	public static String getTempDirectory() {
-		return tempDirectory;
-	}
+    private String tempDirectory;  
 
 	/**
      * File extension. 
