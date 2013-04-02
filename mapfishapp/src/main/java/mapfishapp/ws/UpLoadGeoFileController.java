@@ -17,6 +17,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.georchestra.mapfishapp.ws.upload.FileDescriptor;
+import org.georchestra.mapfishapp.ws.upload.FileFormat;
 import org.georchestra.mapfishapp.ws.upload.UpLoadFileManegement;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,10 +41,11 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
  *
  */
 @Controller
-@RequestMapping("/togeojson/*")
 public final class UpLoadGeoFileController {
 	
 	private static final Log LOG = LogFactory.getLog(UpLoadGeoFileController.class.getPackage().getName());
+	
+	private final UpLoadFileManegement fileManagement = new UpLoadFileManegement();
 	
 	/**
 	 * Status of the upload process
@@ -147,7 +149,23 @@ public final class UpLoadGeoFileController {
 		this.gmlSizeLimit = gmlSizeLimit;
 	}
 
-	@RequestMapping(method = RequestMethod.POST)
+	/**
+	 * Return the list of available formats
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 */
+	@RequestMapping(value="/formats/*", method = RequestMethod.GET)
+	public void formatList(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		
+		FileFormat[] formats = this.fileManagement.getFormats();
+		
+		// TODO prepare response
+		
+	}
+	
+	@RequestMapping(value="/togeojson/*", method = RequestMethod.POST)
 	public void toGeoJson(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
     	LOG.info("Request: " + request.getRequestURL() ); 
@@ -196,23 +214,24 @@ public final class UpLoadGeoFileController {
 				return;
 			}
 			// save the file in the temporal directory
-			UpLoadFileManegement fileManagement = new UpLoadFileManegement(currentFile, workDirectory);
+			this.fileManagement.setWorkDirectory(workDirectory);
+			this.fileManagement.setFileDescriptor(currentFile);
 
-			fileManagement.save(upLoadFile);
+			this.fileManagement.save(upLoadFile);
 				
 			// if the uploaded file is a zip file then checks its content
-			if(fileManagement.containsZipFile()){
+			if(this.fileManagement.containsZipFile()){
 				
-				fileManagement.unzip();
+				this.fileManagement.unzip();
 
-				st  = checkGeoFiles(fileManagement);
+				st  = checkGeoFiles(this.fileManagement);
 				if( st != Status.ok ){
 					writeResponse(response, st);
 					return;
 				}
 			} 
 			
-			String jsonFeatureCollection = fileManagement.getFeatureCollectionAsJSON();
+			String jsonFeatureCollection = this.fileManagement.getFeatureCollectionAsJSON();
 
 			writeResponse(response, Status.ok, jsonFeatureCollection);
 		

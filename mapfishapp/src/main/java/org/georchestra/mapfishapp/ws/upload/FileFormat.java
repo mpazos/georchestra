@@ -2,12 +2,12 @@ package org.georchestra.mapfishapp.ws.upload;
 
 /**
  * 
- * Available File formats.
+ * File formats.
  *
  * @author Mauricio Pazos
  */
 
-enum FileFormat {
+public enum FileFormat {
 		tab {
 			@Override
 			public String getDriver() {
@@ -17,6 +17,11 @@ enum FileFormat {
 			@Override
 			public String[] getFormatOptions() {
 				return new String[] {};
+			}
+
+			@Override
+			public String toString() {
+				return "tab";
 			}
 		},
 		mif {
@@ -29,17 +34,34 @@ enum FileFormat {
 			public String[] getFormatOptions() {
 				return new String[] { "FORMAT=MIF" };
 			}
+
+			@Override
+			public String toString() {
+				return "mif";
+			}
 		},
 		shp {
 			@Override
 			public String getDriver() {
 				return "ESRI shapefile";
 			}
+
+			@Override
+			public String toString() {
+		
+				return "shp";
+			}
 		},
 		gml {
 			@Override
 			public String getDriver() {
 				return "GML";
+			}
+
+			@Override
+			public String toString() {
+				// TODO Auto-generated method stub
+				return "gml";
 			}
 		},
 		kml {
@@ -48,11 +70,23 @@ enum FileFormat {
 				return "KML";
 			}
 
+			@Override
+			public String toString() {
+		
+				return "kml";
+			}
+
 		},
 		gpx {
 			@Override
 			public String getDriver() {
 				return "GPX";
+			}
+
+			@Override
+			public String toString() {
+		
+				return "gpx";
 			}
 
 		};
@@ -71,23 +105,30 @@ enum FileFormat {
 		public String[] getFormatOptions() {
 			return null; //default implementation
 		}
+		
+		public abstract String toString();
+		
 
 		/**
 		 * Returns the enumerated value associated to the extension file name
 		 *  
-		 * @param ext
+		 * @param fileExtension
 		 * @return FileFormat enumerated value or null if it doesn't exist.
 		 */
-		public static FileFormat getFileFormat(String ext) {
+		public static FileFormat getFileFormat(String fileExtension) {
 			
-			if("tab".equalsIgnoreCase(ext))	return tab;
-			if("mif".equalsIgnoreCase(ext))	return mif;
-			if("shp".equalsIgnoreCase(ext))	return shp;
-			if("gml".equalsIgnoreCase(ext))	return gml;
-			if("gpx".equalsIgnoreCase(ext))	return gpx;
-			if("kml".equalsIgnoreCase(ext))	return kml;
+			if("tab".equalsIgnoreCase(fileExtension))	return tab;
+			if("mif".equalsIgnoreCase(fileExtension))	return mif;
+			if("shp".equalsIgnoreCase(fileExtension))	return shp;
+			if("gml".equalsIgnoreCase(fileExtension))	return gml;
+			if("gpx".equalsIgnoreCase(fileExtension))	return gpx;
+			if("kml".equalsIgnoreCase(fileExtension))	return kml;
 			
 			return null;
 		}
+		
+		
+		
+		
 
 }

@@ -126,6 +126,14 @@
             <artifactId>gt-geojson</artifactId>
             <version>${gt.version}</version>
         </dependency>		
+        
+		<!-- geotools - stores -->
+        <dependency>
+            <groupId>org.geotools</groupId>
+            <artifactId>gt-shapefile</artifactId>
+            <version>${gt.version}</version>
+        </dependency>		
+        
 		<!-- geotools - handles ESPG -->
 	    <dependency>
 	      <groupId>org.geotools</groupId>

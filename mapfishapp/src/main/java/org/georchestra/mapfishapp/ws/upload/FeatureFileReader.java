@@ -16,7 +16,7 @@ import org.geotools.data.simple.SimpleFeatureCollection;
  */
 class FeatureFileReader {
 
-	private FeatureFileReaderImplementor readerImpl; 
+	private final FeatureFileReaderImplementor readerImpl;
 	
 	/**
 	 * Creates a reader
@@ -24,37 +24,46 @@ class FeatureFileReader {
 	 * @param basedir file to read
 	 * @param fileFormat the format
 	 */
-	public FeatureFileReader(final File basedir, final FileFormat fileFormat) {
-		assert  basedir != null && fileFormat != null;
+	public FeatureFileReader() {
+		this.readerImpl = createImplementationStrategy();
+	}
 
-		this.readerImpl = createImplementationStrategy(basedir, fileFormat);
+	/**
+	 * @return the list of available format depending on the reader implementation.
+	 */
+	public FileFormat[] getFormatList(){
+		
+		return this.readerImpl.getFormats();
 	}
 	
 
 	/**
 	 * Returns the feature collection contained by the file
+	 * 
+	 * @param file
+	 * @param fileFormat
+	 * 
 	 * @return
 	 * @throws IOException
 	 */
-	public SimpleFeatureCollection getFeatureCollection() throws IOException {
-		
-		return this.readerImpl.getFeatureCollection();
+	public SimpleFeatureCollection getFeatureCollection(final File file, final FileFormat fileFormat) throws IOException {
+
+		return this.readerImpl.getFeatureCollection(file, fileFormat);
 	}
 	
 	/**
 	 * Selects which of implementation must be created.
 	 */
-	private FeatureFileReaderImplementor createImplementationStrategy(final File basedir, final FileFormat fileFormat){
+	private FeatureFileReaderImplementor createImplementationStrategy(){
 
-		
 		FeatureFileReaderImplementor implementor = null; 
 		if( isOgrAvailable() ){
 			
-			implementor = new OGRFeatureReader(basedir, fileFormat);
+			implementor = new OGRFeatureReader();
 			
 		} else { // by default the geotools implementation is created
 			
-			implementor = new GeotoolsFeatureReader(basedir, fileFormat);
+			implementor = new GeotoolsFeatureReader();
 		}
 		return implementor;
 	}
@@ -63,11 +72,11 @@ class FeatureFileReader {
 	/**
 	 * Decides what is the implementation must be instantiate.
 	 *  
-	 * @return
+	 * @return true if ogr is available in the platform.
 	 */
 	private boolean isOgrAvailable() {
-		// TODO Auto-generated method stub
-		return true;
+		
+		return false;
 	}
 
 }

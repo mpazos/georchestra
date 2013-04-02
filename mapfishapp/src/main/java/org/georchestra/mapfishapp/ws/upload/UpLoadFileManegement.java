@@ -35,7 +35,7 @@ public class UpLoadFileManegement {
 	
 	private static List<String> VALID_EXTENSIONS;
 	static{
-		
+		// FIXME the valid extensions depend on the available format 
 		VALID_EXTENSIONS = new ArrayList<String>();
 		// SHP
 		VALID_EXTENSIONS.add("SHP");
@@ -66,11 +66,19 @@ public class UpLoadFileManegement {
 	
 	private String workDirectory;
 	
-	
+	private FeatureFileReader reader;
 
-	public UpLoadFileManegement(FileDescriptor currentFile, String workDirectory) {
+	public UpLoadFileManegement() {
+		
+		this.reader = new FeatureFileReader();
+	}
 
-		this.fileDescriptor = currentFile;
+	public void setFileDescriptor(FileDescriptor fileDescriptor) {
+		this.fileDescriptor = fileDescriptor;
+	}
+
+
+	public void setWorkDirectory(String workDirectory) {
 		this.workDirectory = workDirectory;
 	}
 
@@ -295,14 +303,13 @@ public class UpLoadFileManegement {
 		
 	        String fileName = searchGeoFile();
 	        assert fileName != null; 
-	        
-			FeatureFileReader reader = new FeatureFileReader(new File(fileName), this.fileDescriptor.geoFileType);
+	        assert this.fileDescriptor.geoFileType != null;
 			
 			SimpleFeatureIterator featuresIterator = null;
 			
 	        try {
 	        	
-	        	SimpleFeatureCollection featureCollection = reader.getFeatureCollection();
+	        	SimpleFeatureCollection featureCollection = reader.getFeatureCollection(new File(fileName), this.fileDescriptor.geoFileType);
 	        	
 	        	FeatureJSON fjson = new FeatureJSON();
 	        	fjson.setFeatureType(featureCollection.getSchema());
@@ -353,6 +360,11 @@ public class UpLoadFileManegement {
         	}
         }
 		return null;
+	}
+
+	public FileFormat[] getFormats() {
+		
+		return this.reader.getFormatList();
 	}
 	
 

@@ -5,6 +5,7 @@ package org.georchestra.mapfishapp.ws.upload;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -33,17 +34,7 @@ final class OGRFeatureReader implements FeatureFileReaderImplementor {
 	private static final Log LOG = LogFactory.getLog(OGRFeatureReader.class.getPackage().getName());
 
 
-
-	private File basedir;
-	private SimpleFeatureCollection features;
-	private FileFormat fileFormat;
-
-	public OGRFeatureReader(final File basedir, final FileFormat fileFormat) {
-
-		assert  basedir != null && features != null;
-
-		this.basedir = basedir;
-		this.fileFormat = fileFormat;
+	public OGRFeatureReader() {
 
 	}
 
@@ -51,11 +42,12 @@ final class OGRFeatureReader implements FeatureFileReaderImplementor {
 	 * @see org.georchestra.mapfishapp.ws.upload.FeatureFileReader#getFeatureCollection()
 	 */
 	@Override
-	public SimpleFeatureCollection getFeatureCollection() throws IOException {
+	public SimpleFeatureCollection getFeatureCollection(final File basedir, final FileFormat fileFormat) throws IOException {
+		assert  basedir != null && fileFormat != null;
 
 		try{
-			String ogrName = this.basedir.getAbsolutePath();
-			String ogrDriver = this.fileFormat.getDriver();
+			String ogrName = basedir.getAbsolutePath();
+			String ogrDriver = fileFormat.getDriver();
 			
 			// FIXME it is not used JniOGRDataStoreFactory jniFactory = JniOGRDataStoreFactory.class.newInstance();
 			OGRDataStore store = new OGRDataStore(ogrName, ogrDriver, null,  new JniOGR() );
@@ -67,6 +59,15 @@ final class OGRFeatureReader implements FeatureFileReaderImplementor {
 			LOG.error(e.getMessage());
 			throw new IOException(e);
 		}
+	}
+
+	@Override
+	public FileFormat[] getFormats() {
+		
+		
+		// TODO Auto-generated method stub
+		
+		return null;
 	}
 
 }

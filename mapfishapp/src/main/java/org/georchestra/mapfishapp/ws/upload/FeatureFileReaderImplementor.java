@@ -1,6 +1,8 @@
 package org.georchestra.mapfishapp.ws.upload;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import org.geotools.data.simple.SimpleFeatureCollection;
 /**
@@ -22,7 +24,11 @@ interface FeatureFileReaderImplementor {
 	 * @return {@link SimpleFeatureCollection}
 	 * @throws IOException
 	 */
-	public abstract SimpleFeatureCollection getFeatureCollection()
-			throws IOException;
+	public SimpleFeatureCollection getFeatureCollection(final File basedir, final FileFormat fileFormat) throws IOException;
+
+	/**
+	 * @return List of available format
+	 */
+	public FileFormat[] getFormats();
 
 }

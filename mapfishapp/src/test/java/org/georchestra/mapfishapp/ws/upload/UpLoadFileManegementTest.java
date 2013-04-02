@@ -7,8 +7,6 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FilenameUtils;
-import org.georchestra.mapfishapp.ws.upload.FileDescriptor;
-import org.georchestra.mapfishapp.ws.upload.UpLoadFileManegement;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -34,7 +32,10 @@ public class UpLoadFileManegementTest {
 		fd.listOfFiles.add(fileName);
 		fd.listOfExtensions.add(FilenameUtils.getExtension(fileName));
 
-		UpLoadFileManegement fm = new UpLoadFileManegement(fd, directory);
+		UpLoadFileManegement fm = new UpLoadFileManegement();
+		fm.setFileDescriptor(fd);
+		fm.setWorkDirectory(directory);
+		
 		
 		String jsonFeatures = fm.getFeatureCollectionAsJSON( );
 		
