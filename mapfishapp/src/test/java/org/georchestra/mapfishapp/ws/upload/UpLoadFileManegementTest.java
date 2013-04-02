@@ -1,12 +1,14 @@
 /**
  * 
  */
-package mapfishapp.ws.upload;
+package org.georchestra.mapfishapp.ws.upload;
 
 import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FilenameUtils;
+import org.georchestra.mapfishapp.ws.upload.FileDescriptor;
+import org.georchestra.mapfishapp.ws.upload.UpLoadFileManegement;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -19,7 +21,7 @@ import org.junit.Test;
 public class UpLoadFileManegementTest {
 
 	/**
-	 * Test method for {@link mapfishapp.ws.upload.UpLoadFileManegement#getFeatureCollectionAsJSON()}.
+	 * Test method for {@link org.georchestra.mapfishapp.ws.upload.UpLoadFileManegement#getFeatureCollectionAsJSON()}.
 	 * @throws IOException 
 	 */
 	@Test 

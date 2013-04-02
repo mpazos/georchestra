@@ -1,7 +1,7 @@
 /**
  * 
  */
-package mapfishapp.ws.upload;
+package org.georchestra.mapfishapp.ws.upload;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -14,8 +14,6 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-
-import mapfishapp.ws.upload.OGRFeatureReader.FileFormat;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.logging.Log;
@@ -298,7 +296,7 @@ public class UpLoadFileManegement {
 	        String fileName = searchGeoFile();
 	        assert fileName != null; 
 	        
-			OGRFeatureReader reader = new OGRFeatureReader(new File(fileName), this.fileDescriptor.geoFileType);
+			FeatureFileReader reader = new FeatureFileReader(new File(fileName), this.fileDescriptor.geoFileType);
 			
 			SimpleFeatureIterator featuresIterator = null;
 			
@@ -348,7 +346,7 @@ public class UpLoadFileManegement {
         	
         	String ext = FilenameUtils.getExtension(fileName);
         	
-        	FileFormat fileType = OGRFeatureReader.FileFormat.getFileFormat(ext);
+        	FileFormat fileType = FileFormat.getFileFormat(ext);
         	if(fileType != null){
         		this.fileDescriptor.geoFileType = fileType;
         		return fileName;

@@ -1,11 +1,9 @@
-package mapfishapp.ws.upload;
+package org.georchestra.mapfishapp.ws.upload;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
-import mapfishapp.ws.upload.OGRFeatureReader.FileFormat;
 
 import org.apache.commons.io.FilenameUtils;
 
