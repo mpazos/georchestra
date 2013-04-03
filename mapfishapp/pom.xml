@@ -127,12 +127,20 @@
             <version>${gt.version}</version>
         </dependency>		
         
-		<!-- geotools - stores -->
+		<!-- stores - geotools -->
         <dependency>
             <groupId>org.geotools</groupId>
             <artifactId>gt-shapefile</artifactId>
             <version>${gt.version}</version>
-        </dependency>		
+        </dependency>
+        
+		<!-- stores - georchestra -->
+        <dependency>
+            <groupId>org.georchestra</groupId>
+            <artifactId>gt-mif</artifactId>
+            <version>1.0</version>
+        </dependency>
+        		
         
 		<!-- geotools - handles ESPG -->
 	    <dependency>
