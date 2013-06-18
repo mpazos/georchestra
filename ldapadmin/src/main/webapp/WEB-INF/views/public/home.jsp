@@ -6,6 +6,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>Hello</h1>
+	<h1>ldap admin (under construction)</h1>
 </body>
 </html>

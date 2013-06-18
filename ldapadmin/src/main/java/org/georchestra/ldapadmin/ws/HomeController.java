@@ -19,9 +19,6 @@ public class HomeController {
 	@RequestMapping(value="/public/")
 	public String home(){
 		
-		
-		System.out.println("Account Controller");
-		
 		return "home";
 	}
 }
