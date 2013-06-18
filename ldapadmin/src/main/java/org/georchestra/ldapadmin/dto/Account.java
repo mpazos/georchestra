@@ -12,7 +12,6 @@ package org.georchestra.ldapadmin.dto;
  */
 public class Account {
 
-	
 	public String uid;
 	public String name;
 	public String org;
@@ -22,6 +21,14 @@ public class Account {
 	public String phone;
 	public String details;
 
+	@Override
+	public String toString() {
+		return "Account [uid=" + uid + ", name=" + name + ", org=" + org
+				+ ", role=" + role + ", geographicArea=" + geographicArea
+				+ ", email=" + email + ", phone=" + phone + ", details="
+				+ details + "]";
+	}
+	
 	public void setUid(String uid) {
 		this.uid = uid;
 	}
