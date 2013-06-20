@@ -47,20 +47,22 @@
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
-    
+    <!-- url mapping -->
     <servlet-mapping>
         <servlet-name>ldapadmin</servlet-name>
-        <url-pattern>*.do</url-pattern>
+    <url-pattern>/</url-pattern>
+        
     </servlet-mapping>
     
     <session-config>
         <session-timeout>10</session-timeout>
     </session-config>
     
+    <!-- 
     <welcome-file-list>
         <welcome-file>/public/index.html</welcome-file>
     </welcome-file-list>
-
+     -->
     <error-page>
         <exception-type>java.lang.Exception</exception-type>
         <location>/uncaughtException</location>

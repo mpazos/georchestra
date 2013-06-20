@@ -23,7 +23,7 @@ import org.springframework.web.bind.support.SessionStatus;
  *
  */
 @Controller
-@RequestMapping("/public/accounts.do")
+//@RequestMapping("/public/accounts")
 @SessionAttributes(types=AccountFormBean.class)
 public final class AccountController {
 	
@@ -45,7 +45,7 @@ public final class AccountController {
 		dataBinder.setAllowedFields(new String[]{"name", "email", "phone"});
 	}
 	
-	@RequestMapping(method=RequestMethod.GET)
+	@RequestMapping(value="/public/accounts/new", method=RequestMethod.GET)
 	public String setupForm(Model model){
 		
 		AccountFormBean formBean = new AccountFormBean();
@@ -54,7 +54,7 @@ public final class AccountController {
 		return "createaccountform";
 	}
 	
-	@RequestMapping(method=RequestMethod.POST)
+	@RequestMapping(value="/public/accounts/new", method=RequestMethod.POST)
 	public String processSubmit(@ModelAttribute AccountFormBean formBean, 
 								BindingResult result, 
 								SessionStatus sessionStatus) {
@@ -63,7 +63,7 @@ public final class AccountController {
 		
 		if(result.hasErrors()){
 			
-			return null;//"createaccountform";
+			return "createaccountform";
 			
 		} else{
 			//TODO  insert the account entry in ldap
@@ -77,7 +77,7 @@ public final class AccountController {
 	/**
 	 * Returns all accounts
 	 */
-	@RequestMapping(method=RequestMethod.GET )
+	@RequestMapping(value="/public/accounts", method=RequestMethod.GET )
 	public void findAll(){
 		
 		System.out.println("findAll!!");

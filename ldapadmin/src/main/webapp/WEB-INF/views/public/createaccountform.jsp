@@ -14,9 +14,6 @@
 <body>
     <div id="formsContent">
         <h2>New Account</h2>
-        <p>
-            See the <code>org.springframework.samples.mvc.form</code> package for the @Controller code  
-        </p>
         <form:form id="form" method="post" modelAttribute="accountFormBean" cssClass="cleanform">
             <fieldset>
                 <legend>User Info</legend>
