@@ -28,6 +28,7 @@ import org.springframework.web.bind.support.SessionStatus;
 /**
  * Manages the UI Accoutn Form. 
  * 
+ * TODO generate password
  * 
  * @author Mauricio Pazos
  *
@@ -50,7 +51,7 @@ public final class AccountController {
 	@InitBinder
 	public void initForm( WebDataBinder dataBinder) {
 		
-		dataBinder.setAllowedFields(new String[]{"name", "email", "phone", "org", "geographicArea", "details", "password", "confirmPassword", "role"});
+		dataBinder.setAllowedFields(new String[]{"name", "email", "phone", "org", "geographicArea", "details", "password", "confirmPassword", "role", "captchaGenerated", "captcha"});
 	}
 	
 	@RequestMapping(value="/public/accounts/new", method=RequestMethod.GET)
@@ -62,6 +63,7 @@ public final class AccountController {
 		} catch (IOException e) {
 			throw new IOException(e);
 		}
+		// TODO FILTER PRIVILIGED USER 
 		
 		AccountFormBean formBean = new AccountFormBean();
 		formBean.setRoleList(groups);

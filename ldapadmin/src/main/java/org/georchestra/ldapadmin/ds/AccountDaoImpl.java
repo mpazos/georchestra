@@ -17,6 +17,7 @@ import org.springframework.ldap.filter.EqualsFilter;
 /**
  * This class is responsible of maintaining the user accounts. 
  * 
+ * 
  * @author Mauricio Pazos
  *
  */

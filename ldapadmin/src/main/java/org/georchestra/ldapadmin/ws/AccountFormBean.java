@@ -24,7 +24,10 @@ public class AccountFormBean {
 	private String details;
 	private String password;
 	private String confirmPassword;
+	private String captchaGenerated;
+	private String captcha;
 	private List<String> roleList;
+	
 	
 	public String getUid() {
 		return uid;
@@ -98,14 +101,31 @@ public class AccountFormBean {
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
 	}
+	public String getCaptcha() {
+		return captcha;
+	}
+	public void setCaptcha(String captcha) {
+		this.captcha = captcha;
+	}
 	
+	public String getCaptchaGenerated() {
+		return captchaGenerated;
+	}
+	
+	public void setCaptchaGenerated(String captchaGenerated) {
+		this.captchaGenerated = captchaGenerated;
+	}
 	@Override
 	public String toString() {
 		return "AccountFormBean [uid=" + uid + ", name=" + name + ", org="
 				+ org + ", role=" + role + ", geographicArea=" + geographicArea
 				+ ", email=" + email + ", phone=" + phone + ", details="
 				+ details + ", password=" + password + ", confirmPassword="
-				+ confirmPassword + "]";
+				+ confirmPassword + ", captchaGenerated=" + captchaGenerated
+				+ ", captcha=" + captcha + ", roleList=" + roleList + "]";
 	}
+
+
+	
 	
 }
