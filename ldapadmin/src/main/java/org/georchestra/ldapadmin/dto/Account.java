@@ -20,6 +20,7 @@ public class Account {
 	public String email;
 	public String phone;
 	public String details;
+	private String password;
 
 	@Override
 	public String toString() {
@@ -78,6 +79,17 @@ public class Account {
 	public void setDetails(String details) {
 		this.details = details;
 	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+	
+	
+	
 	
 	
 }

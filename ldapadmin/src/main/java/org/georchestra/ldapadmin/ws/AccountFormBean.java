@@ -3,7 +3,8 @@
  */
 package org.georchestra.ldapadmin.ws;
 
-import java.io.Serializable;
+import java.util.List;
+
 
 /**
  * This model maintains the account form data.
@@ -13,14 +14,17 @@ import java.io.Serializable;
  */
 public class AccountFormBean {
 
-	public String uid;
-	public String name;
-	public String org;
-	public String role;
-	public String geographicArea;
-	public String email;
-	public String phone;
-	public String details;
+	private String uid;
+	private String name;
+	private String org;
+	private String role;
+	private String geographicArea;
+	private String email;
+	private String phone;
+	private String details;
+	private String password;
+	private String confirmPassword;
+	private List<String> roleList;
 	
 	public String getUid() {
 		return uid;
@@ -46,6 +50,17 @@ public class AccountFormBean {
 	public void setRole(String role) {
 		this.role = role;
 	}
+	
+	public void setRoleList(List<String> roleList) {
+		
+		this.roleList = roleList;
+	}
+	
+	public List<String>  getRoleList() {
+		
+		return this.roleList;
+	}
+	
 	public String getGeographicArea() {
 		return geographicArea;
 	}
@@ -70,16 +85,27 @@ public class AccountFormBean {
 	public void setDetails(String details) {
 		this.details = details;
 	}
+
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
+	}
 	
 	@Override
 	public String toString() {
 		return "AccountFormBean [uid=" + uid + ", name=" + name + ", org="
 				+ org + ", role=" + role + ", geographicArea=" + geographicArea
 				+ ", email=" + email + ", phone=" + phone + ", details="
-				+ details + "]";
+				+ details + ", password=" + password + ", confirmPassword="
+				+ confirmPassword + "]";
 	}
 	
-	
-
-
 }

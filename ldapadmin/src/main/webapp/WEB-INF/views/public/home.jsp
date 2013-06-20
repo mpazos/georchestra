@@ -5,5 +5,14 @@
 </head>
 <body>
 	<h1>ldap admin (under construction)</h1>
+
+    <ul>
+        <li>
+              <a href="/ldapadmin/public/accounts/new">Create Account</a>
+        </li>
+    </ul>
+	
+	
+	
 </body>
 </html>

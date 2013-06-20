@@ -4,16 +4,22 @@ import java.util.List;
 
 import org.georchestra.ldapadmin.dto.Account;
 
+/**
+ * 
+ * @author Mauricio Pazos
+ *
+ */
 public interface AccountDao {
 
-	List<Account> findAll();
+	List<Account> findAll() throws AccountDaoException;
+	
+	void create(final Account account, final boolean pending) throws AccountDaoException, DuplicatedEmailException;
 
-	void create(Account account);
+	void update(final Account account) throws AccountDaoException, DuplicatedEmailException;
 
-	void update(Account account);
+	void delete(final Account account) throws AccountDaoException, NotFoundException;
 
-	void delete(Account account);
+	Account findByUID(final String uid)throws AccountDaoException, NotFoundException;
 
-	Account findByUID(String uid);
-
+	List<String> findAllGroups() throws AccountDaoException;
 }

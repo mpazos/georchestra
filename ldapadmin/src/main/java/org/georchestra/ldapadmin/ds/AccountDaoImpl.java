@@ -34,20 +34,33 @@ public final class AccountDaoImpl implements AccountDao{
 	}
 	
 	/**
-	 * Returns all persons' account
+	 * Returns all persons' account.
 	 * 
 	 * @return List of accounts
 	 */
 	@Override
-	public List<Account> findAll(){
+	public List<Account> findAll() throws AccountDaoException{
 		
 		EqualsFilter filter = new EqualsFilter("objectClass", "person");
 		return ldapTemplate.search(DistinguishedName.EMPTY_PATH, filter.encode(), getContextMapper());
 	}
+
+	@Override
+	public List<String> findAllGroups() throws AccountDaoException {
+		
+		EqualsFilter filter = new EqualsFilter("objectClass", "posixGroup");
+		return ldapTemplate.search(DistinguishedName.EMPTY_PATH, filter.encode(), getContextMapperGroup());
+	}
 	
 
 	@Override
-	public void create(Account account) {
+	public void create(final Account account, final boolean pending) throws AccountDaoException, DuplicatedEmailException{
+	
+		// TODO implement the following logic
+		// insert the account entry in ldap at the PENDING_USERS groups. 
+		// Then admin will then be able to move them to SV_USERS group.
+		// if pending is false the entry is set at SV_USERS group.
+		
 		Name dn = buildDn(account.getUid());
 		
 		DirContextAdapter context = new DirContextAdapter(dn);
@@ -58,7 +71,7 @@ public final class AccountDaoImpl implements AccountDao{
 
 
 	@Override
-	public void update(Account account) {
+	public void update(final Account account) throws AccountDaoException, DuplicatedEmailException{
 		
 		Name dn = buildDn(account.getUid());
 		DirContextAdapter context = (DirContextAdapter) ldapTemplate.lookup(dn);
@@ -67,12 +80,12 @@ public final class AccountDaoImpl implements AccountDao{
 	}
 
 	@Override
-	public void delete(Account account) {
+	public void delete(final Account account) throws AccountDaoException, NotFoundException{
 		ldapTemplate.unbind(buildDn(account.getUid()));
 	}
 
 	@Override
-	public Account findByUID(String uid) {
+	public Account findByUID(final String uid) throws AccountDaoException, NotFoundException{
 		DistinguishedName dn = buildDn(uid);
 		return (Account) ldapTemplate.lookup(dn, getContextMapper());
 	}
@@ -80,6 +93,11 @@ public final class AccountDaoImpl implements AccountDao{
 	private ContextMapper getContextMapper() {
 		return new AccountContextMapper();
 	}
+	
+	private ContextMapper getContextMapperGroup() {
+		return new GroupContextMapper();
+	}
+	
 
 	/**
 	 * Create an ldap entry for the user 
@@ -105,6 +123,17 @@ public final class AccountDaoImpl implements AccountDao{
 		
 	}
 	
+	private static class GroupContextMapper implements ContextMapper {
+
+		@Override
+		public Object mapFromContext(Object ctx) {
+			
+			DirContextAdapter context = (DirContextAdapter) ctx;
+
+			return context.getStringAttribute("cn");
+		}
+	}
+
 	private static class AccountContextMapper implements ContextMapper {
 
 		@Override
