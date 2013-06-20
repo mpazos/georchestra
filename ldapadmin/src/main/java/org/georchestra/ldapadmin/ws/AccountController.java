@@ -72,6 +72,7 @@ public final class AccountController {
 			//return "redirect:/accounts.do?uid=" + account.getUid();			
 			return null;			
 		}
+		
 	}
 	
 	/**

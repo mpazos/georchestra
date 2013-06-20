@@ -21,6 +21,7 @@ public class AccountFormBean {
 	public String email;
 	public String phone;
 	public String details;
+	
 	public String getUid() {
 		return uid;
 	}
