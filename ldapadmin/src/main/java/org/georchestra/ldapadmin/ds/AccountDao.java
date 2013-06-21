@@ -21,5 +21,9 @@ public interface AccountDao {
 
 	Account findByUID(final String uid)throws AccountDaoException, NotFoundException;
 
+	Account findByEmail(String email) throws AccountDaoException, NotFoundException;
+
 	List<String> findAllGroups() throws AccountDaoException;
+
+
 }

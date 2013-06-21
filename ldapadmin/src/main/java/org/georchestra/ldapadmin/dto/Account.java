@@ -3,6 +3,8 @@
  */
 package org.georchestra.ldapadmin.dto;
 
+import java.io.Serializable;
+
 /**
  * Account this is a Data transfer Object. 
  *  
@@ -10,24 +12,34 @@ package org.georchestra.ldapadmin.dto;
  * @author Mauricio Pazos
  *
  */
-public class Account {
+public class Account implements Serializable {
 
-	public String uid;
-	public String name;
-	public String org;
-	public String role;
-	public String geographicArea;
-	public String email;
-	public String phone;
-	public String details;
-	private String password;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8022496448991887664L;
+	
+	public String uid; //
+	public String name; // cn
+	public String org; // o
+	public String role; // 
+	public String geographicArea; // TODO new field in ldap is required
+	public String email;// mail
+	public String phone;// telephoneNumber 
+	public String details; // description
+	private String password; // userPassword
 
+	private String newPassword;
+
+
+	
 	@Override
 	public String toString() {
 		return "Account [uid=" + uid + ", name=" + name + ", org=" + org
 				+ ", role=" + role + ", geographicArea=" + geographicArea
 				+ ", email=" + email + ", phone=" + phone + ", details="
-				+ details + "]";
+				+ details + ", password=" + password + ", newPassword="
+				+ newPassword + "]";
 	}
 	
 	public void setUid(String uid) {
@@ -86,6 +98,15 @@ public class Account {
 
 	public String getPassword() {
 		return password;
+	}
+
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
+		
+	}
+	public String getNewPassword() {
+		return this.newPassword;
+		
 	}
 	
 	

@@ -26,4 +26,19 @@ public final class MailService {
 		return body;
 	}
 
+	public static void sendPassowrd(String uid, String name, String newPassword) {
+		String body = writeNewPasswordMail(uid, name, newPassword);
+		
+		System.out.println("send mail: " +  body);
+		
+	}
+
+	private static String writeNewPasswordMail(final String uid, final String name, final String newPassword) {
+		
+		// TODO improve this text
+		String body = "A new passowrd was generated "+ newPassword + "for the user " +  name;
+		
+		return body;
+	}
+
 }

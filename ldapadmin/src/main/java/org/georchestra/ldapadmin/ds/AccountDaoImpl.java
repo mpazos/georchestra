@@ -73,11 +73,14 @@ public final class AccountDaoImpl implements AccountDao{
 	@Override
 	public void update(final Account account) throws AccountDaoException, DuplicatedEmailException{
 		
-		Name dn = buildDn(account.getUid());
-		DirContextAdapter context = (DirContextAdapter) ldapTemplate.lookup(dn);
-		mapToContext(account, context);
-		ldapTemplate.modifyAttributes(dn, context.getModificationItems());
+//		TODO hack
+//		
+//		Name dn = buildDn(account.getUid());
+//		DirContextAdapter context = (DirContextAdapter) ldapTemplate.lookup(dn);
+//		mapToContext(account, context);
+//		ldapTemplate.modifyAttributes(dn, context.getModificationItems());
 	}
+
 
 	@Override
 	public void delete(final Account account) throws AccountDaoException, NotFoundException{
@@ -86,9 +89,33 @@ public final class AccountDaoImpl implements AccountDao{
 
 	@Override
 	public Account findByUID(final String uid) throws AccountDaoException, NotFoundException{
+
 		DistinguishedName dn = buildDn(uid);
-		return (Account) ldapTemplate.lookup(dn, getContextMapper());
+		Account a = (Account) ldapTemplate.lookup(dn, getContextMapper());
+		
+		if(a == null){
+			throw new NotFoundException("There is not a user with this email: " + uid);
+		}
+		
+		return  a;
+		
 	}
+	
+	@Override
+	public Account findByEmail(final String email) throws AccountDaoException, NotFoundException {
+
+		DistinguishedName dn = new DistinguishedName();
+		dn.add("email", email);
+		dn.add("ou", "users");
+		
+		Account a = (Account) ldapTemplate.lookup(dn, getContextMapper());
+		
+		if(a == null){
+			throw new NotFoundException("There is not a user with this email: " + email);
+		}
+		return  a;
+	}
+	
 	
 	private ContextMapper getContextMapper() {
 		return new AccountContextMapper();
@@ -119,6 +146,9 @@ public final class AccountDaoImpl implements AccountDao{
 		context.setAttributeValue("cn", account.getName());
 		context.setAttributeValue("mail", account.getEmail());
 		context.setAttributeValue("o", account.getOrg());
+		context.setAttributeValue("telephoneNumber", account.getPhone());
+		context.setAttributeValue("description", account.getDetails());
+		context.setAttributeValue("userPassword", account.getPassword());
 		// TODO requires more settings
 		
 	}
@@ -154,5 +184,6 @@ public final class AccountDaoImpl implements AccountDao{
 			return user;
 		}
 	}
+
 	
 }

@@ -3,6 +3,7 @@
  */
 package org.georchestra.ldapadmin.ws;
 
+import java.io.Serializable;
 import java.util.List;
 
 
@@ -12,8 +13,14 @@ import java.util.List;
  * @author Mauricio Pazos
  *
  */
-public class AccountFormBean {
+public class AccountFormBean implements Serializable{
 
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6955470190631684934L;
+	
 	private String uid;
 	private String name;
 	private String org;
@@ -26,6 +33,7 @@ public class AccountFormBean {
 	private String confirmPassword;
 	private String captchaGenerated;
 	private String captcha;
+	
 	private List<String> roleList;
 	
 	

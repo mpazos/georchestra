@@ -26,9 +26,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 /**
- * Manages the UI Accoutn Form. 
+ * Manages the UI Account Form.
+ * <p>
  * 
- * TODO generate password and captcha
+ * </p> 
  * 
  * @author Mauricio Pazos
  *
@@ -138,29 +139,6 @@ public final class NewAccountFormController {
 		return account;
 	}
 
-	/**
-	 * Returns all accounts
-	 * @throws IOException 
-	 */
-	@RequestMapping(value="/public/accounts", method=RequestMethod.GET )
-	public void findAll() throws IOException{
-		
-		System.out.println("findAll!!");
-		
-		List<Account> accountList;
-		try {
-			accountList = accountDao.findAll();
-		} catch (AccountDaoException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			throw new IOException(e);
-		}
-		
-		for (Account account : accountList) {
-			
-			System.out.println(account);
-		}
-	}
 	
 	private List<String> findGroups() throws IOException{
 		
@@ -169,12 +147,7 @@ public final class NewAccountFormController {
 			
 			return list;
 		} catch (AccountDaoException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			throw new IOException(e);
 		}
-		
-		
 	}
-
 }

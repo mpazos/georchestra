@@ -7,12 +7,10 @@
 	<h1>ldap admin (under construction)</h1>
 
     <ul>
-        <li>
-              <a href="/ldapadmin/public/accounts/new">Create Account</a>
-        </li>
-    </ul>
-	
-	
+		<li><a href="/ldapadmin/public/accounts/new">Create Account</a></li>
+		<li><a href="/ldapadmin/public/accounts/newPassword">Lost Password</a></li>
+	</ul>
 	
 </body>
+
 </html>
