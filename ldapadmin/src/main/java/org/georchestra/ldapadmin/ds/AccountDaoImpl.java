@@ -22,7 +22,6 @@ import org.springframework.ldap.filter.EqualsFilter;
  *
  */
 public final class AccountDaoImpl implements AccountDao{
-
 	
 	private LdapTemplate ldapTemplate;
 	
@@ -35,7 +34,7 @@ public final class AccountDaoImpl implements AccountDao{
 	}
 	
 	/**
-	 * Returns all persons' account.
+	 * Returns all users' account.
 	 * 
 	 * @return List of accounts
 	 */

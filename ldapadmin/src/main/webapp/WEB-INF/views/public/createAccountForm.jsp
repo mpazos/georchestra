@@ -31,56 +31,49 @@
             <fieldset>
 
 				<p>
-					<form:label path="name">
-	                    User Name <form:errors path="name" cssClass="error" />
-					</form:label>
+					<form:label path="name"> User Name *</form:label>
 					<form:input path="name" size="30" maxlength="80"/>
 				</p>
+				<p>
+					<form:errors path="name" cssClass="error" />
+				</p>
 
 				<p>
-					<form:label path="email">
-	                    e-mail <form:errors path="email" cssClass="error" />
-					</form:label>
+					<form:label path="email"> e-mail *</form:label>
 					<form:input path="email" size="30" maxlength="80"/>
 				</p>
+				<p>
+					<form:errors path="email" cssClass="error" />
+				</p>
 
 				<p>
-					<form:label path="phone">
-					   Phone <form:errors path="phone" cssClass="error" />
-					</form:label>
+					<form:label path="phone">Phone</form:label>
 					<form:input path="phone" size="30" maxlength="80"/>
 				</p>
-
 				<p>
-					<form:label path="org">
-	                    Organization <form:errors path="org" cssClass="error" />
-					</form:label>
+					<form:errors path="phone" cssClass="error" />
+				</p>
+				
+				<p>
+					<form:label path="org">Organization </form:label>
 					<form:input path="org" size="30" maxlength="80"/>
+				</p>
+				<p>
+					<form:errors path="org" cssClass="error" />
 				</p>
 
 				<p>
-					<form:label path="geographicArea">
-	                    Geographic Area <form:errors path="geographicArea" cssClass="error" />
-					</form:label>
+					<form:label path="geographicArea">Geographic Area </form:label>
 					<form:input path="geographicArea" size="30" maxlength="80"/>
+				</p>
+				<p>
+					<form:errors path="geographicArea" cssClass="error" />
 				</p>
 
 				<p>
 					<form:label path="details"> Details </form:label>
 					<form:textarea path="details" rows="3" cols="30" />
 				</p>
-
-                <p>
-                    <form:label path="captchaGenerated"> GENERATED TEXT (TODO) </form:label>
-                                      
-                    <form:input path="captchaGenerated" />
-                </p>
-                <p>
-                    <form:label path="captcha">
-                        Type the text <form:errors path="captcha" cssClass="error" />
-                    </form:label>
-                    <form:input path="captcha" size="30" maxlength="80"/>
-                </p>
 
 				<p>
 					<form:label path="role">
@@ -97,17 +90,34 @@
 
 			<fieldset>
 				<p>
-					<form:label path="password">
-                    Password <form:errors path="password" cssClass="error" />
-					</form:label>
+					<form:label path="password">Password *</form:label>
 					<form:password path="password" size="30" maxlength="80"/>
+				</p>
+				<p>
+					<form:errors path="password" cssClass="error" />
 				</p>
 
 				<p>
-					<form:label path="confirmPassword">
-                    Confirm password <form:errors path="confirmPassword" cssClass="error" />
-					</form:label>
+					<form:label path="confirmPassword">Confirm password *</form:label>
 					<form:password path="confirmPassword" size="30" maxlength="80"/>
+				</p>
+				<p>
+					<form:errors path="confirmPassword" cssClass="error" />
+				</p>
+
+			</fieldset>
+
+			<fieldset>
+				<p>
+					<form:label path="captchaGenerated"> GENERATED TEXT (TODO) </form:label>
+					<form:input path="captchaGenerated" readonly=""/>
+				</p>
+				<p>
+					<form:label path="captcha">Type the text *</form:label>
+					<form:input path="captcha" size="30" maxlength="80" />
+				</p>
+				<p>
+					<form:errors path="captcha" cssClass="error" />
 				</p>
 			</fieldset>
 

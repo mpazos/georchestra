@@ -28,15 +28,14 @@ import org.springframework.web.bind.support.SessionStatus;
 /**
  * Manages the UI Accoutn Form. 
  * 
- * TODO generate password
+ * TODO generate password and captcha
  * 
  * @author Mauricio Pazos
  *
  */
 @Controller
-//@RequestMapping("/public/accounts")
 @SessionAttributes(types=AccountFormBean.class)
-public final class AccountController {
+public final class NewAccountFormController {
 	
 	private AccountDao accountDao;
 	
@@ -44,7 +43,7 @@ public final class AccountController {
 	private boolean moderatedSignup = false; 
 	
 	@Autowired
-	public AccountController( AccountDao dao){
+	public NewAccountFormController( AccountDao dao){
 		this.accountDao = dao;
 	}
 	
