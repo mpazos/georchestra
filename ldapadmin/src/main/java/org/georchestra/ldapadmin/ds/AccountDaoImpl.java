@@ -3,6 +3,7 @@
  */
 package org.georchestra.ldapadmin.ds;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.naming.Name;
@@ -183,6 +184,22 @@ public final class AccountDaoImpl implements AccountDao{
 			
 			return user;
 		}
+	}
+
+	@Override
+	public List<Account> findNewPasswordBeforeDate(Date date) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * Resets the new passowrd
+	 */
+	@Override
+	public void resetNewPassword(String uid) throws AccountDaoException,
+			NotFoundException {
+		// TODO Auto-generated method stub
+		
 	}
 
 	

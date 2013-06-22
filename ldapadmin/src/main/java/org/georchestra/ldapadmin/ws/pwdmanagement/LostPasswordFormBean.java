@@ -1,4 +1,4 @@
-package org.georchestra.ldapadmin.ws;
+package org.georchestra.ldapadmin.ws.pwdmanagement;
 
 import java.io.Serializable;
 

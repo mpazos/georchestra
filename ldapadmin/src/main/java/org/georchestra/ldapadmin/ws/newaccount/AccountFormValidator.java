@@ -1,6 +1,7 @@
-package org.georchestra.ldapadmin.ws;
+package org.georchestra.ldapadmin.ws.newaccount;
 
 import org.apache.commons.validator.routines.EmailValidator;
+import org.georchestra.ldapadmin.ws.utils.PasswordUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 
@@ -15,7 +16,7 @@ class AccountFormValidator {
 		
 		validateEmail(form.getEmail(), errors);
 		
-		PasswordManagement.validate( form.getPassword(), form.getConfirmPassword(), errors);
+		PasswordUtils.validate( form.getPassword(), form.getConfirmPassword(), errors);
 		
 		validatePhone(form.getPhone(), errors); 
 

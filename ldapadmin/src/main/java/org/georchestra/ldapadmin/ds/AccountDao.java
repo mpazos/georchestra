@@ -1,5 +1,6 @@
 package org.georchestra.ldapadmin.ds;
 
+import java.util.Date;
 import java.util.List;
 
 import org.georchestra.ldapadmin.dto.Account;
@@ -17,6 +18,8 @@ public interface AccountDao {
 
 	void update(final Account account) throws AccountDaoException, DuplicatedEmailException;
 
+	void resetNewPassword(final String uid)throws AccountDaoException, NotFoundException;
+
 	void delete(final Account account) throws AccountDaoException, NotFoundException;
 
 	Account findByUID(final String uid)throws AccountDaoException, NotFoundException;
@@ -24,6 +27,9 @@ public interface AccountDao {
 	Account findByEmail(String email) throws AccountDaoException, NotFoundException;
 
 	List<String> findAllGroups() throws AccountDaoException;
+
+	List<Account> findNewPasswordBeforeDate(Date date);
+
 
 
 }

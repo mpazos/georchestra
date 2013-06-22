@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.georchestra.ldapadmin.ws;
+package org.georchestra.ldapadmin.ws.utils;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.util.StringUtils;
@@ -12,9 +12,14 @@ import org.springframework.validation.Errors;
  * @author Mauricio Pazos
  *
  */
-final class PasswordManagement  {
+public final class PasswordUtils  {
 	
 	public static final int SIZE = 8;
+	
+	
+	private PasswordUtils(){
+		// utility class
+	}
 	
 	public static void validate(final String password, final String confirmPassword, Errors errors) {
 		

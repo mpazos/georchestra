@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.georchestra.ldapadmin.ws;
+package org.georchestra.ldapadmin.ws.pwdmanagement;
 
 import java.io.IOException;
 
@@ -11,6 +11,7 @@ import org.georchestra.ldapadmin.ds.DuplicatedEmailException;
 import org.georchestra.ldapadmin.ds.NotFoundException;
 import org.georchestra.ldapadmin.dto.Account;
 import org.georchestra.ldapadmin.mailservice.MailService;
+import org.georchestra.ldapadmin.ws.utils.PasswordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -95,7 +96,7 @@ public class LostPasswordFormController  {
 			// The new password is stored and an e-mail is sent to the user.
 			Account account = this.accountDao.findByEmail(formBean.getEmail());
 			
-			final String newPassword =  PasswordManagement.generateNewPassword();
+			final String newPassword =  PasswordUtils.generateNewPassword();
 			
 			account.setNewPassword(newPassword);
 			

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.georchestra.ldapadmin.ws;
+package org.georchestra.ldapadmin.ws.newaccount;
 
 import java.io.IOException;
 import java.util.List;

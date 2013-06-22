@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.georchestra.ldapadmin.ws;
+package org.georchestra.ldapadmin.ws.newaccount;
 
 import java.io.Serializable;
 import java.util.List;
