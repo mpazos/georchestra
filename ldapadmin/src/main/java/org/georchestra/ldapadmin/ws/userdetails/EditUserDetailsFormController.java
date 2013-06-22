@@ -36,13 +36,14 @@ public class EditUserDetailsFormController {
 	@InitBinder
 	public void initForm( WebDataBinder dataBinder) {
 		
-		dataBinder.setAllowedFields(new String[]{"email"});
+		dataBinder.setAllowedFields(new String[]{"uid", "surname", "givenName","org", "title", "postalAddress", "postalCode",  "registeredAddress", "postOfficeBox", "physicalDeliveryOfficeName"});
 	}
 	
 	@RequestMapping(value="/public/accounts/userdetails", method=RequestMethod.GET)
 	public String setupForm(Model model) throws IOException{
 
 		EditUserDetailsFormBean formBean = new EditUserDetailsFormBean();
+		
 		
 		// TODO retrieve user data uid
 		
@@ -74,7 +75,7 @@ public class EditUserDetailsFormController {
 		
 		if(resultErrors.hasErrors()){
 			
-			return "lostPasswordForm";
+			return "editUserDetailsForm";
 		}
 		
 //		try {
@@ -102,7 +103,7 @@ public class EditUserDetailsFormController {
 //		} catch (DuplicatedEmailException e) {
 //			throw new IOException(e);
 //		}
-		return "";
+		return "editUserDetailsForm";
 	}
 	
 	

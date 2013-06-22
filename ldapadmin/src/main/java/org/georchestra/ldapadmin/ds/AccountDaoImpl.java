@@ -101,7 +101,7 @@ public final class AccountDaoImpl implements AccountDao{
 		return  a;
 		
 	}
-	
+
 	@Override
 	public Account findByEmail(final String email) throws AccountDaoException, NotFoundException {
 
@@ -121,6 +121,8 @@ public final class AccountDaoImpl implements AccountDao{
 	private ContextMapper getContextMapper() {
 		return new AccountContextMapper();
 	}
+	
+	
 	
 	private ContextMapper getContextMapperGroup() {
 		return new GroupContextMapper();
@@ -178,6 +180,15 @@ public final class AccountDaoImpl implements AccountDao{
 			user.setName(context.getStringAttribute("cn"));
 			user.setEmail(context.getStringAttribute("mail"));
 			user.setOrg(context.getStringAttribute("o"));
+			user.setName(context.getStringAttribute("sn"));
+			user.setName(context.getStringAttribute("givenName"));
+			user.setOrg(context.getStringAttribute("title"));
+			user.setOrg(context.getStringAttribute("postalAddress"));
+			user.setOrg(context.getStringAttribute("postalCode"));
+			user.setOrg(context.getStringAttribute("registeredAddress"));
+			user.setOrg(context.getStringAttribute("postOfficeBox"));
+			user.setOrg(context.getStringAttribute("physicalDeliveryOfficeName"));
+
 			//user.setGeographicArea(context.getStringAttribute("geographicArea"));
 			//user.setRole(context.getStringAttribute("role"));
 			// TODO requires more settings
@@ -201,6 +212,7 @@ public final class AccountDaoImpl implements AccountDao{
 		// TODO Auto-generated method stub
 		
 	}
+
 
 	
 }

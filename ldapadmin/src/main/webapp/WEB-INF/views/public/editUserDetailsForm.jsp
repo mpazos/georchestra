@@ -10,11 +10,11 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="<c:url value="/styles/form.css" />" rel="stylesheet"  type="text/css" />     
-    <title>Create Account Form</title>
+    <title>User Details</title>
 </head>
 <body>
     <div id="formsContent" style="center">
-        <h2>New Account</h2>
+        <h2>User Details</h2>
         <form:form id="form" method="post" modelAttribute="editUserDetailsFormBean" cssClass="cleanform">
 
             <div class="header">
@@ -31,62 +31,81 @@
             <fieldset>
 
 				<p>
-					<form:label path="name"> User Name *</form:label>
-					<form:input path="name" size="30" maxlength="80"/>
+					<form:label path="surname">Surname </form:label>
+					<form:input path="surname" size="30" maxlength="80"/>
 				</p>
 				<p>
-					<form:errors path="name" cssClass="error" />
-				</p>
-
-				<p>
-					<form:label path="email"> e-mail *</form:label>
-					<form:input path="email" size="30" maxlength="80"/>
-				</p>
-				<p>
-					<form:errors path="email" cssClass="error" />
+					<form:errors path="surname" cssClass="error" />
 				</p>
 
 				<p>
-					<form:label path="phone">Phone</form:label>
-					<form:input path="phone" size="30" maxlength="80"/>
+					<form:label path="givenName"> Given Name </form:label>
+					<form:input path="givenName" size="30" maxlength="80"/>
 				</p>
 				<p>
-					<form:errors path="phone" cssClass="error" />
+					<form:errors path="givenName" cssClass="error" />
+				</p>
+
+                <p>
+                    <form:label path="org">Organization </form:label>
+                    <form:input path="org" size="30" maxlength="80"/>
+                </p>
+                <p>
+                    <form:errors path="org" cssClass="error" />
+                </p>
+
+				<p>
+					<form:label path="title" >Title</form:label>
+					<form:input path="title" size="30" maxlength="80"/>
+				</p>
+				<p>
+					<form:errors path="title" cssClass="error" />
 				</p>
 				
-				<p>
-					<form:label path="org">Organization </form:label>
-					<form:input path="org" size="30" maxlength="80"/>
-				</p>
-				<p>
-					<form:errors path="org" cssClass="error" />
-				</p>
-
-				<p>
-					<form:label path="geographicArea">Geographic Area </form:label>
-					<form:input path="geographicArea" size="30" maxlength="80"/>
-				</p>
-				<p>
-					<form:errors path="geographicArea" cssClass="error" />
-				</p>
-
-				<p>
-					<form:label path="details"> Details </form:label>
-					<form:textarea path="details" rows="3" cols="30" />
-				</p>
-
-				<p>
-					<form:label path="role">
-	                    Role
-	                </form:label>
-					<form:select path="role">
-						<form:option value="admin">Admin</form:option>
-						<form:option value="user">User</form:option>
-						<form:option value="reader">Reader</form:option>
-					</form:select>
-
-				</p>
 			</fieldset>
+			
+			<fieldset>
+			    <legend>Address</legend>
+                <p>
+                    <form:label path="postOfficeBox">Post Office Box</form:label>
+                    <form:input path="postOfficeBox" size="30" maxlength="80"/>
+                </p>
+                <p>
+                    <form:errors path="postOfficeBox" cssClass="error" />
+                </p>
+
+                <p>
+                    <form:label path="postalAddress">Postal Address</form:label>
+                    <form:textarea path="postalAddress" rows="4" cols="30"/>
+                </p>
+                <p>
+                    <form:errors path="postalAddress" cssClass="error" />
+                </p>
+
+                <p>
+                    <form:label path="postalCode">Postcode</form:label>
+                    <form:input path="postalCode" size="30" maxlength="80"/>
+                </p>
+                <p>
+                    <form:errors path="postalCode" cssClass="error" />
+                </p>
+                
+                <p>
+                    <form:label path="registeredAddress">Postal Address</form:label>
+                    <form:textarea path="registeredAddress" rows="4" cols="30"/>
+                </p>
+                <p>
+                    <form:errors path="registeredAddress" cssClass="error" />
+                </p>
+
+                <p>
+                    <form:label path="physicalDeliveryOfficeName">Postcode</form:label>
+                    <form:input path="physicalDeliveryOfficeName" size="30" maxlength="80"/>
+                </p>
+                <p>
+                    <form:errors path="physicalDeliveryOfficeName" cssClass="error" />
+                </p>
+            </fieldset>
 
 			<p>
 				<button type="submit">Submit</button>

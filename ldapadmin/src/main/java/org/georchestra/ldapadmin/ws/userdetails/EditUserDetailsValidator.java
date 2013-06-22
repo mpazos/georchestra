@@ -11,8 +11,7 @@ import org.springframework.validation.BindingResult;
  */
 public class EditUserDetailsValidator {
 
-	public void validate(EditUserDetailsFormBean formBean,
-			BindingResult resultErrors) {
+	public void validate(EditUserDetailsFormBean formBean, BindingResult resultErrors) {
 		// TODO Auto-generated method stub
 		
 	}
