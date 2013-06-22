@@ -105,6 +105,9 @@
                 <p>
                     <form:errors path="physicalDeliveryOfficeName" cssClass="error" />
                 </p>
+                
+                <a href="<c:url value="/public"/>">Change Password</a>
+                
             </fieldset>
 
 			<p>

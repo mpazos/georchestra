@@ -1,4 +1,4 @@
-package org.georchestra.ldapadmin.ws.pwdmanagement;
+package org.georchestra.ldapadmin.ws.lostpassword;
 
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.util.StringUtils;

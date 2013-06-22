@@ -18,6 +18,8 @@ public interface AccountDao {
 
 	void update(final Account account) throws AccountDaoException, DuplicatedEmailException;
 
+	void changePassword(String uid, String password)throws AccountDaoException;
+
 	void resetNewPassword(final String uid)throws AccountDaoException, NotFoundException;
 
 	void delete(final Account account) throws AccountDaoException, NotFoundException;
@@ -29,6 +31,7 @@ public interface AccountDao {
 	List<String> findAllGroups() throws AccountDaoException;
 
 	List<Account> findNewPasswordBeforeDate(Date date);
+
 
 
 

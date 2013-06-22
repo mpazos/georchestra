@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.georchestra.ldapadmin.ws.pwdmanagement;
+package org.georchestra.ldapadmin.ws.lostpassword;
 
 import java.io.IOException;
 
@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 /**
- * Manage the user interactions required to implement the folowing workflow: 
+ * Manage the user interactions required to implement the lost password workflow: 
  * <p>
  * <ul>
  * 

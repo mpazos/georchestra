@@ -204,11 +204,17 @@ public final class AccountDaoImpl implements AccountDao{
 	}
 
 	/**
-	 * Resets the new passowrd
+	 * Resets the new password
 	 */
 	@Override
 	public void resetNewPassword(String uid) throws AccountDaoException,
 			NotFoundException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void changePassword(String uid, String password) throws AccountDaoException {
 		// TODO Auto-generated method stub
 		
 	}

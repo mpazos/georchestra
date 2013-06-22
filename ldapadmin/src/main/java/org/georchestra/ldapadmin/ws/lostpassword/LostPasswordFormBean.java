@@ -1,4 +1,4 @@
-package org.georchestra.ldapadmin.ws.pwdmanagement;
+package org.georchestra.ldapadmin.ws.lostpassword;
 
 import java.io.Serializable;
 
