@@ -48,4 +48,34 @@ public class AccountFactory {
 
 	}
 
+	public static Account createDetails(
+			String uid, 
+			String givenName,
+			String org, 
+			String physicalDeliveryOfficeName,
+			String postalAddress, 
+			String postalCode, 
+			String postOfficeBox,
+			String registeredAddress, 
+			String surname, 
+			String title) {
+		Account a = new Account();
+		
+		a.setUid(uid);
+		
+		a.setSurname(surname);
+		a.setOrg(org);
+
+		a.setGivenName(givenName);
+		a.setPhysicalDeliveryOfficeName(physicalDeliveryOfficeName);
+		a.setPostalAddress(postalAddress);
+		a.setPostalCode(postalCode);
+		a.setPostOfficeBox(postOfficeBox);
+		
+		a.setRegisteredAddress(registeredAddress);
+		a.setTitle(title);
+
+		return a;
+	}
+
 }

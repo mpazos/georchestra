@@ -122,33 +122,45 @@ public class EditUserDetailsFormController {
 			
 			return "editUserDetailsForm";
 		}
+
+		// updates the account details 
+		try {
+			Account account = createAccount( formBean );
+			
+			this.accountDao.update(account);
+			
+			sessionStatus.setComplete();
+
+			return "editUserDetailsSuccess";
+			
+		} catch (AccountDaoException e) {
+			
+			throw new IOException(e);
+			
+		} catch (Exception e) {
+			
+			throw new IOException(e);
+		} 
+	}
+
+	private Account createAccount(final EditUserDetailsFormBean form) {
+
+		EditUserDetailsFormBean formBean = new EditUserDetailsFormBean();
 		
-//		try {
-//			
-//			Account account = null;
-//			
-//			
-//			this.accountDao.update(account);
-//
-//			
-//			sessionStatus.setComplete();
-//			
-//			return "editFinish";
-//			
-//		} catch (AccountDaoException e) {
-//			
-//			throw new IOException(e);
-//			
-//		} catch (NotFoundException e) {
-//			
-//			resultErrors.rejectValue("email", "mailNoExist", "There is not a user with the provided email.");
-//			
-//			return "lostPasswordForm";
-//			
-//		} catch (DuplicatedEmailException e) {
-//			throw new IOException(e);
-//		}
-		return "editUserDetailsForm";
+		Account account = AccountFactory.createDetails(
+			
+			account.getUid(),
+			account.getGivenName(),
+			account.getOrg(),
+			account.getPhysicalDeliveryOfficeName(),
+			account.getPostalAddress(),
+			account.getPostalCode(),
+			account.getPostOfficeBox(),
+			account.getRegisteredAddress(),
+			account.getSurname(),
+			account.getTitle()
+		);
+		return account;
 	}
 	
 	
