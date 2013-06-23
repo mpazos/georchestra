@@ -59,8 +59,7 @@ public class EditUserDetailsFormController {
 	public String setupForm(@RequestParam("uid") String uid,  Model model) throws IOException{
 
 		try {
-			// TODO HACK Account account = this.accountDao.findByUID(uid);
-			Account account= AccountFactory.createMock();
+			Account account = this.accountDao.findByUID(uid);
 			
 			EditUserDetailsFormBean formBean = createForm(account);
 
@@ -145,20 +144,19 @@ public class EditUserDetailsFormController {
 
 	private Account createAccount(final EditUserDetailsFormBean form) {
 
-		EditUserDetailsFormBean formBean = new EditUserDetailsFormBean();
 		
 		Account account = AccountFactory.createDetails(
 			
-			account.getUid(),
-			account.getGivenName(),
-			account.getOrg(),
-			account.getPhysicalDeliveryOfficeName(),
-			account.getPostalAddress(),
-			account.getPostalCode(),
-			account.getPostOfficeBox(),
-			account.getRegisteredAddress(),
-			account.getSurname(),
-			account.getTitle()
+			form.getUid(),
+			form.getGivenName(),
+			form.getOrg(),
+			form.getPhysicalDeliveryOfficeName(),
+			form.getPostalAddress(),
+			form.getPostalCode(),
+			form.getPostOfficeBox(),
+			form.getRegisteredAddress(),
+			form.getSurname(),
+			form.getTitle()
 		);
 		return account;
 	}

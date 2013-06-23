@@ -63,7 +63,7 @@ public final class NewAccountFormController {
 		} catch (IOException e) {
 			throw new IOException(e);
 		}
-		// TODO FILTER PRIVILIGED USER 
+		//TODO present the role in the jsp page
 		
 		AccountFormBean formBean = new AccountFormBean();
 		formBean.setRoleList(groups);
