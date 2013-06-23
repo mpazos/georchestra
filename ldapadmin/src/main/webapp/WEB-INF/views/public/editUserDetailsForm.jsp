@@ -106,8 +106,11 @@
                     <form:errors path="physicalDeliveryOfficeName" cssClass="error" />
                 </p>
                 
-                <a href="<c:url value="/public"/>">Change Password</a>
-                
+                <p>
+	                <a href=<c:out value="/ldapadmin/public/accounts/changePassword?uid=${editUserDetailsFormBean.uid}" />  > 
+	                    Change Password
+	                </a>
+                </p>
             </fieldset>
 
 			<p>

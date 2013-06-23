@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import org.georchestra.ldapadmin.ds.AccountDao;
 import org.georchestra.ldapadmin.ds.AccountDaoException;
+import org.junit.runners.Parameterized.Parameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -42,11 +44,11 @@ public class ChangePasswordFormController {
 	}
 	
 	@RequestMapping(value="/public/accounts/changePassword", method=RequestMethod.GET)
-	public String setupForm(Model model) throws IOException{
-
+	public String setupForm(@RequestParam("uid") String uid, Model model) throws IOException{
 		
 		ChangePasswordFormBean formBean = new ChangePasswordFormBean();
 		
+		formBean.setUid(uid);
 		
 		model.addAttribute(formBean);
 		

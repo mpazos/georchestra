@@ -9,7 +9,7 @@
     <ul>
 		<li><a href="/ldapadmin/public/accounts/new">Create Account</a></li>
 		<li><a href="/ldapadmin/public/accounts/newPassword">Lost Password</a></li>
-        <li><a href="/ldapadmin/public/accounts/userdetails">Edit user details</a></li>
+        <li><a href="/ldapadmin/public/accounts/userdetails?uid=testeditor">Edit user details</a></li>
 	</ul>
 	
 </body>
