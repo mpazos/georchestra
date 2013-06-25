@@ -10,7 +10,9 @@ import java.util.UUID;
 import org.georchestra.ldapadmin.ds.AccountDao;
 import org.georchestra.ldapadmin.ds.AccountDaoException;
 import org.georchestra.ldapadmin.ds.DuplicatedEmailException;
+import org.georchestra.ldapadmin.ds.RequiredFiedException;
 import org.georchestra.ldapadmin.dto.Account;
+import org.georchestra.ldapadmin.dto.AccountFactory;
 import org.georchestra.ldapadmin.mailservice.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -51,22 +53,14 @@ public final class NewAccountFormController {
 	@InitBinder
 	public void initForm( WebDataBinder dataBinder) {
 		
-		dataBinder.setAllowedFields(new String[]{"name", "email", "phone", "org", "geographicArea", "details", "password", "confirmPassword", "role", "captchaGenerated", "captcha"});
+		dataBinder.setAllowedFields(new String[]{"name","surname", "email", "phone", "org", "geographicArea", "details", "password", "confirmPassword", "role", "captchaGenerated", "captcha"});
 	}
 	
 	@RequestMapping(value="/public/accounts/new", method=RequestMethod.GET)
 	public String setupForm(Model model) throws IOException{
 
-		List<String> groups = null;
-		try {
-			groups = findGroups();
-		} catch (IOException e) {
-			throw new IOException(e);
-		}
-		//TODO present the role in the jsp page
 		
 		AccountFormBean formBean = new AccountFormBean();
-		formBean.setRoleList(groups);
 		
 		model.addAttribute(formBean);
 		
@@ -101,11 +95,10 @@ public final class NewAccountFormController {
 		// insert the new account 
 		try {
 			
-			UUID uid = UUID.randomUUID();
-			Account account = createDto(formBean, uid.toString());
+			Account account = createDto(formBean);
 			this.accountDao.create(account, this.moderatedSignup);
 
-			MailService.send(account.getUid(), account.getName());
+			MailService.send(account.getUid(), account.getCommonName());
 			
 			sessionStatus.setComplete();
 			
@@ -120,20 +113,24 @@ public final class NewAccountFormController {
 
 			result.addError(new ObjectError("email", "Exist a user with this e-mail"));
 			return "createAccountForm";
+			
+		} catch (RequiredFiedException e) {
+			
+			throw new IOException(e);
 		}
 	}
 
-	private Account createDto(AccountFormBean form, String uid) {
+	private Account createDto(AccountFormBean form) {
 		
-		Account account = new Account();
+		UUID uid = UUID.randomUUID();
+		Account account = AccountFactory.create( uid.toString() );
 		
-		account.setName(form.getName());
+		account.setCommonName(form.getName());
+		account.setSurname(form.getSurname());
 		account.setEmail(form.getEmail());
 		account.setPhone(form.getPhone());
-		account.setDetails(form.getDetails());
-		account.setRole(form.getRole());
-		account.setGeographicArea(form.getGeographicArea());
 		account.setOrg(form.getOrg());
+		account.setDetails(form.getDetails());
 		account.setPassword(form.getPassword());
 		
 		return account;

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.georchestra.ldapadmin.ws.userdetails;
+package org.georchestra.ldapadmin.ws.edituserdetails;
 
 import java.io.IOException;
 
@@ -59,7 +59,8 @@ public class EditUserDetailsFormController {
 	public String setupForm(@RequestParam("uid") String uid,  Model model) throws IOException{
 
 		try {
-			Account account = this.accountDao.findByUID(uid);
+			//Account account = this.accountDao.findByUID(uid);
+			Account account = AccountFactory.createMock();
 			
 			EditUserDetailsFormBean formBean = createForm(account);
 

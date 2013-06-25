@@ -22,7 +22,8 @@ public class Account implements Serializable {
 	
 	// main data
 	private String uid; // uid
-	private String name; // cn
+	private String commonName; // cn
+	private String surname; // sn
 	private String org; // o
 	private String role; // 
 	private String geographicArea; // TODO new field in ldap is required
@@ -34,7 +35,6 @@ public class Account implements Serializable {
 
 	// user details
 	// sn, givenName, o, title, postalAddress, postalCode, registeredAddress, postOfficeBox, physicalDeliveryOfficeName
-	private String surname; // sn
 	private String givenName; // givenName
 	private String title; // title
 	private String postalAddress; //postalAddress
@@ -45,7 +45,7 @@ public class Account implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "Account [uid=" + uid + ", name=" + name + ", org=" + org
+		return "Account [uid=" + uid + ", name=" + commonName + ", org=" + org
 				+ ", role=" + role + ", geographicArea=" + geographicArea
 				+ ", email=" + email + ", phone=" + phone + ", details="
 				+ details + ", password=" + password + ", newPassword="
@@ -65,11 +65,11 @@ public class Account implements Serializable {
 		return this.uid;
 	}
 	
-	public String getName() {
-		return name;
+	public String getCommonName() {
+		return commonName;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setCommonName(String name) {
+		this.commonName = name;
 	}
 	public String getOrg() {
 		return org;

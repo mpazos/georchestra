@@ -78,4 +78,12 @@ public class AccountFactory {
 		return a;
 	}
 
+	public static Account create(final String uid) {
+		Account a = new Account();
+		
+		a.setUid(uid);
+		
+		return a;
+	}
+
 }

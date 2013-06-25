@@ -55,12 +55,16 @@ public final class AccountDaoImpl implements AccountDao{
 	
 
 	@Override
-	public void create(final Account account, final boolean pending) throws AccountDaoException, DuplicatedEmailException{
+	public void create(final Account account, final boolean pending) throws AccountDaoException, DuplicatedEmailException, RequiredFiedException{
 	
+		assert account != null;
+		
 		// TODO implement the following logic
 		// insert the account entry in ldap at the PENDING_USERS groups. 
 		// Then admin will then be able to move them to SV_USERS group.
 		// if pending is false the entry is set at SV_USERS group.
+		
+		checkMandatoryFields(account);
 		
 		Name dn = buildDn(account.getUid());
 		
@@ -72,7 +76,9 @@ public final class AccountDaoImpl implements AccountDao{
 
 
 	@Override
-	public void update(final Account account) throws AccountDaoException, DuplicatedEmailException{
+	public void update(final Account account) throws AccountDaoException, DuplicatedEmailException, RequiredFiedException{
+		
+		checkMandatoryFields(account);
 		
 //		TODO hack
 //		
@@ -137,25 +143,94 @@ public final class AccountDaoImpl implements AccountDao{
 	 */
 	private DistinguishedName buildDn(String  uid) {
 		DistinguishedName dn = new DistinguishedName();
-
+				
 		dn.add("uid", uid);
 		dn.add("ou", "users");
 		
 		return dn;
 	}
 	
+	/**
+	 * Checks that  mandatory fields are present in the {@link Account}
+	 */
+	private void checkMandatoryFields( Account a ) throws RequiredFiedException{
+
+		// required by the account entry
+		if( a.getUid().length() <= 0 ){
+			throw new  RequiredFiedException("uid is requird");
+		}
+		
+		// required field in Person object
+		if( a.getCommonName().length() <= 0 ){
+			throw new  RequiredFiedException("common name (cn) is requird");
+		}
+		if( a.getSurname().length() <= 0){
+			throw new RequiredFiedException("surname name (sn) is requird");
+		}
+		
+	}
+
+	 		
+	/**
+	 * Maps the following the account object to the following LDAP entry schema:
+	 *
+	 * <pre>
+	 * dn: uid=anUid,ou=users,dc=georchestra,dc=org
+	 * sn: aSurname
+	 * objectClass: organizationalPerson
+	 * objectClass: person 
+	 * objectClass: inetOrgPerson
+	 * objectClass: top
+	 * mail: aMail
+	 * uid: anUid
+	 * cn: aCommonName
+	 * description: description
+	 * userPassword: secret
+	 * </pre>
+	 * 
+	 * 
+	 * @param account
+	 * @param context
+	 */
 	private void mapToContext(Account account, DirContextAdapter context) {
-		context.setAttributeValues("objectclass", new String[] { "top", "person" });
-		context.setAttributeValue("cn", account.getName());
-		context.setAttributeValue("mail", account.getEmail());
-		context.setAttributeValue("o", account.getOrg());
-		context.setAttributeValue("telephoneNumber", account.getPhone());
-		context.setAttributeValue("description", account.getDetails());
+		
+		context.setAttributeValues("objectclass", new String[] { "top", "person", "organizationalPerson" });
+		
+		// person attributes
+		context.setAttributeValue("cn", account.getCommonName());
+		
+		context.setAttributeValue("sn", account.getSurname());
+		
+		context.setAttributeValue("uid", account.getUid());
+
+		
+		if( !isNullValue(account.getDetails())){
+			context.setAttributeValue("description", account.getDetails());
+		}
+
+		if( !isNullValue(account.getPhone()) ){
+			context.setAttributeValue("telephoneNumber", account.getPhone());
+		}
+		
 		context.setAttributeValue("userPassword", account.getPassword());
-		// TODO requires more settings
+
+		context.setAttributeValue("mail", account.getEmail());
+
+		if( !isNullValue(account.getOrg()) ){
+			context.setAttributeValue("o", account.getOrg());
+		}
 		
 	}
 	
+	private boolean isNullValue(String str) {
+
+		if(str == null) return true;
+		
+		if(str.length() == 0) return true;
+		
+		return false;
+	}
+
 	private static class GroupContextMapper implements ContextMapper {
 
 		@Override
@@ -177,11 +252,11 @@ public final class AccountDaoImpl implements AccountDao{
 			Account user = new Account();
 			user.setRole(dn.getLdapRdn(0).getComponent().getValue());
 			user.setUid(context.getStringAttribute("uid"));
-			user.setName(context.getStringAttribute("cn"));
+			user.setCommonName(context.getStringAttribute("cn"));
 			user.setEmail(context.getStringAttribute("mail"));
 			user.setOrg(context.getStringAttribute("o"));
-			user.setName(context.getStringAttribute("sn"));
-			user.setName(context.getStringAttribute("givenName"));
+			user.setCommonName(context.getStringAttribute("sn"));
+			user.setCommonName(context.getStringAttribute("givenName"));
 			user.setOrg(context.getStringAttribute("title"));
 			user.setOrg(context.getStringAttribute("postalAddress"));
 			user.setOrg(context.getStringAttribute("postalCode"));
@@ -216,6 +291,9 @@ public final class AccountDaoImpl implements AccountDao{
 	@Override
 	public void changePassword(String uid, String password) throws AccountDaoException {
 		// TODO Auto-generated method stub
+		
+		
+		
 		
 	}
 

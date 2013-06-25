@@ -14,9 +14,9 @@ public interface AccountDao {
 
 	List<Account> findAll() throws AccountDaoException;
 	
-	void create(final Account account, final boolean pending) throws AccountDaoException, DuplicatedEmailException;
+	void create(final Account account, final boolean pending) throws AccountDaoException, DuplicatedEmailException, RequiredFiedException;
 
-	void update(final Account account) throws AccountDaoException, DuplicatedEmailException;
+	void update(final Account account) throws AccountDaoException, DuplicatedEmailException, RequiredFiedException;
 
 	void changePassword(String uid, String password)throws AccountDaoException;
 

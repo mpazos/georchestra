@@ -23,9 +23,9 @@ public class AccountFormBean implements Serializable{
 	
 	private String uid;
 	private String name;
+	private String surname;
+	
 	private String org;
-	private String role;
-	private String geographicArea;
 	private String email;
 	private String phone;
 	private String details;
@@ -33,8 +33,6 @@ public class AccountFormBean implements Serializable{
 	private String confirmPassword;
 	private String captchaGenerated;
 	private String captcha;
-	
-	private List<String> roleList;
 	
 	
 	public String getUid() {
@@ -55,29 +53,7 @@ public class AccountFormBean implements Serializable{
 	public void setOrg(String org) {
 		this.org = org;
 	}
-	public String getRole() {
-		return role;
-	}
-	public void setRole(String role) {
-		this.role = role;
-	}
 	
-	public void setRoleList(List<String> roleList) {
-		
-		this.roleList = roleList;
-	}
-	
-	public List<String>  getRoleList() {
-		
-		return this.roleList;
-	}
-	
-	public String getGeographicArea() {
-		return geographicArea;
-	}
-	public void setGeographicArea(String geographicArea) {
-		this.geographicArea = geographicArea;
-	}
 	public String getEmail() {
 		return email;
 	}
@@ -123,17 +99,24 @@ public class AccountFormBean implements Serializable{
 	public void setCaptchaGenerated(String captchaGenerated) {
 		this.captchaGenerated = captchaGenerated;
 	}
+	
+	public String getSurname() {
+		return surname;
+	}
+	
+	public void setSurname(String sn){
+
+		this.surname = sn;
+	}
 	@Override
 	public String toString() {
 		return "AccountFormBean [uid=" + uid + ", name=" + name + ", org="
-				+ org + ", role=" + role + ", geographicArea=" + geographicArea
-				+ ", email=" + email + ", phone=" + phone + ", details="
+				+ org + ", email=" + email + ", phone=" + phone + ", details="
 				+ details + ", password=" + password + ", confirmPassword="
 				+ confirmPassword + ", captchaGenerated=" + captchaGenerated
-				+ ", captcha=" + captcha + ", roleList=" + roleList + "]";
+				+ ", captcha=" + captcha + ", surname=" + surname + "]";
 	}
 
 
-	
 	
 }

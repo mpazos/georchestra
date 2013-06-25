@@ -31,15 +31,23 @@
             <fieldset>
 
 				<p>
-					<form:label path="name"> User Name *</form:label>
+					<form:label path="name">Common Name *</form:label>
 					<form:input path="name" size="30" maxlength="80"/>
 				</p>
 				<p>
 					<form:errors path="name" cssClass="error" />
 				</p>
 
+                <p>
+                    <form:label path="surname">Surname Name *</form:label>
+                    <form:input path="surname" size="30" maxlength="80"/>
+                </p>
+                <p>
+                    <form:errors path="surname" cssClass="error" />
+                </p>
+
 				<p>
-					<form:label path="email"> e-mail *</form:label>
+					<form:label path="email">e-mail *</form:label>
 					<form:input path="email" size="30" maxlength="80"/>
 				</p>
 				<p>
@@ -62,30 +70,12 @@
 					<form:errors path="org" cssClass="error" />
 				</p>
 
-				<p>
-					<form:label path="geographicArea">Geographic Area </form:label>
-					<form:input path="geographicArea" size="30" maxlength="80"/>
-				</p>
-				<p>
-					<form:errors path="geographicArea" cssClass="error" />
-				</p>
 
 				<p>
 					<form:label path="details"> Details </form:label>
 					<form:textarea path="details" rows="3" cols="30" />
 				</p>
 
-				<p>
-					<form:label path="role">
-	                    Role
-	                </form:label>
-					<form:select path="role">
-						<form:option value="admin">Admin</form:option>
-						<form:option value="user">User</form:option>
-						<form:option value="reader">Reader</form:option>
-					</form:select>
-
-				</p>
 			</fieldset>
 
 			<fieldset>

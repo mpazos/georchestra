@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.georchestra.ldapadmin.ws.userdetails;
+package org.georchestra.ldapadmin.ws.edituserdetails;
 
 import org.springframework.validation.BindingResult;
 

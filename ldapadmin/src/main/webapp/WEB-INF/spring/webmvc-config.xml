@@ -52,13 +52,8 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <bean id="contextSource" class="org.springframework.ldap.core.support.LdapContextSource">
         <property name="url" value="ldap://localhost:389" />
         <property name="base" value="dc=georchestra,dc=org" />
-        <!-- 
-        <property name="userDn" value="uid=admin,ou=system" />
-        <property name="userDn" value="uid=admin" />
-        
         <property name="userDn" value="cn=admin" />
         <property name="password" value="qwer1234" />
-         -->
     </bean>
     
     <bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">

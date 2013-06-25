@@ -30,20 +30,20 @@
 
             <fieldset>
 
+                <p>
+                    <form:label path="givenName"> Given Name </form:label>
+                    <form:input path="givenName" size="30" maxlength="80"/>
+                </p>
+                <p>
+                    <form:errors path="givenName" cssClass="error" />
+                </p>
+
 				<p>
 					<form:label path="surname">Surname </form:label>
 					<form:input path="surname" size="30" maxlength="80"/>
 				</p>
 				<p>
 					<form:errors path="surname" cssClass="error" />
-				</p>
-
-				<p>
-					<form:label path="givenName"> Given Name </form:label>
-					<form:input path="givenName" size="30" maxlength="80"/>
-				</p>
-				<p>
-					<form:errors path="givenName" cssClass="error" />
 				</p>
 
                 <p>

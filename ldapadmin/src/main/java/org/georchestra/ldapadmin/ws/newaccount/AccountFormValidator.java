@@ -14,6 +14,10 @@ class AccountFormValidator {
 			errors.rejectValue("name", "required", "required");
 		}
 		
+		if( !StringUtils.hasLength( form.getSurname() ) ){
+			errors.rejectValue("surname", "required", "required");
+		}
+
 		validateEmail(form.getEmail(), errors);
 		
 		PasswordUtils.validate( form.getPassword(), form.getConfirmPassword(), errors);
