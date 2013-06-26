@@ -22,7 +22,7 @@ public class AccountFormBean implements Serializable{
 	private static final long serialVersionUID = 6955470190631684934L;
 	
 	private String uid;
-	private String name;
+	private String firstNeme;
 	private String surname;
 	
 	private String org;
@@ -41,11 +41,11 @@ public class AccountFormBean implements Serializable{
 	public void setUid(String uid) {
 		this.uid = uid;
 	}
-	public String getName() {
-		return name;
+	public String getFirstName() {
+		return firstNeme;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setFirstName(String name) {
+		this.firstNeme = name;
 	}
 	public String getOrg() {
 		return org;
@@ -110,7 +110,7 @@ public class AccountFormBean implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "AccountFormBean [uid=" + uid + ", name=" + name + ", org="
+		return "AccountFormBean [uid=" + uid + ", name=" + firstNeme + ", org="
 				+ org + ", email=" + email + ", phone=" + phone + ", details="
 				+ details + ", password=" + password + ", confirmPassword="
 				+ confirmPassword + ", captchaGenerated=" + captchaGenerated

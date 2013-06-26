@@ -7,7 +7,6 @@ import java.io.IOException;
 
 import org.georchestra.ldapadmin.ds.AccountDao;
 import org.georchestra.ldapadmin.ds.AccountDaoException;
-import org.georchestra.ldapadmin.ds.NotFoundException;
 import org.georchestra.ldapadmin.dto.Account;
 import org.georchestra.ldapadmin.dto.AccountFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +40,7 @@ public class EditUserDetailsFormController {
 	@InitBinder
 	public void initForm( WebDataBinder dataBinder) {
 		
-		dataBinder.setAllowedFields(new String[]{"uid", "surname", "givenName","org", "title", "postalAddress", "postalCode",  "registeredAddress", "postOfficeBox", "physicalDeliveryOfficeName"});
+		dataBinder.setAllowedFields(new String[]{"uid", "surname", "firstName","org", "title", "postalAddress", "postalCode",  "registeredAddress", "postOfficeBox", "physicalDeliveryOfficeName"});
 	}
 	
 	
@@ -59,8 +58,7 @@ public class EditUserDetailsFormController {
 	public String setupForm(@RequestParam("uid") String uid,  Model model) throws IOException{
 
 		try {
-			//Account account = this.accountDao.findByUID(uid);
-			Account account = AccountFactory.createMock();
+			Account account = this.accountDao.findByUID(uid);
 			
 			EditUserDetailsFormBean formBean = createForm(account);
 
@@ -85,14 +83,16 @@ public class EditUserDetailsFormController {
 		EditUserDetailsFormBean formBean = new EditUserDetailsFormBean();
 		
 		formBean.setUid(account.getUid());
-		formBean.setGivenName(account.getGivenName());
+		
+		formBean.setFirstName(account.getGivenName());
+		formBean.setSurname(account.getSurname());
+
 		formBean.setOrg(account.getOrg());
 		formBean.setPhysicalDeliveryOfficeName(account.getPhysicalDeliveryOfficeName());
 		formBean.setPostalAddress(account.getPostalAddress());
 		formBean.setPostalCode(account.getPostalCode());
 		formBean.setPostOfficeBox(account.getPostOfficeBox());
 		formBean.setRegisteredAddress(account.getRegisteredAddress());
-		formBean.setSurname(account.getSurname());
 		formBean.setTitle(account.getTitle());
 
 		return formBean;
@@ -125,7 +125,18 @@ public class EditUserDetailsFormController {
 
 		// updates the account details 
 		try {
-			Account account = createAccount( formBean );
+			Account account = AccountFactory.createDetails(
+					formBean.getUid(),
+					formBean.getFirstName(),
+					formBean.getOrg(),
+					formBean.getPhysicalDeliveryOfficeName(),
+					formBean.getPostalAddress(),
+					formBean.getPostalCode(),
+					formBean.getPostOfficeBox(),
+					formBean.getRegisteredAddress(),
+					formBean.getSurname(),
+					formBean.getTitle()
+				);
 			
 			this.accountDao.update(account);
 			
@@ -143,24 +154,6 @@ public class EditUserDetailsFormController {
 		} 
 	}
 
-	private Account createAccount(final EditUserDetailsFormBean form) {
-
-		
-		Account account = AccountFactory.createDetails(
-			
-			form.getUid(),
-			form.getGivenName(),
-			form.getOrg(),
-			form.getPhysicalDeliveryOfficeName(),
-			form.getPostalAddress(),
-			form.getPostalCode(),
-			form.getPostOfficeBox(),
-			form.getRegisteredAddress(),
-			form.getSurname(),
-			form.getTitle()
-		);
-		return account;
-	}
 	
 	
 }

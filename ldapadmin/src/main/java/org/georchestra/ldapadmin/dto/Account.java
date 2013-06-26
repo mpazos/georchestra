@@ -1,184 +1,80 @@
-/**
- * 
- */
 package org.georchestra.ldapadmin.dto;
 
-import java.io.Serializable;
-
 /**
- * Account this is a Data transfer Object. 
- *  
- *  
+ * Account data transfer object.
+ * 
  * @author Mauricio Pazos
  *
  */
-public class Account implements Serializable {
+public interface Account {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8022496448991887664L;
-	
-	
-	// main data
-	private String uid; // uid
-	private String commonName; // cn mandatory
-	private String surname; // sn  mandatory
-	private String org; // o
-	private String role; // 
-	private String email;// mail
-	private String phone;// telephoneNumber 
-	private String details; // description
-	private String password; // userPassword
-	private String newPassword;
+	public abstract void setUid(String uid);
 
-	// user details
-	// sn, givenName, o, title, postalAddress, postalCode, registeredAddress, postOfficeBox, physicalDeliveryOfficeName
-	private String givenName; // givenName (optonal)
-	private String title; // title
-	private String postalAddress; //postalAddress
-	private String postalCode; // postalCode
-	private String registeredAddress; //registeredAddress 
-	private String postOfficeBox; // postOfficeBox
-	private String physicalDeliveryOfficeName; //physicalDeliveryOfficeName
-	
-	@Override
-	public String toString() {
-		return "Account [uid=" + uid + ", name=" + commonName + ", org=" + org
-				+ ", role=" + role 
-				+ ", email=" + email + ", phone=" + phone + ", details="
-				+ details + ", password=" + password + ", newPassword="
-				+ newPassword + ", surname=" + surname + ", givenName="
-				+ givenName + ", title=" + title + ", postalAddress="
-				+ postalAddress + ", postalCode=" + postalCode
-				+ ", registeredAddress=" + registeredAddress
-				+ ", postOfficeBox=" + postOfficeBox
-				+ ", physicalDeliveryOfficeName=" + physicalDeliveryOfficeName
-				+ "]";
-	}
-	
-	public void setUid(String uid) {
-		this.uid = uid;
-	}
-	public String getUid(){
-		return this.uid;
-	}
-	
-	public String getCommonName() {
-		return commonName;
-	}
-	public void setCommonName(String name) {
-		this.commonName = name;
-	}
-	public String getOrg() {
-		return org;
-	}
-	public void setOrg(String org) {
-		this.org = org;
-	}
-	public String getRole() {
-		return role;
-	}
-	public void setRole(String role) {
-		this.role = role;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	public String getPhone() {
-		return phone;
-	}
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-	public String getDetails() {
-		return details;
-	}
-	public void setDetails(String details) {
-		this.details = details;
-	}
+	public abstract String getUid();
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+	public abstract String getCommonName();
 
-	public String getPassword() {
-		return password;
-	}
+	public abstract void setCommonName(String name);
 
-	public void setNewPassword(String newPassword) {
-		this.newPassword = newPassword;
-		
-	}
-	public String getNewPassword() {
-		return this.newPassword;
-		
-	}
+	public abstract String getOrg();
 
-	public String getSurname() {
-		return surname;
-	}
+	public abstract void setOrg(String org);
 
-	public void setSurname(String surname) {
-		this.surname = surname;
-	}
+	public abstract String getRole();
 
-	public String getGivenName() {
-		return givenName;
-	}
+	public abstract void setRole(String role);
 
-	public void setGivenName(String givenName) {
-		this.givenName = givenName;
-	}
+	public abstract String getEmail();
 
-	public String getTitle() {
-		return title;
-	}
+	public abstract void setEmail(String email);
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+	public abstract String getPhone();
 
-	public String getPostalAddress() {
-		return postalAddress;
-	}
+	public abstract void setPhone(String phone);
 
-	public void setPostalAddress(String postalAddress) {
-		this.postalAddress = postalAddress;
-	}
+	public abstract String getDetails();
 
-	public String getPostalCode() {
-		return postalCode;
-	}
+	public abstract void setDetails(String details);
 
-	public void setPostalCode(String postalCode) {
-		this.postalCode = postalCode;
-	}
+	public abstract void setPassword(String password);
 
-	public String getRegisteredAddress() {
-		return registeredAddress;
-	}
+	public abstract String getPassword();
 
-	public void setRegisteredAddress(String registeredAddress) {
-		this.registeredAddress = registeredAddress;
-	}
+	public abstract void setNewPassword(String newPassword);
 
-	public String getPostOfficeBox() {
-		return postOfficeBox;
-	}
+	public abstract String getNewPassword();
 
-	public void setPostOfficeBox(String postOfficeBox) {
-		this.postOfficeBox = postOfficeBox;
-	}
+	public abstract String getSurname();
 
-	public String getPhysicalDeliveryOfficeName() {
-		return physicalDeliveryOfficeName;
-	}
+	public abstract void setSurname(String surname);
 
-	public void setPhysicalDeliveryOfficeName(String physicalDeliveryOfficeName) {
-		this.physicalDeliveryOfficeName = physicalDeliveryOfficeName;
-	}
+	public abstract String getGivenName();
+
+	public abstract void setGivenName(String givenName);
+
+	public abstract String getTitle();
+
+	public abstract void setTitle(String title);
+
+	public abstract String getPostalAddress();
+
+	public abstract void setPostalAddress(String postalAddress);
+
+	public abstract String getPostalCode();
+
+	public abstract void setPostalCode(String postalCode);
+
+	public abstract String getRegisteredAddress();
+
+	public abstract void setRegisteredAddress(String registeredAddress);
+
+	public abstract String getPostOfficeBox();
+
+	public abstract void setPostOfficeBox(String postOfficeBox);
+
+	public abstract String getPhysicalDeliveryOfficeName();
+
+	public abstract void setPhysicalDeliveryOfficeName(
+			String physicalDeliveryOfficeName);
+
 }

@@ -31,11 +31,11 @@
             <fieldset>
 
                 <p>
-                    <form:label path="givenName"> Given Name </form:label>
-                    <form:input path="givenName" size="30" maxlength="80"/>
+                    <form:label path="firstName"> Given Name </form:label>
+                    <form:input path="firstName" size="30" maxlength="80"/>
                 </p>
                 <p>
-                    <form:errors path="givenName" cssClass="error" />
+                    <form:errors path="firstName" cssClass="error" />
                 </p>
 
 				<p>
@@ -92,7 +92,7 @@
                 
                 <p>
                     <form:label path="registeredAddress">Postal Address</form:label>
-                    <form:textarea path="registeredAddress" rows="4" cols="30"/>
+                    <form:textarea path="registeredAddress" rows="4" cols="80"/>
                 </p>
                 <p>
                     <form:errors path="registeredAddress" cssClass="error" />
@@ -100,7 +100,7 @@
 
                 <p>
                     <form:label path="physicalDeliveryOfficeName">Postcode</form:label>
-                    <form:input path="physicalDeliveryOfficeName" size="30" maxlength="80"/>
+                    <form:input path="physicalDeliveryOfficeName" size="20" maxlength="20"/>
                 </p>
                 <p>
                     <form:errors path="physicalDeliveryOfficeName" cssClass="error" />

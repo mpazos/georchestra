@@ -10,7 +10,7 @@ class AccountFormValidator {
 	
 	public void validate(AccountFormBean form, Errors errors) {
 		
-		if( !StringUtils.hasLength(form.getName())){
+		if( !StringUtils.hasLength(form.getFirstName())){
 			errors.rejectValue("name", "required", "required");
 		}
 		

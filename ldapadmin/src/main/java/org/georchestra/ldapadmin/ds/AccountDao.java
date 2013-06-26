@@ -31,8 +31,4 @@ public interface AccountDao {
 	List<String> findAllGroups() throws AccountDaoException;
 
 	List<Account> findNewPasswordBeforeDate(Date date);
-
-
-
-
 }

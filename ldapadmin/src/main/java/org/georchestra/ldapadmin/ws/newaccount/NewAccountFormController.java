@@ -5,7 +5,6 @@ package org.georchestra.ldapadmin.ws.newaccount;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 import org.georchestra.ldapadmin.ds.AccountDao;
 import org.georchestra.ldapadmin.ds.AccountDaoException;
@@ -53,7 +52,7 @@ public final class NewAccountFormController {
 	@InitBinder
 	public void initForm( WebDataBinder dataBinder) {
 		
-		dataBinder.setAllowedFields(new String[]{"name","surname", "email", "phone", "org", "geographicArea", "details", "password", "confirmPassword", "role", "captchaGenerated", "captcha"});
+		dataBinder.setAllowedFields(new String[]{"firstName","surname", "email", "phone", "org", "details", "password", "confirmPassword", "role", "captchaGenerated", "captcha"});
 	}
 	
 	@RequestMapping(value="/public/accounts/new", method=RequestMethod.GET)
@@ -95,14 +94,21 @@ public final class NewAccountFormController {
 		// insert the new account 
 		try {
 			
-			Account account = createDto(formBean);
+			Account account =  AccountFactory.create(
+					formBean.getPassword(),
+					formBean.getFirstName(),
+					formBean.getSurname(),
+					formBean.getEmail(),
+					formBean.getPhone(),
+					formBean.getOrg(),
+					formBean.getDetails() );
+
 			this.accountDao.create(account, this.moderatedSignup);
 
 			MailService.send(account.getUid(), account.getCommonName());
 			
 			sessionStatus.setComplete();
 			
-			//return "redirect:/accounts/new?uid=" + account.getUid();			
 			return "welcomeNewUser";
 			
 		} catch (AccountDaoException e) {
@@ -120,21 +126,6 @@ public final class NewAccountFormController {
 		}
 	}
 
-	private Account createDto(AccountFormBean form) {
-		
-		UUID uid = UUID.randomUUID();
-		Account account = AccountFactory.create( uid.toString() );
-		
-		account.setCommonName(form.getName());
-		account.setSurname(form.getSurname());
-		account.setEmail(form.getEmail());
-		account.setPhone(form.getPhone());
-		account.setOrg(form.getOrg());
-		account.setDetails(form.getDetails());
-		account.setPassword(form.getPassword());
-		
-		return account;
-	}
 
 	
 	private List<String> findGroups() throws IOException{

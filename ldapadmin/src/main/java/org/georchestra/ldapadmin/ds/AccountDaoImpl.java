@@ -9,6 +9,7 @@ import java.util.List;
 import javax.naming.Name;
 
 import org.georchestra.ldapadmin.dto.Account;
+import org.georchestra.ldapadmin.dto.AccountFactory;
 import org.springframework.ldap.core.ContextMapper;
 import org.springframework.ldap.core.DirContextAdapter;
 import org.springframework.ldap.core.DirContextOperations;
@@ -241,24 +242,21 @@ public final class AccountDaoImpl implements AccountDao{
 			
 			DirContextAdapter context = (DirContextAdapter) ctx;
 			DistinguishedName dn = new DistinguishedName(context.getDn());
-			Account account = new Account();
-			account.setRole(dn.getLdapRdn(0).getComponent().getValue());
-			account.setUid(context.getStringAttribute("uid"));
-			account.setCommonName(context.getStringAttribute("cn"));
-			account.setEmail(context.getStringAttribute("mail"));
-			account.setOrg(context.getStringAttribute("o"));
-			account.setCommonName(context.getStringAttribute("sn"));
-			account.setCommonName(context.getStringAttribute("givenName"));
-			account.setOrg(context.getStringAttribute("title"));
-			account.setOrg(context.getStringAttribute("postalAddress"));
-			account.setOrg(context.getStringAttribute("postalCode"));
-			account.setOrg(context.getStringAttribute("registeredAddress"));
-			account.setOrg(context.getStringAttribute("postOfficeBox"));
-			account.setOrg(context.getStringAttribute("physicalDeliveryOfficeName"));
+			Account account = AccountFactory.create(
+					dn.getLdapRdn(0).getComponent().getValue(),
+					context.getStringAttribute("uid"),
+					context.getStringAttribute("cn"),
+					context.getStringAttribute("sn"),
+					context.getStringAttribute("givenName"),
+					context.getStringAttribute("mail"),
+					context.getStringAttribute("o"),
+					context.getStringAttribute("title"),
+					context.getStringAttribute("postalAddress"),
+					context.getStringAttribute("postalCode"),
+					context.getStringAttribute("registeredAddress"),
+					context.getStringAttribute("postOfficeBox"),
+					context.getStringAttribute("physicalDeliveryOfficeName") );
 
-			// TODO requires more settings
-			//user.setRole(context.getStringAttribute("role"));
-			
 			return account;
 		}
 	}

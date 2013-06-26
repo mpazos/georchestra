@@ -31,11 +31,11 @@
             <fieldset>
 
 				<p>
-					<form:label path="name">Common Name *</form:label>
-					<form:input path="name" size="30" maxlength="80"/>
+					<form:label path="firstName">First Name *</form:label>
+					<form:input path="firstName" size="30" maxlength="80"/>
 				</p>
 				<p>
-					<form:errors path="name" cssClass="error" />
+					<form:errors path="firstName" cssClass="error" />
 				</p>
 
                 <p>
