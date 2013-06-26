@@ -31,7 +31,7 @@
             <fieldset>
 
                 <p>
-                    <form:label path="firstName"> Given Name </form:label>
+                    <form:label path="firstName"> First Name </form:label>
                     <form:input path="firstName" size="30" maxlength="80"/>
                 </p>
                 <p>
@@ -84,7 +84,7 @@
 
                 <p>
                     <form:label path="postalCode">Postcode</form:label>
-                    <form:input path="postalCode" size="30" maxlength="80"/>
+                    <form:input path="postalCode" size="20" maxlength="20"/>
                 </p>
                 <p>
                     <form:errors path="postalCode" cssClass="error" />
@@ -92,7 +92,7 @@
                 
                 <p>
                     <form:label path="registeredAddress">Postal Address</form:label>
-                    <form:textarea path="registeredAddress" rows="4" cols="80"/>
+                    <form:textarea path="registeredAddress" rows="4" cols="40"/>
                 </p>
                 <p>
                     <form:errors path="registeredAddress" cssClass="error" />

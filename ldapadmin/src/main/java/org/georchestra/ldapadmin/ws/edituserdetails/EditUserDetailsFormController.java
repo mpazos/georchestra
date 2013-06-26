@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 /**
+ * Support for the Edit Account user interactions.
+ * 
  * @author Mauricio Pazos
  *
  */
@@ -32,6 +34,9 @@ public class EditUserDetailsFormController {
 
 	private AccountDao accountDao;
 	
+	private Account accountBackup;
+	
+	
 	@Autowired
 	public EditUserDetailsFormController( AccountDao dao){
 		this.accountDao = dao;
@@ -40,7 +45,7 @@ public class EditUserDetailsFormController {
 	@InitBinder
 	public void initForm( WebDataBinder dataBinder) {
 		
-		dataBinder.setAllowedFields(new String[]{"uid", "surname", "firstName","org", "title", "postalAddress", "postalCode",  "registeredAddress", "postOfficeBox", "physicalDeliveryOfficeName"});
+		dataBinder.setAllowedFields(new String[]{"uid", "firstName", "surname","org", "title", "postalAddress", "postalCode",  "registeredAddress", "postOfficeBox", "physicalDeliveryOfficeName"});
 	}
 	
 	
@@ -58,9 +63,9 @@ public class EditUserDetailsFormController {
 	public String setupForm(@RequestParam("uid") String uid,  Model model) throws IOException{
 
 		try {
-			Account account = this.accountDao.findByUID(uid);
+			this.accountBackup = this.accountDao.findByUID(uid);
 			
-			EditUserDetailsFormBean formBean = createForm(account);
+			EditUserDetailsFormBean formBean = createForm(this.accountBackup);
 
 			model.addAttribute(formBean);
 			
@@ -125,18 +130,8 @@ public class EditUserDetailsFormController {
 
 		// updates the account details 
 		try {
-			Account account = AccountFactory.createDetails(
-					formBean.getUid(),
-					formBean.getFirstName(),
-					formBean.getOrg(),
-					formBean.getPhysicalDeliveryOfficeName(),
-					formBean.getPostalAddress(),
-					formBean.getPostalCode(),
-					formBean.getPostOfficeBox(),
-					formBean.getRegisteredAddress(),
-					formBean.getSurname(),
-					formBean.getTitle()
-				);
+			
+			Account account = modify(this.accountBackup, formBean);
 			
 			this.accountDao.update(account);
 			
@@ -152,6 +147,31 @@ public class EditUserDetailsFormController {
 			
 			throw new IOException(e);
 		} 
+	}
+
+	/**
+	 * Modifies the account using the values present in the formBean parameter
+	 *  
+	 * @param account
+	 * @param formBean
+	 * 
+	 * @return modified account
+	 */
+	private Account modify(
+			Account account,
+			EditUserDetailsFormBean formBean) {
+
+		account.setGivenName( formBean.getFirstName() );
+		account.setSurname(formBean.getSurname());
+		account.setOrg(formBean.getOrg());
+		account.setPhysicalDeliveryOfficeName(formBean.getPhysicalDeliveryOfficeName());
+		account.setPostalAddress(formBean.getPostalAddress());
+		account.setPostalCode( formBean.getPostalCode() );
+		account.setPostOfficeBox( formBean.getPostOfficeBox() );
+		account.setRegisteredAddress( formBean.getRegisteredAddress() );
+		account.setTitle( formBean.getTitle() );
+		
+		return account;
 	}
 
 	

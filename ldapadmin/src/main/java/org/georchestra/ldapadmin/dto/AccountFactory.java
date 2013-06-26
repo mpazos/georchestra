@@ -53,23 +53,25 @@ public class AccountFactory {
 	public static Account createDetails(
 			String uid, 
 			String givenName,
+			String surname, 
 			String org, 
 			String physicalDeliveryOfficeName,
 			String postalAddress, 
 			String postalCode, 
 			String postOfficeBox,
 			String registeredAddress, 
-			String surname, 
 			String title) {
 		
 		Account a = new AccountImpl();
 		
 		a.setUid(uid);
 		
+		a.setGivenName(givenName);
 		a.setSurname(surname);
+		a.setCommonName(formatCommonName(givenName, surname) );
+
 		a.setOrg(org);
 
-		a.setGivenName(givenName);
 		a.setPhysicalDeliveryOfficeName(physicalDeliveryOfficeName);
 		a.setPostalAddress(postalAddress);
 		a.setPostalCode(postalCode);
@@ -81,6 +83,10 @@ public class AccountFactory {
 		return a;
 	}
 
+	private static String formatCommonName(String givenName, String surname) {
+		return givenName + " " + surname;
+	}
+
 	public static Account create(final String uid) {
 		Account a = new AccountImpl();
 		
@@ -90,6 +96,7 @@ public class AccountFactory {
 	}
 
 	public static Account create(
+			String uid,
 			String password,
 			String firstName, String surname, 
 			String email, String phone,
@@ -97,13 +104,13 @@ public class AccountFactory {
 		
 		Account account = new AccountImpl();
 		
-		account.setUid(UUID.randomUUID().toString());
+		account.setUid(uid);
 		account.setPassword(password);
 
 		account.setGivenName(firstName);
 		account.setSurname(surname);
 
-		account.setCommonName(firstName + " " + surname);
+		account.setCommonName(formatCommonName(firstName ,surname));
 
 		account.setEmail(email);
 		account.setPhone(phone);
@@ -150,6 +157,52 @@ public class AccountFactory {
 		
 		
 		return account;
+	}
+
+	public static Account create(
+			String role, 
+			String uid,
+			String cn, 
+			String surname,
+			String givenName, 
+			String email,
+			String org, 
+			String title,
+			String phone, 
+			String description,
+			String pwd, 
+			String postalAddress,
+			String postalCode, 
+			String registeredAddress ,
+			String postOfficeBox, 
+			String physicalDeliveryOfficeName) {
+		
+		Account a = new AccountImpl();
+		
+		a.setRole(role);
+		
+		a.setUid(uid);
+		a.setCommonName(cn);
+		a.setGivenName(givenName);
+		a.setSurname(surname);
+		a.setEmail(email);
+
+		a.setOrg(org);
+		a.setTitle(title);
+
+		a.setPhone(phone);
+		a.setDetails(description);
+		
+		a.setPassword(pwd);
+
+		a.setPostalAddress(postalAddress);
+		a.setPostalCode(postalCode);
+		a.setRegisteredAddress(registeredAddress);
+		a.setPostOfficeBox(postOfficeBox);
+		a.setPhysicalDeliveryOfficeName(physicalDeliveryOfficeName);
+		
+		
+		return a;
 	}
 
 }

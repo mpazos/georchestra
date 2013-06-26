@@ -5,6 +5,7 @@ package org.georchestra.ldapadmin.ws.newaccount;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import org.georchestra.ldapadmin.ds.AccountDao;
 import org.georchestra.ldapadmin.ds.AccountDaoException;
@@ -95,6 +96,7 @@ public final class NewAccountFormController {
 		try {
 			
 			Account account =  AccountFactory.create(
+					UUID.randomUUID().toString(),
 					formBean.getPassword(),
 					formBean.getFirstName(),
 					formBean.getSurname(),

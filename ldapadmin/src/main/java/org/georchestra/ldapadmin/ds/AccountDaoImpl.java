@@ -161,11 +161,17 @@ public final class AccountDaoImpl implements AccountDao{
 		}
 		
 		// required field in Person object
-		if( a.getCommonName().length() <= 0 ){
-			throw new  RequiredFiedException("common name (cn) is requird");
+		if( a.getGivenName().length() <= 0 ){
+			throw new  RequiredFiedException("Given name (cn) is requird");
 		}
 		if( a.getSurname().length() <= 0){
 			throw new RequiredFiedException("surname name (sn) is requird");
+		}
+		if( a.getPassword().length() <= 0){
+			throw new RequiredFiedException("password is requird");
+		}
+		if( a.getEmail().length() <= 0){
+			throw new RequiredFiedException("mail is requird");
 		}
 		
 	}
@@ -232,7 +238,24 @@ public final class AccountDaoImpl implements AccountDao{
 			context.setAttributeValue("o", account.getOrg());
 		}
 
-		
+		if( !isNullValue(account.getTitle()) ){
+			context.setAttributeValue("title", account.getTitle());
+		}
+		if( !isNullValue(account.getPostalAddress()) ){
+			context.setAttributeValue("postalAddress", account.getPostalAddress());
+		}
+		if( !isNullValue(account.getPostalCode()) ){
+			context.setAttributeValue("postalCode", account.getPostalCode());
+		}
+		if( !isNullValue(account.getRegisteredAddress()) ){
+			context.setAttributeValue("registeredAddress", account.getRegisteredAddress());
+		}
+		if( !isNullValue(account.getPostOfficeBox()) ){
+			context.setAttributeValue("postOfficeBox", account.getPostOfficeBox());
+		}
+		if( !isNullValue(account.getPhysicalDeliveryOfficeName()) ){
+			context.setAttributeValue("physicalDeliveryOfficeName", account.getPhysicalDeliveryOfficeName());
+		}
 	}
 	
 	private static class AccountContextMapper implements ContextMapper {
@@ -249,8 +272,15 @@ public final class AccountDaoImpl implements AccountDao{
 					context.getStringAttribute("sn"),
 					context.getStringAttribute("givenName"),
 					context.getStringAttribute("mail"),
+					
 					context.getStringAttribute("o"),
 					context.getStringAttribute("title"),
+
+					context.getStringAttribute("telephoneNumber"),
+					context.getStringAttribute("description"),
+					
+					context.getStringAttribute("userPassword"),
+
 					context.getStringAttribute("postalAddress"),
 					context.getStringAttribute("postalCode"),
 					context.getStringAttribute("registeredAddress"),
