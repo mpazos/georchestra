@@ -11,16 +11,15 @@ import javax.naming.Name;
 import org.georchestra.ldapadmin.dto.Account;
 import org.springframework.ldap.core.ContextMapper;
 import org.springframework.ldap.core.DirContextAdapter;
+import org.springframework.ldap.core.DirContextOperations;
 import org.springframework.ldap.core.DistinguishedName;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.filter.EqualsFilter;
 
 /**
- * This class is responsible of maintaining the user accounts. 
- * 
+ * This class is responsible of maintaining the user accounts (CRUD operations). 
  * 
  * @author Mauricio Pazos
- *
  */
 public final class AccountDaoImpl implements AccountDao{
 	
@@ -69,7 +68,7 @@ public final class AccountDaoImpl implements AccountDao{
 		Name dn = buildDn(account.getUid());
 		
 		DirContextAdapter context = new DirContextAdapter(dn);
-		mapToContext(account, context);
+		mapToContext(account, context, true);
 		
 		ldapTemplate.bind(dn, context, null);
 	}
@@ -80,12 +79,12 @@ public final class AccountDaoImpl implements AccountDao{
 		
 		checkMandatoryFields(account);
 		
-//		TODO hack
-//		
-//		Name dn = buildDn(account.getUid());
-//		DirContextAdapter context = (DirContextAdapter) ldapTemplate.lookup(dn);
-//		mapToContext(account, context);
-//		ldapTemplate.modifyAttributes(dn, context.getModificationItems());
+		Name dn = buildDn(account.getUid());
+		DirContextOperations context = ldapTemplate.lookupContext(dn);
+
+		mapToContext(account, context, false);
+		
+		ldapTemplate.modifyAttributes(context);
 	}
 
 
@@ -144,8 +143,8 @@ public final class AccountDaoImpl implements AccountDao{
 	private DistinguishedName buildDn(String  uid) {
 		DistinguishedName dn = new DistinguishedName();
 				
-		dn.add("uid", uid);
 		dn.add("ou", "users");
+		dn.add("uid", uid);
 		
 		return dn;
 	}
@@ -191,18 +190,16 @@ public final class AccountDaoImpl implements AccountDao{
 	 * 
 	 * @param account
 	 * @param context
+	 * @param createEntry
 	 */
-	private void mapToContext(Account account, DirContextAdapter context) {
+	private void mapToContext(Account account, DirContextOperations context, boolean createEntry) {
 		
-		context.setAttributeValues("objectclass", new String[] { "top", "person", "organizationalPerson" });
-		
-		// person attributes
-		context.setAttributeValue("cn", account.getCommonName());
-		
-		context.setAttributeValue("sn", account.getSurname());
-		
-		context.setAttributeValue("uid", account.getUid());
+		context.setAttributeValues("objectclass", new String[] { "top", "person", "organizationalPerson", "inetOrgPerson" });
 
+		// person attributes
+		context.setAttributeValue("sn", account.getSurname());
+
+		context.setAttributeValue("cn", account.getCommonName());
 		
 		if( !isNullValue(account.getDetails())){
 			context.setAttributeValue("description", account.getDetails());
@@ -211,15 +208,59 @@ public final class AccountDaoImpl implements AccountDao{
 		if( !isNullValue(account.getPhone()) ){
 			context.setAttributeValue("telephoneNumber", account.getPhone());
 		}
-		
+
 		context.setAttributeValue("userPassword", account.getPassword());
 
-		context.setAttributeValue("mail", account.getEmail());
+		// organizationalPerson attributes
+		// any attribute is set right now (when the account is created)
+		
+		// inetOrgPerson attributes
+		if( !isNullValue(account.getGivenName()) ){
+			context.setAttributeValue("givenName", account.getGivenName());
+		}
+		
+		if(createEntry){
+			// this field is part of entry, thus it shouldn't be updated. Uid update is not required in this application.
+			context.setAttributeValue("uid", account.getUid());
+		}
 
+		context.setAttributeValue("mail", account.getEmail());
+		
+		// additional
 		if( !isNullValue(account.getOrg()) ){
 			context.setAttributeValue("o", account.getOrg());
 		}
+
 		
+	}
+	
+	private static class AccountContextMapper implements ContextMapper {
+
+		@Override
+		public Object mapFromContext(Object ctx) {
+			
+			DirContextAdapter context = (DirContextAdapter) ctx;
+			DistinguishedName dn = new DistinguishedName(context.getDn());
+			Account account = new Account();
+			account.setRole(dn.getLdapRdn(0).getComponent().getValue());
+			account.setUid(context.getStringAttribute("uid"));
+			account.setCommonName(context.getStringAttribute("cn"));
+			account.setEmail(context.getStringAttribute("mail"));
+			account.setOrg(context.getStringAttribute("o"));
+			account.setCommonName(context.getStringAttribute("sn"));
+			account.setCommonName(context.getStringAttribute("givenName"));
+			account.setOrg(context.getStringAttribute("title"));
+			account.setOrg(context.getStringAttribute("postalAddress"));
+			account.setOrg(context.getStringAttribute("postalCode"));
+			account.setOrg(context.getStringAttribute("registeredAddress"));
+			account.setOrg(context.getStringAttribute("postOfficeBox"));
+			account.setOrg(context.getStringAttribute("physicalDeliveryOfficeName"));
+
+			// TODO requires more settings
+			//user.setRole(context.getStringAttribute("role"));
+			
+			return account;
+		}
 	}
 	
 	private boolean isNullValue(String str) {
@@ -242,35 +283,6 @@ public final class AccountDaoImpl implements AccountDao{
 		}
 	}
 
-	private static class AccountContextMapper implements ContextMapper {
-
-		@Override
-		public Object mapFromContext(Object ctx) {
-			
-			DirContextAdapter context = (DirContextAdapter) ctx;
-			DistinguishedName dn = new DistinguishedName(context.getDn());
-			Account user = new Account();
-			user.setRole(dn.getLdapRdn(0).getComponent().getValue());
-			user.setUid(context.getStringAttribute("uid"));
-			user.setCommonName(context.getStringAttribute("cn"));
-			user.setEmail(context.getStringAttribute("mail"));
-			user.setOrg(context.getStringAttribute("o"));
-			user.setCommonName(context.getStringAttribute("sn"));
-			user.setCommonName(context.getStringAttribute("givenName"));
-			user.setOrg(context.getStringAttribute("title"));
-			user.setOrg(context.getStringAttribute("postalAddress"));
-			user.setOrg(context.getStringAttribute("postalCode"));
-			user.setOrg(context.getStringAttribute("registeredAddress"));
-			user.setOrg(context.getStringAttribute("postOfficeBox"));
-			user.setOrg(context.getStringAttribute("physicalDeliveryOfficeName"));
-
-			//user.setGeographicArea(context.getStringAttribute("geographicArea"));
-			//user.setRole(context.getStringAttribute("role"));
-			// TODO requires more settings
-			
-			return user;
-		}
-	}
 
 	@Override
 	public List<Account> findNewPasswordBeforeDate(Date date) {

@@ -52,7 +52,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <bean id="contextSource" class="org.springframework.ldap.core.support.LdapContextSource">
         <property name="url" value="ldap://localhost:389" />
         <property name="base" value="dc=georchestra,dc=org" />
-        <property name="userDn" value="cn=admin" />
+        <property name="userDn" value="cn=admin,dc=georchestra,dc=org" />
         <property name="password" value="qwer1234" />
     </bean>
     

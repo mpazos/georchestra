@@ -22,11 +22,10 @@ public class Account implements Serializable {
 	
 	// main data
 	private String uid; // uid
-	private String commonName; // cn
-	private String surname; // sn
+	private String commonName; // cn mandatory
+	private String surname; // sn  mandatory
 	private String org; // o
 	private String role; // 
-	private String geographicArea; // TODO new field in ldap is required
 	private String email;// mail
 	private String phone;// telephoneNumber 
 	private String details; // description
@@ -35,7 +34,7 @@ public class Account implements Serializable {
 
 	// user details
 	// sn, givenName, o, title, postalAddress, postalCode, registeredAddress, postOfficeBox, physicalDeliveryOfficeName
-	private String givenName; // givenName
+	private String givenName; // givenName (optonal)
 	private String title; // title
 	private String postalAddress; //postalAddress
 	private String postalCode; // postalCode
@@ -46,7 +45,7 @@ public class Account implements Serializable {
 	@Override
 	public String toString() {
 		return "Account [uid=" + uid + ", name=" + commonName + ", org=" + org
-				+ ", role=" + role + ", geographicArea=" + geographicArea
+				+ ", role=" + role 
 				+ ", email=" + email + ", phone=" + phone + ", details="
 				+ details + ", password=" + password + ", newPassword="
 				+ newPassword + ", surname=" + surname + ", givenName="
@@ -82,12 +81,6 @@ public class Account implements Serializable {
 	}
 	public void setRole(String role) {
 		this.role = role;
-	}
-	public String getGeographicArea() {
-		return geographicArea;
-	}
-	public void setGeographicArea(String geographicArea) {
-		this.geographicArea = geographicArea;
 	}
 	public String getEmail() {
 		return email;
