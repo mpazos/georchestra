@@ -6,28 +6,99 @@ import java.util.List;
 import org.georchestra.ldapadmin.dto.Account;
 
 /**
+ * Defines the operations to maintain the set of account.
  * 
  * @author Mauricio Pazos
  *
  */
 public interface AccountDao {
 
+	
+	/**
+	 * Returns all accounts
+	 * 
+	 * @return List of {@link Account}
+	 * @throws DataServiceException
+	 */
 	List<Account> findAll() throws DataServiceException;
 	
-	void create(final Account account, final String groupID) throws DataServiceException, DuplicatedEmailException, RequiredFiedException;
+	/**
+	 * Creates a new account
+	 * 
+	 * @param account
+	 * @param groupID
+	 * @throws DataServiceException
+	 * @throws DuplicatedEmailException
+	 * @throws RequiredFiedException
+	 */
+	void create(final Account account, final String groupID) throws DataServiceException, DuplicatedEmailException;
 
-	void update(final Account account) throws DataServiceException, DuplicatedEmailException, RequiredFiedException;
+	/**
+	 * Updates the user account
+	 * @param account
+	 * @throws DataServiceException
+	 * @throws DuplicatedEmailException
+	 * @throws RequiredFiedException
+	 */
+	void update(final Account account) throws DataServiceException, DuplicatedEmailException;
 
-	void changePassword(String uid, String password)throws DataServiceException;
+	/**
+	 * Changes the user password
+	 * 
+	 * @param uid
+	 * @param password
+	 * @throws DataServiceException
+	 */
+	void changePassword(final String uid, final String password)throws DataServiceException;
 
+	/**
+	 * Remove the new password
+	 * 
+	 * @param uid
+	 * @throws DataServiceException
+	 * @throws NotFoundException
+	 */
 	void resetNewPassword(final String uid)throws DataServiceException, NotFoundException;
 
+	/**
+	 * Delets the account
+	 * 
+	 * @param account
+	 * @throws DataServiceException
+	 * @throws NotFoundException
+	 */
 	void delete(final Account account) throws DataServiceException, NotFoundException;
 
+	/**
+	 * Returns the account that contains the uid provided as parameter.
+	 * 
+	 * @param uid
+	 * 
+	 * @return {@link Account}
+	 * 
+	 * @throws DataServiceException
+	 * @throws NotFoundException
+	 */
 	Account findByUID(final String uid)throws DataServiceException, NotFoundException;
 
-	Account findByEmail(String email) throws DataServiceException, NotFoundException;
+	/**
+	 * Returns the account that contains the email provided as parameter.
+	 * 
+	 * @param email
+	 * @return {@link Account}
+	 * 
+	 * @throws DataServiceException
+	 * @throws NotFoundException
+	 */
+	Account findByEmail(final String email) throws DataServiceException, NotFoundException;
 	
 
-	List<Account> findNewPasswordBeforeDate(Date date);
+	/**
+	 * Returns the accounts which new password befor the date
+	 *  
+	 * @param date
+	 * 
+	 * @return {@link Account}
+	 */
+	List<Account> findNewPasswordBeforeDate(final Date date);
 }

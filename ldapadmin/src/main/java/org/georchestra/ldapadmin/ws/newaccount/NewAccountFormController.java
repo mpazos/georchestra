@@ -9,7 +9,6 @@ import java.util.UUID;
 import org.georchestra.ldapadmin.ds.AccountDao;
 import org.georchestra.ldapadmin.ds.DataServiceException;
 import org.georchestra.ldapadmin.ds.DuplicatedEmailException;
-import org.georchestra.ldapadmin.ds.RequiredFiedException;
 import org.georchestra.ldapadmin.dto.Account;
 import org.georchestra.ldapadmin.dto.AccountFactory;
 import org.georchestra.ldapadmin.dto.Group;
@@ -95,7 +94,7 @@ public final class NewAccountFormController {
 		// insert the new account 
 		try {
 			
-			Account account =  AccountFactory.create(
+			Account account =  AccountFactory.createBasic(
 					UUID.randomUUID().toString(),
 					formBean.getPassword(),
 					formBean.getFirstName(),
@@ -123,11 +122,7 @@ public final class NewAccountFormController {
 
 			result.addError(new ObjectError("email", "Exist a user with this e-mail"));
 			return "createAccountForm";
-			
-		} catch (RequiredFiedException e) {
-			
-			throw new IOException(e);
-		}
+		} 
 	}
 
 

@@ -9,7 +9,6 @@ import org.georchestra.ldapadmin.ds.AccountDao;
 import org.georchestra.ldapadmin.ds.DataServiceException;
 import org.georchestra.ldapadmin.ds.DuplicatedEmailException;
 import org.georchestra.ldapadmin.ds.NotFoundException;
-import org.georchestra.ldapadmin.ds.RequiredFiedException;
 import org.georchestra.ldapadmin.dto.Account;
 import org.georchestra.ldapadmin.mailservice.MailService;
 import org.georchestra.ldapadmin.ws.utils.PasswordUtils;
@@ -123,9 +122,6 @@ public class LostPasswordFormController  {
 		
 			throw new IOException(e);
 
-		} catch (RequiredFiedException e) {
-			
-			throw new IOException(e);
 		}
 	}
 }

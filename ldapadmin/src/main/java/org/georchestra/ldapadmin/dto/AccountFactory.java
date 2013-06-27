@@ -15,6 +15,63 @@ public class AccountFactory {
 
 	private AccountFactory(){}
 
+
+	private static String formatCommonName(String givenName, String surname) {
+		return givenName + " " + surname;
+	}
+//
+//	public static Account create(final String uid) {
+//		Account a = new AccountImpl();
+//		
+//		a.setUid(uid);
+//		
+//		return a;
+//	}
+
+	/**
+	 * Basic data
+	 * 
+	 * @param uid
+	 * @param password
+	 * @param firstName
+	 * @param surname
+	 * @param email
+	 * @param phone
+	 * @param org
+	 * @param details
+	 * @return
+	 */
+	public static Account createBasic(
+			String uid,
+			String password,
+			String firstName, 
+			String surname, 
+			String email, 
+			String phone,
+			String org, 
+			String details) {
+		
+		Account account = new AccountImpl();
+		
+		account.setUid(uid);
+		account.setPassword(password);
+
+		account.setGivenName(firstName);
+		account.setSurname(surname);
+
+		account.setCommonName(formatCommonName(firstName ,surname));
+
+		account.setEmail(email);
+		account.setPhone(phone);
+		account.setOrg(org);
+		account.setDetails(details);
+		
+		return account;
+	}
+
+	/**
+	 * Creates an account object with detailed data.
+	 */
 	public static Account createDetails(
 			String uid, 
 			String givenName,
@@ -48,84 +105,27 @@ public class AccountFactory {
 		return a;
 	}
 
-	private static String formatCommonName(String givenName, String surname) {
-		return givenName + " " + surname;
-	}
-
-	public static Account create(final String uid) {
-		Account a = new AccountImpl();
-		
-		a.setUid(uid);
-		
-		return a;
-	}
-
-	public static Account create(
-			String uid,
-			String password,
-			String firstName, String surname, 
-			String email, String phone,
-			String org, String details) {
-		
-		Account account = new AccountImpl();
-		
-		account.setUid(uid);
-		account.setPassword(password);
-
-		account.setGivenName(firstName);
-		account.setSurname(surname);
-
-		account.setCommonName(formatCommonName(firstName ,surname));
-
-		account.setEmail(email);
-		account.setPhone(phone);
-		account.setOrg(org);
-		account.setDetails(details);
-		
-		return account;
-	}
-
-	public static Account create(
-			String role, 
-			String uid,
-			String cn, 
-			String sn,
-			String givenName, 
-			String mail,
-			String o, 
-			String title,
-			String postalAddress, 
-			String postalCode,
-			String registeredAddress, 
-			String postOfficeBox,
-			String physicalDeliveryOfficeName) {
-		
-		Account account = new AccountImpl();
-		
-		account.setRole(role);
-		
-		account.setUid(uid);
-		
-		account.setCommonName(cn);
-		account.setSurname(sn);
-		account.setGivenName(givenName);
-
-		account.setEmail(mail);
-		account.setOrg(o);
-		account.setTitle(title);
-		
-		account.setPostalAddress(postalAddress);
-		account.setPostalCode(postalCode);
-		account.setRegisteredAddress(registeredAddress);
-		account.setPostOfficeBox(postOfficeBox);
-		account.setPhysicalDeliveryOfficeName(physicalDeliveryOfficeName);
-		
-		
-		return account;
-	}
-
-	public static Account create(
-			String role, 
+	/**
+	 * Creates an account object with all data.
+	 * 
+	 * @param uid
+	 * @param cn
+	 * @param surname
+	 * @param givenName
+	 * @param email
+	 * @param org
+	 * @param title
+	 * @param phone
+	 * @param description
+	 * @param postalAddress
+	 * @param postalCode
+	 * @param registeredAddress
+	 * @param postOfficeBox
+	 * @param physicalDeliveryOfficeName
+	 * 
+	 * @return {@link Account}
+	 */
+	public static Account createFull(
 			String uid,
 			String cn, 
 			String surname,
@@ -135,7 +135,6 @@ public class AccountFactory {
 			String title,
 			String phone, 
 			String description,
-			String pwd, 
 			String postalAddress,
 			String postalCode, 
 			String registeredAddress ,
@@ -143,8 +142,6 @@ public class AccountFactory {
 			String physicalDeliveryOfficeName) {
 		
 		Account a = new AccountImpl();
-		
-		a.setRole(role);
 		
 		a.setUid(uid);
 		a.setCommonName(cn);
@@ -158,14 +155,11 @@ public class AccountFactory {
 		a.setPhone(phone);
 		a.setDetails(description);
 		
-		a.setPassword(pwd);
-
 		a.setPostalAddress(postalAddress);
 		a.setPostalCode(postalCode);
 		a.setRegisteredAddress(registeredAddress);
 		a.setPostOfficeBox(postOfficeBox);
 		a.setPhysicalDeliveryOfficeName(physicalDeliveryOfficeName);
-		
 		
 		return a;
 	}
