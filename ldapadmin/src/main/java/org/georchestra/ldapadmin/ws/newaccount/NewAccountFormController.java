@@ -12,6 +12,7 @@ import org.georchestra.ldapadmin.ds.DuplicatedEmailException;
 import org.georchestra.ldapadmin.ds.RequiredFiedException;
 import org.georchestra.ldapadmin.dto.Account;
 import org.georchestra.ldapadmin.dto.AccountFactory;
+import org.georchestra.ldapadmin.dto.Group;
 import org.georchestra.ldapadmin.mailservice.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -104,7 +105,9 @@ public final class NewAccountFormController {
 					formBean.getOrg(),
 					formBean.getDetails() );
 
-			this.accountDao.create(account, this.moderatedSignup);
+			String groupID = this.moderatedSignup ? Group.PENDING_USERS : Group.SV_USER; 
+			
+			this.accountDao.create(account, groupID);
 
 			MailService.send(account.getUid(), account.getCommonName());
 			

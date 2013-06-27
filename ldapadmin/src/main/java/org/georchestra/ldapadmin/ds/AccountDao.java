@@ -14,7 +14,7 @@ public interface AccountDao {
 
 	List<Account> findAll() throws DataServiceException;
 	
-	void create(final Account account, final boolean pending) throws DataServiceException, DuplicatedEmailException, RequiredFiedException;
+	void create(final Account account, final String groupID) throws DataServiceException, DuplicatedEmailException, RequiredFiedException;
 
 	void update(final Account account) throws DataServiceException, DuplicatedEmailException, RequiredFiedException;
 

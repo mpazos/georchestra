@@ -10,7 +10,6 @@ import javax.naming.Name;
 
 import org.georchestra.ldapadmin.dto.Account;
 import org.georchestra.ldapadmin.dto.AccountFactory;
-import org.georchestra.ldapadmin.dto.Group;
 import org.springframework.ldap.core.ContextMapper;
 import org.springframework.ldap.core.DirContextAdapter;
 import org.springframework.ldap.core.DirContextOperations;
@@ -58,31 +57,24 @@ public final class AccountDaoImpl implements AccountDao{
 	
 
 	@Override
-	public void create(final Account account, final boolean pending) throws DataServiceException, DuplicatedEmailException, RequiredFiedException{
+	public void create(final Account account, final String groupID) throws DataServiceException, DuplicatedEmailException, RequiredFiedException{
 	
 		assert account != null;
 		
 		checkMandatoryFields(account);
 		
-		Name dn = buildDn(account.getUid());
-		
-		DirContextAdapter context = new DirContextAdapter(dn);
-		mapToContext(account, context);
-		
-		ldapTemplate.bind(dn, context, null);
-		
-		if(pending){
-			// TODO insert the account entry in ldap at the PENDING_USERS groups. 
-			// Then admin will then be able to move them to SV_USERS group.
-			throw new UnsupportedOperationException("implement me!");
-		} else {
-			try {
-				
-				this.groupDao.addUser(Group.SV_USER, account.getUid()); 
-				
-			} catch (NotFoundException e) {
-				throw new DataServiceException( e );
-			}
+		try {
+			Name dn = buildDn( account.getUid() );
+
+			DirContextAdapter context = new DirContextAdapter(dn);
+			mapToContext(account, context);
+
+			this.ldapTemplate.bind(dn, context, null);
+
+			this.groupDao.addUser( groupID, account.getUid() );
+
+		} catch (NotFoundException e) {
+			throw new DataServiceException(e);
 		}
 	}
 
