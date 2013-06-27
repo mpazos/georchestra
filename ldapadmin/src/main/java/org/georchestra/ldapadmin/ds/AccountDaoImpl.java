@@ -10,6 +10,7 @@ import javax.naming.Name;
 
 import org.georchestra.ldapadmin.dto.Account;
 import org.georchestra.ldapadmin.dto.AccountFactory;
+import org.georchestra.ldapadmin.dto.Group;
 import org.springframework.ldap.core.ContextMapper;
 import org.springframework.ldap.core.DirContextAdapter;
 import org.springframework.ldap.core.DirContextOperations;
@@ -25,13 +26,22 @@ import org.springframework.ldap.filter.EqualsFilter;
 public final class AccountDaoImpl implements AccountDao{
 	
 	private LdapTemplate ldapTemplate;
-	
+	private GroupDao groupDao;
+
 	public LdapTemplate getLdapTemplate() {
 		return ldapTemplate;
 	}
 
 	public void setLdapTemplate(LdapTemplate ldapTemplate) {
 		this.ldapTemplate = ldapTemplate;
+	}
+
+	public GroupDao getGroupDao() {
+		return groupDao;
+	}
+
+	public void setGroupDao(GroupDao groupDao) {
+		this.groupDao = groupDao;
 	}
 	
 	/**
@@ -40,62 +50,78 @@ public final class AccountDaoImpl implements AccountDao{
 	 * @return List of accounts
 	 */
 	@Override
-	public List<Account> findAll() throws AccountDaoException{
+	public List<Account> findAll() throws DataServiceException{
 		
 		EqualsFilter filter = new EqualsFilter("objectClass", "person");
 		return ldapTemplate.search(DistinguishedName.EMPTY_PATH, filter.encode(), getContextMapper());
 	}
-
-	@Override
-	public List<String> findAllGroups() throws AccountDaoException {
-		
-		EqualsFilter filter = new EqualsFilter("objectClass", "posixGroup");
-		return ldapTemplate.search(DistinguishedName.EMPTY_PATH, filter.encode(), getContextMapperGroup());
-	}
 	
 
 	@Override
-	public void create(final Account account, final boolean pending) throws AccountDaoException, DuplicatedEmailException, RequiredFiedException{
+	public void create(final Account account, final boolean pending) throws DataServiceException, DuplicatedEmailException, RequiredFiedException{
 	
 		assert account != null;
-		
-		// TODO implement the following logic
-		// insert the account entry in ldap at the PENDING_USERS groups. 
-		// Then admin will then be able to move them to SV_USERS group.
-		// if pending is false the entry is set at SV_USERS group.
 		
 		checkMandatoryFields(account);
 		
 		Name dn = buildDn(account.getUid());
 		
 		DirContextAdapter context = new DirContextAdapter(dn);
-		mapToContext(account, context, true);
+		mapToContext(account, context);
 		
 		ldapTemplate.bind(dn, context, null);
+		
+		if(pending){
+			// TODO insert the account entry in ldap at the PENDING_USERS groups. 
+			// Then admin will then be able to move them to SV_USERS group.
+			throw new UnsupportedOperationException("implement me!");
+		} else {
+			try {
+				
+				this.groupDao.addUser(Group.SV_USER, account.getUid()); 
+				
+			} catch (NotFoundException e) {
+				throw new DataServiceException( e );
+			}
+		}
 	}
 
 
+
 	@Override
-	public void update(final Account account) throws AccountDaoException, DuplicatedEmailException, RequiredFiedException{
+	public void update(final Account account) throws DataServiceException, DuplicatedEmailException, RequiredFiedException{
+
+		// checks mandatory fields
+		if( account.getUid().length() == 0) {
+			throw new RequiredFiedException("uid is required");
+		}
+		if( account.getSurname().length()== 0 ){
+			throw new RequiredFiedException("surname is required");
+		}
+		if( account.getCommonName().length()== 0 ){
+			throw new RequiredFiedException("common name is required");
+		}
+		if( account.getGivenName().length()== 0 ){
+			throw new RequiredFiedException("given name is required");
+		}
 		
-		checkMandatoryFields(account);
-		
+		 // update the entry in the ldap tree
 		Name dn = buildDn(account.getUid());
 		DirContextOperations context = ldapTemplate.lookupContext(dn);
 
-		mapToContext(account, context, false);
+		mapDetailsToContext(account, context);
 		
 		ldapTemplate.modifyAttributes(context);
 	}
 
 
 	@Override
-	public void delete(final Account account) throws AccountDaoException, NotFoundException{
+	public void delete(final Account account) throws DataServiceException, NotFoundException{
 		ldapTemplate.unbind(buildDn(account.getUid()));
 	}
 
 	@Override
-	public Account findByUID(final String uid) throws AccountDaoException, NotFoundException{
+	public Account findByUID(final String uid) throws DataServiceException, NotFoundException{
 
 		DistinguishedName dn = buildDn(uid);
 		Account a = (Account) ldapTemplate.lookup(dn, getContextMapper());
@@ -109,7 +135,7 @@ public final class AccountDaoImpl implements AccountDao{
 	}
 
 	@Override
-	public Account findByEmail(final String email) throws AccountDaoException, NotFoundException {
+	public Account findByEmail(final String email) throws DataServiceException, NotFoundException {
 
 		DistinguishedName dn = new DistinguishedName();
 		dn.add("email", email);
@@ -129,10 +155,6 @@ public final class AccountDaoImpl implements AccountDao{
 	}
 	
 	
-	
-	private ContextMapper getContextMapperGroup() {
-		return new GroupContextMapper();
-	}
 	
 
 	/**
@@ -199,7 +221,7 @@ public final class AccountDaoImpl implements AccountDao{
 	 * @param context
 	 * @param createEntry
 	 */
-	private void mapToContext(Account account, DirContextOperations context, boolean createEntry) {
+	private void mapToContext(Account account, DirContextOperations context) {
 		
 		context.setAttributeValues("objectclass", new String[] { "top", "person", "organizationalPerson", "inetOrgPerson" });
 
@@ -226,12 +248,59 @@ public final class AccountDaoImpl implements AccountDao{
 			context.setAttributeValue("givenName", account.getGivenName());
 		}
 		
-		if(createEntry){
-			// this field is part of entry, thus it shouldn't be updated. Uid update is not required in this application.
-			context.setAttributeValue("uid", account.getUid());
-		}
+		context.setAttributeValue("uid", account.getUid());
 
 		context.setAttributeValue("mail", account.getEmail());
+		
+		// additional
+		if( !isNullValue(account.getOrg()) ){
+			context.setAttributeValue("o", account.getOrg());
+		}
+
+		if( !isNullValue(account.getTitle()) ){
+			context.setAttributeValue("title", account.getTitle());
+		}
+		if( !isNullValue(account.getPostalAddress()) ){
+			context.setAttributeValue("postalAddress", account.getPostalAddress());
+		}
+		if( !isNullValue(account.getPostalCode()) ){
+			context.setAttributeValue("postalCode", account.getPostalCode());
+		}
+		if( !isNullValue(account.getRegisteredAddress()) ){
+			context.setAttributeValue("registeredAddress", account.getRegisteredAddress());
+		}
+		if( !isNullValue(account.getPostOfficeBox()) ){
+			context.setAttributeValue("postOfficeBox", account.getPostOfficeBox());
+		}
+		if( !isNullValue(account.getPhysicalDeliveryOfficeName()) ){
+			context.setAttributeValue("physicalDeliveryOfficeName", account.getPhysicalDeliveryOfficeName());
+		}
+	}
+	
+	private void mapDetailsToContext(Account account, DirContextOperations context){
+		
+		context.setAttributeValues("objectclass", new String[] { "top", "person", "organizationalPerson", "inetOrgPerson" });
+
+		// person attributes
+		context.setAttributeValue("sn", account.getSurname());
+
+		context.setAttributeValue("cn", account.getCommonName() );
+		
+		if( !isNullValue(account.getDetails())){
+			context.setAttributeValue("description", account.getDetails());
+		}
+
+		if( !isNullValue(account.getPhone()) ){
+			context.setAttributeValue("telephoneNumber", account.getPhone());
+		}
+
+		// organizationalPerson attributes
+		// any attribute is set right now (when the account is created)
+		
+		// inetOrgPerson attributes
+		if( !isNullValue(account.getGivenName()) ){
+			context.setAttributeValue("givenName", account.getGivenName());
+		}
 		
 		// additional
 		if( !isNullValue(account.getOrg()) ){
@@ -265,6 +334,7 @@ public final class AccountDaoImpl implements AccountDao{
 			
 			DirContextAdapter context = (DirContextAdapter) ctx;
 			DistinguishedName dn = new DistinguishedName(context.getDn());
+			
 			Account account = AccountFactory.create(
 					dn.getLdapRdn(0).getComponent().getValue(),
 					context.getStringAttribute("uid"),
@@ -300,16 +370,8 @@ public final class AccountDaoImpl implements AccountDao{
 		return false;
 	}
 
-	private static class GroupContextMapper implements ContextMapper {
-
-		@Override
-		public Object mapFromContext(Object ctx) {
-			
-			DirContextAdapter context = (DirContextAdapter) ctx;
-
-			return context.getStringAttribute("cn");
-		}
-	}
+	
+	
 
 
 	@Override
@@ -322,14 +384,14 @@ public final class AccountDaoImpl implements AccountDao{
 	 * Resets the new password
 	 */
 	@Override
-	public void resetNewPassword(String uid) throws AccountDaoException,
+	public void resetNewPassword(String uid) throws DataServiceException,
 			NotFoundException {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void changePassword(String uid, String password) throws AccountDaoException {
+	public void changePassword(String uid, String password) throws DataServiceException {
 		// TODO Auto-generated method stub
 		
 		

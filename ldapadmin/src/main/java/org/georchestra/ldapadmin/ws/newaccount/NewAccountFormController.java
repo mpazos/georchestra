@@ -4,11 +4,10 @@
 package org.georchestra.ldapadmin.ws.newaccount;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.UUID;
 
 import org.georchestra.ldapadmin.ds.AccountDao;
-import org.georchestra.ldapadmin.ds.AccountDaoException;
+import org.georchestra.ldapadmin.ds.DataServiceException;
 import org.georchestra.ldapadmin.ds.DuplicatedEmailException;
 import org.georchestra.ldapadmin.ds.RequiredFiedException;
 import org.georchestra.ldapadmin.dto.Account;
@@ -113,7 +112,7 @@ public final class NewAccountFormController {
 			
 			return "welcomeNewUser";
 			
-		} catch (AccountDaoException e) {
+		} catch (DataServiceException e) {
 			
 			throw new IOException(e);
 			
@@ -129,15 +128,4 @@ public final class NewAccountFormController {
 	}
 
 
-	
-	private List<String> findGroups() throws IOException{
-		
-		try {
-			List<String> list = accountDao.findAllGroups();
-			
-			return list;
-		} catch (AccountDaoException e) {
-			throw new IOException(e);
-		}
-	}
 }

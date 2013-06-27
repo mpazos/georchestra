@@ -1,54 +1,19 @@
 package org.georchestra.ldapadmin.dto;
 
-import java.util.UUID;
 
+/**
+ * Account factory. 
+ * 
+ * <p>
+ * This factory provide the convenient account object (data transfer object) used by this application.
+ * </p>
+ * 
+ * @author Mauricio Pazos
+ *
+ */
 public class AccountFactory {
 
 	private AccountFactory(){}
-	
-	public static Account createMock(){
-		
-		Account a = new AccountImpl();
-		
-		a.setUid("testeditor");
-		
-		a.setDetails("editor");
-		a.setSurname("surname");
-		a.setOrg("georchestra");
-
-		a.setGivenName("given name");
-		a.setPhysicalDeliveryOfficeName("Physical Delivery Office");
-		a.setPostalAddress("Postal Address");
-		a.setPostalCode("Postal Code");
-		a.setPostOfficeBox("PostOffice Box");
-		a.setRegisteredAddress("Registered Address");
-		a.setTitle("Title");
-
-		return a;
-
-	}
-//	
-//	public static Account createDefault(){
-//		
-//		Account a = new AccountImpl();
-//		
-//		a.setUid("");
-//		
-//		a.setDetails("");
-//		a.setSurname("");
-//		a.setOrg("");
-//
-//		a.setGivenName("");
-//		a.setPhysicalDeliveryOfficeName("");
-//		a.setPostalAddress("");
-//		a.setPostalCode("");
-//		a.setPostOfficeBox("");
-//		a.setRegisteredAddress("");
-//		a.setTitle("");
-//
-//		return a;
-//
-//	}
 
 	public static Account createDetails(
 			String uid, 

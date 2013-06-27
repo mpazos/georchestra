@@ -6,7 +6,7 @@ package org.georchestra.ldapadmin.ws.lostpassword;
 import java.io.IOException;
 
 import org.georchestra.ldapadmin.ds.AccountDao;
-import org.georchestra.ldapadmin.ds.AccountDaoException;
+import org.georchestra.ldapadmin.ds.DataServiceException;
 import org.georchestra.ldapadmin.ds.DuplicatedEmailException;
 import org.georchestra.ldapadmin.ds.NotFoundException;
 import org.georchestra.ldapadmin.ds.RequiredFiedException;
@@ -109,7 +109,7 @@ public class LostPasswordFormController  {
 			
 			return "emailWasSentForm";
 			
-		} catch (AccountDaoException e) {
+		} catch (DataServiceException e) {
 			
 			throw new IOException(e);
 			

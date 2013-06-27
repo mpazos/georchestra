@@ -6,7 +6,7 @@ package org.georchestra.ldapadmin.ws.edituserdetails;
 import java.io.IOException;
 
 import org.georchestra.ldapadmin.ds.AccountDao;
-import org.georchestra.ldapadmin.ds.AccountDaoException;
+import org.georchestra.ldapadmin.ds.DataServiceException;
 import org.georchestra.ldapadmin.dto.Account;
 import org.georchestra.ldapadmin.dto.AccountFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -139,7 +139,7 @@ public class EditUserDetailsFormController {
 
 			return "editUserDetailsSuccess";
 			
-		} catch (AccountDaoException e) {
+		} catch (DataServiceException e) {
 			
 			throw new IOException(e);
 			

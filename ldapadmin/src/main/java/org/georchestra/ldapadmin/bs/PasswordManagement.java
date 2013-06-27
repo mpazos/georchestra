@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.georchestra.ldapadmin.ds.AccountDao;
-import org.georchestra.ldapadmin.ds.AccountDaoException;
+import org.georchestra.ldapadmin.ds.DataServiceException;
 import org.georchestra.ldapadmin.ds.AccountDaoImpl;
 import org.georchestra.ldapadmin.ds.NotFoundException;
 import org.georchestra.ldapadmin.dto.Account;
@@ -48,7 +48,7 @@ public final class PasswordManagement {
 			try {
 				accountDao.resetNewPassword(account.getUid());
 				
-			} catch (AccountDaoException e) {
+			} catch (DataServiceException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (NotFoundException e) {

@@ -6,7 +6,7 @@ package org.georchestra.ldapadmin.ws.changepassword;
 import java.io.IOException;
 
 import org.georchestra.ldapadmin.ds.AccountDao;
-import org.georchestra.ldapadmin.ds.AccountDaoException;
+import org.georchestra.ldapadmin.ds.DataServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -91,7 +91,7 @@ public class ChangePasswordFormController {
 			
 			return "redirect:/public/accounts/userdetails?uid=" + uid;			
 			
-		} catch (AccountDaoException e) {
+		} catch (DataServiceException e) {
 			
 			throw new IOException(e);
 			
