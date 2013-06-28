@@ -43,10 +43,12 @@ import org.springframework.web.bind.support.SessionStatus;
 public class LostPasswordFormController  {
 	
 	private AccountDao accountDao;
+	private MailService mailService;
 	
 	@Autowired
-	public LostPasswordFormController( AccountDao dao){
+	public LostPasswordFormController( AccountDao dao, MailService mailSrv){
 		this.accountDao = dao;
+		this.mailService = mailSrv;
 	}
 	
 	@InitBinder
@@ -99,7 +101,7 @@ public class LostPasswordFormController  {
 			
 			this.accountDao.addNewPassword(account.getUid(), newPassword);
 
-			MailService.sendPassowrd(account.getUid(), account.getCommonName(), newPassword);
+			this.mailService.sendPassowrd(account.getUid(), account.getCommonName(), newPassword, account.getEmail());
 			
 			sessionStatus.setComplete();
 			

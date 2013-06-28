@@ -6,13 +6,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 
 /**
- * 
+ * Validates the password form. 
  * 
  * 
  * @author Mauricio Pazos
  *
  */
-public class LostPasswordFormValidator {
+class LostPasswordFormValidator {
 
 	public void validate(LostPasswordFormBean formBean, BindingResult result) {
 		

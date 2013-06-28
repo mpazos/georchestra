@@ -1,0 +1,6 @@
+This mail is the reply to your request for a new password.
+<p> 
+Password: {pwd}
+</p>
+
+

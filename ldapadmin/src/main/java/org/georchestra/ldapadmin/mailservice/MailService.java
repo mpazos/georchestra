@@ -3,6 +3,10 @@
  */
 package org.georchestra.ldapadmin.mailservice;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
 /**
  * Facade of mail service.
  * 
@@ -10,35 +14,43 @@ package org.georchestra.ldapadmin.mailservice;
  *
  */
 public final class MailService {
+	
+	protected static final Log LOG = LogFactory.getLog(MailService.class.getName());
 
-	public static void send(String uid, String name) {
-		// TODO Auto-generated method stub
-		
-		String body = writeNewAccoutnMail(uid, name);
-		
-		System.out.println("send mail: " +  body);
-		
+	private EmailFactoryImpl emailFactory;
+	
+	
+	@Autowired
+	public MailService(EmailFactoryImpl emailFactory) {
+		this.emailFactory = emailFactory;
 	}
 
-	private static String writeNewAccoutnMail(String uid, String name) {
-		String body = "The following user requires an account: " + uid + " - " + name;
+
+	public void sendNewAccount(final String uid, final String userName, final String moderatorEmail) {
+
+		try {
+			NewAccountEmail email = this.emailFactory.createNewAccountEmail(new String[]{moderatorEmail});
+			
+			email.sendMsg(userName, uid);
 		
-		return body;
+		} catch (Exception e) {
+			
+			LOG.error(e);
+		} 
 	}
 
-	public static void sendPassowrd(String uid, String name, String newPassword) {
-		String body = writeNewPasswordMail(uid, name, newPassword);
+	public void sendPassowrd(final String uid, final String userName, final String newPassword, final String toEmail) {
+
+		try {
+			NewPasswordEmail email = this.emailFactory.createNewPasswordEmail(new String[]{toEmail});
+			
+			email.sendMsg(userName, uid, newPassword);
 		
-		System.out.println("send mail: " +  body);
-		
+		} catch (Exception e) {
+			
+			LOG.error(e);
+		} 
 	}
 
-	private static String writeNewPasswordMail(final String uid, final String name, final String newPassword) {
-		
-		// TODO improve this text
-		String body = "A new passowrd was generated "+ newPassword + "for the user " +  name;
-		
-		return body;
-	}
 
 }

@@ -6,6 +6,7 @@ package org.georchestra.ldapadmin.ws.newaccount;
 import java.io.IOException;
 import java.util.UUID;
 
+import org.georchestra.ldapadmin.bs.Moderator;
 import org.georchestra.ldapadmin.ds.AccountDao;
 import org.georchestra.ldapadmin.ds.DataServiceException;
 import org.georchestra.ldapadmin.ds.DuplicatedEmailException;
@@ -41,12 +42,15 @@ public final class NewAccountFormController {
 	
 	private AccountDao accountDao;
 	
-	/** MODERATED_SIGNUP configuration option */
-	private boolean moderatedSignup = false; 
-	
+	private MailService mailService;
+
+	private Moderator moderator; 
+
 	@Autowired
-	public NewAccountFormController( AccountDao dao){
+	public NewAccountFormController( AccountDao dao, MailService mailSrv , Moderator moderatorRule){
 		this.accountDao = dao;
+		this.mailService = mailSrv;
+		this.moderator = moderatorRule;
 	}
 	
 	@InitBinder
@@ -85,7 +89,7 @@ public final class NewAccountFormController {
 						throws IOException {
 		
 		new AccountFormValidator().validate(formBean, result);
-		
+
 		if(result.hasErrors()){
 			
 			return "createAccountForm";
@@ -104,11 +108,13 @@ public final class NewAccountFormController {
 					formBean.getOrg(),
 					formBean.getDetails() );
 
-			String groupID = this.moderatedSignup ? Group.PENDING_USERS : Group.SV_USER; 
+			String groupID = this.moderator.requiresSignup() ? Group.PENDING_USERS : Group.SV_USER; 
 			
 			this.accountDao.create(account, groupID);
 
-			MailService.send(account.getUid(), account.getCommonName());
+			if(this.moderator.requiresSignup() ){
+				this.mailService.sendNewAccount(account.getUid(), account.getCommonName(), this.moderator.getModeratorEmail());
+			}
 			
 			sessionStatus.setComplete();
 			
