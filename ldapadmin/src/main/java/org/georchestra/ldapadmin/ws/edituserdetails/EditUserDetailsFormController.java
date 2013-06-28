@@ -7,12 +7,14 @@ import java.io.IOException;
 
 import org.georchestra.ldapadmin.ds.AccountDao;
 import org.georchestra.ldapadmin.ds.DataServiceException;
+import org.georchestra.ldapadmin.ds.DuplicatedEmailException;
 import org.georchestra.ldapadmin.dto.Account;
 import org.georchestra.ldapadmin.dto.AccountFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -115,7 +117,7 @@ public class EditUserDetailsFormController {
 	 * @throws IOException 
 	 */
 	@RequestMapping(value="/public/accounts/userdetails", method=RequestMethod.POST)
-	public String generateNewPassword(
+	public String edit(
 						@ModelAttribute EditUserDetailsFormBean formBean, 
 						BindingResult resultErrors, 
 						SessionStatus sessionStatus) 
@@ -139,14 +141,18 @@ public class EditUserDetailsFormController {
 
 			return "editUserDetailsSuccess";
 			
+		} catch (DuplicatedEmailException e) {
+
+			// right now the email cannot be edited (review requirement)
+			//resultErrors.addError(new ObjectError("email", "Exist a user with this e-mail"));
+			return "createAccountForm";
+			
 		} catch (DataServiceException e) {
 			
 			throw new IOException(e);
-			
-		} catch (Exception e) {
-			
-			throw new IOException(e);
 		} 
+		
+		
 	}
 
 	/**

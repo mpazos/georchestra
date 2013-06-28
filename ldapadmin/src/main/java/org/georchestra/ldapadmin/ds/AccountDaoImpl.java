@@ -54,7 +54,19 @@ public final class AccountDaoImpl implements AccountDao{
 		assert account != null;
 		
 		checkMandatoryFields(account);
-		
+
+		// checks unique email
+		try {
+
+			findByEmail(account.getEmail());
+			
+			throw new DuplicatedEmailException("there is a user with this email" + account.getEmail());
+			
+		} catch (NotFoundException e1) {
+			// if not exist an account with this e-mail the new account can be added. 
+		} 
+
+		// insert the new user account
 		try {
 			Name dn = buildDn( account.getUid() );
 
@@ -69,6 +81,7 @@ public final class AccountDaoImpl implements AccountDao{
 			throw new DataServiceException(e);
 		}
 	}
+
 
 	/**
 	 * @see {@link AccountDao#update(Account)}
@@ -90,7 +103,21 @@ public final class AccountDaoImpl implements AccountDao{
 			throw new IllegalArgumentException("given name is required");
 		}
 		
-		 // update the entry in the ldap tree
+		// checks unique email
+		try {
+
+			// if the email is found in other account different that this account, the new email cannot be used.
+			Account foundAccount = findByEmail(account.getEmail());
+			
+			if( !foundAccount.getUid().equals(account.getUid()) ){
+				throw new DuplicatedEmailException("there is a user with this email" + account.getEmail());
+			}
+			
+		} catch (NotFoundException e1) {
+			// if not exist an account with this e-mail the it can be part of the updated account. 
+		} 
+		
+		// update the entry in the ldap tree
 		Name dn = buildDn(account.getUid());
 		DirContextOperations context = ldapTemplate.lookupContext(dn);
 
@@ -197,7 +224,7 @@ public final class AccountDaoImpl implements AccountDao{
 			throw new IllegalArgumentException("password is requird");
 		}
 		if( a.getEmail().length() <= 0){
-			throw new IllegalArgumentException("mail is requird");
+			throw new IllegalArgumentException("email is requird");
 		}
 		
 	}
@@ -364,6 +391,8 @@ public final class AccountDaoImpl implements AccountDao{
 		Name dn = buildDn(uid);
 		DirContextOperations context = ldapTemplate.lookupContext(dn);
 		
+		// the followint acction remove the old password. It there are two passowrd (old and new passowrd) they will 
+		// be replaced by a single user password
 		context.setAttributeValue("userPassword", password);
 		
 		ldapTemplate.modifyAttributes(context);
@@ -371,6 +400,13 @@ public final class AccountDaoImpl implements AccountDao{
 
 
 	/**
+	 * Adds the new password in the user password array. 
+	 * The new password is maintained in array with two userPassword attributes.
+	 * <pre>
+	 * Format: 
+	 * userPassword[0] : old password
+	 * userPassword[1] : new password
+	 * </pre>
 	 * @see {@link AccountDao#addNewPassword(String, String)}
 	 */
 	@Override
@@ -386,7 +422,16 @@ public final class AccountDaoImpl implements AccountDao{
 		Name dn = buildDn(uid);
 		DirContextOperations context = ldapTemplate.lookupContext(dn);
 		
-		context.addAttributeValue("userPassword", newPassword);
+		final String pwd = "userPassword";
+		Object[] pwdValues = context.getObjectAttributes(pwd);
+		if(pwdValues.length < 2){
+			// adds the new password
+			context.addAttributeValue(pwd, newPassword, false);
+		} else {
+			// update the last password with the new password
+			pwdValues[1] = newPassword;
+			context.setAttributeValues(pwd, pwdValues);
+		}
 		
 		// TODO this logic requires set the update date (is there any ldap field to support this???)
 		

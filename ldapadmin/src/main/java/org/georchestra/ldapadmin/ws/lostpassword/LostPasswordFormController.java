@@ -97,8 +97,6 @@ public class LostPasswordFormController  {
 			
 			final String newPassword =  PasswordUtils.generateNewPassword();
 			
-			account.setNewPassword(newPassword);
-			
 			this.accountDao.addNewPassword(account.getUid(), newPassword);
 
 			MailService.sendPassowrd(account.getUid(), account.getCommonName(), newPassword);

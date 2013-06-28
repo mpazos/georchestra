@@ -114,15 +114,15 @@ public final class NewAccountFormController {
 			
 			return "welcomeNewUser";
 			
-		} catch (DataServiceException e) {
-			
-			throw new IOException(e);
-			
 		} catch (DuplicatedEmailException e) {
 
 			result.addError(new ObjectError("email", "Exist a user with this e-mail"));
 			return "createAccountForm";
-		} 
+			
+		} catch (DataServiceException e) {
+			
+			throw new IOException(e);
+		}
 	}
 
 

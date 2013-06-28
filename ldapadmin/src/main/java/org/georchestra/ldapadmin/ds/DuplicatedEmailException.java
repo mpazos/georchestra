@@ -9,12 +9,12 @@ package org.georchestra.ldapadmin.ds;
  * @author Mauricio Pazos
  */
 public class DuplicatedEmailException extends Exception {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -3664679290591393089L;
 	
+	public DuplicatedEmailException(String msg) {
+		
+		super(msg);
+	}
 	
 	
 
