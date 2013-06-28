@@ -1,6 +1,9 @@
-This mail is the reply to your request for a new password.
+The following user is waiting for moderation
 <p> 
-Password: {pwd}
+User name: {name}
+</p>
+<p> 
+User ID: {uid}
 </p>
 
 

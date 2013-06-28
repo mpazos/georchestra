@@ -130,6 +130,4 @@ public final class NewAccountFormController {
 			throw new IOException(e);
 		}
 	}
-
-
 }
