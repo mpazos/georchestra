@@ -7,7 +7,6 @@ import java.io.IOException;
 
 import org.georchestra.ldapadmin.ds.AccountDao;
 import org.georchestra.ldapadmin.ds.DataServiceException;
-import org.georchestra.ldapadmin.ds.DuplicatedEmailException;
 import org.georchestra.ldapadmin.ds.NotFoundException;
 import org.georchestra.ldapadmin.dto.Account;
 import org.georchestra.ldapadmin.mailservice.MailService;
@@ -100,7 +99,7 @@ public class LostPasswordFormController  {
 			
 			account.setNewPassword(newPassword);
 			
-			this.accountDao.update(account);
+			this.accountDao.addNewPassword(account.getUid(), newPassword);
 
 			MailService.sendPassowrd(account.getUid(), account.getCommonName(), newPassword);
 			
@@ -118,10 +117,6 @@ public class LostPasswordFormController  {
 			
 			return "lostPasswordForm";
 			
-		} catch (DuplicatedEmailException e) {
-		
-			throw new IOException(e);
-
-		}
+		} 
 	}
 }

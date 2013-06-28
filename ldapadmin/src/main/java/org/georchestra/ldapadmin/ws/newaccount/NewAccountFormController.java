@@ -94,7 +94,7 @@ public final class NewAccountFormController {
 		// insert the new account 
 		try {
 			
-			Account account =  AccountFactory.createBasic(
+			Account account =  AccountFactory.createBrief(
 					UUID.randomUUID().toString(),
 					formBean.getPassword(),
 					formBean.getFirstName(),

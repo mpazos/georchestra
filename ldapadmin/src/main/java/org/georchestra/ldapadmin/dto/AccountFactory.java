@@ -19,17 +19,9 @@ public class AccountFactory {
 	private static String formatCommonName(String givenName, String surname) {
 		return givenName + " " + surname;
 	}
-//
-//	public static Account create(final String uid) {
-//		Account a = new AccountImpl();
-//		
-//		a.setUid(uid);
-//		
-//		return a;
-//	}
 
 	/**
-	 * Basic data
+	 * Brief data
 	 * 
 	 * @param uid
 	 * @param password
@@ -41,7 +33,7 @@ public class AccountFactory {
 	 * @param details
 	 * @return
 	 */
-	public static Account createBasic(
+	public static Account createBrief(
 			String uid,
 			String password,
 			String firstName, 

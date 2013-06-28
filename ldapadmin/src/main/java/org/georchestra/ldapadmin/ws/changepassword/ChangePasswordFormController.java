@@ -66,7 +66,7 @@ public class ChangePasswordFormController {
 	 * @throws IOException 
 	 */
 	@RequestMapping(value="/public/accounts/changePassword", method=RequestMethod.POST)
-	public String create(
+	public String changePassword(
 						@ModelAttribute ChangePasswordFormBean formBean, 
 						BindingResult result, 
 						SessionStatus sessionStatus) 

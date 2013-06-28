@@ -148,14 +148,14 @@ public final class AccountDaoImpl implements AccountDao{
 		filter.and(new EqualsFilter("objectClass", "person"));
 		filter.and(new EqualsFilter("mail", email));
 
-		List<Account> a = ldapTemplate.search(
+		List<Account> accountList = ldapTemplate.search(
 								DistinguishedName.EMPTY_PATH, 
 								filter.encode(), 
 								new AccountContextMapper());
-		if(!a.isEmpty()){
+		if(accountList.isEmpty()){
 			throw new NotFoundException("There is not a user with this email: " + email);
 		}
-		Account account = a.get(0);
+		Account account = accountList.get(0);
 		
 		return  account;
 	}
@@ -364,7 +364,31 @@ public final class AccountDaoImpl implements AccountDao{
 		Name dn = buildDn(uid);
 		DirContextOperations context = ldapTemplate.lookupContext(dn);
 		
-		context.addAttributeValue("userPassword", password);
+		context.setAttributeValue("userPassword", password);
+		
+		ldapTemplate.modifyAttributes(context);
+	}
+
+
+	/**
+	 * @see {@link AccountDao#addNewPassword(String, String)}
+	 */
+	@Override
+	public void addNewPassword(String uid, String newPassword) {
+		if( uid.length() == 0) {
+			throw new IllegalArgumentException("uid is required");
+		}
+		if( newPassword.length()== 0 ){
+			throw new IllegalArgumentException("new password is required");
+		}
+		
+		 // update the entry in the ldap tree
+		Name dn = buildDn(uid);
+		DirContextOperations context = ldapTemplate.lookupContext(dn);
+		
+		context.addAttributeValue("userPassword", newPassword);
+		
+		// TODO this logic requires set the update date (is there any ldap field to support this???)
 		
 		ldapTemplate.modifyAttributes(context);
 	}

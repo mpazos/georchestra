@@ -101,4 +101,14 @@ public interface AccountDao {
 	 * @return {@link Account}
 	 */
 	List<Account> findNewPasswordBeforeDate(final Date date);
+
+	
+	/**
+	 * Add the new password. This method is part of the "lost password" workflow to maintan the old password and the new password until the
+	 * user can confirm that he had asked for a new password.   
+	 * 
+	 * @param udi
+	 * @param newPassword
+	 */
+	void addNewPassword(String uid, String newPassword);
 }
