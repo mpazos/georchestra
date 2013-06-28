@@ -33,7 +33,7 @@ class NewAccountEmail extends Email {
 			String fileBodyTemplate) {
 	
 		super(recipients, emailSubject, smtpHost, smtpPort, replyTo, from,
-				bodyEncoding, subjectEncoding, languages);
+				bodyEncoding, subjectEncoding, languages, fileBodyTemplate);
 	}
 	
 	public void sendMsg(final String userName, final String uid ) throws AddressException, MessagingException {
@@ -48,19 +48,16 @@ class NewAccountEmail extends Email {
 
 	private String writeNewAccoutnMail(String uid, String name) {
 
-		String body = String.format("New user is expecting for moderation, Name:  %s  - User ID: %s", name, uid);
+		final String body = getBodyTemplate();
+		
+		body.replace("{name}", name);
+		body.replace("{uid}", uid);
+		
+		LOG.debug("built email: "+ body);
 
 		return body;
 	}
 	
-//	private String writeNewPasswordMail(final String fullName, final String newPassword) {
-//		
-//		// TODO retrieve the body template from this.fileTemplate 
-//		
-//		String body = String.format("%s:  your new password is %s", fullName, newPassword);
-//		
-//		return body;
-//	}
 	
 
 }

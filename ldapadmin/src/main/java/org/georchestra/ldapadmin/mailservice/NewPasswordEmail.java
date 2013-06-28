@@ -11,7 +11,7 @@ import org.apache.commons.logging.LogFactory;
 import org.georchestra.lib.mailservice.Email;
 
 /**
- * Email
+ * Email to send when the user requests for a new password.
  * 
  * @author Mauricio Pazos
  * 
@@ -33,23 +33,27 @@ class NewPasswordEmail extends Email {
 			String fileTemplate) {
 
 		super(recipients, emailSubject, smtpHost, smtpPort, replyTo, from,
-				bodyEncoding, subjectEncoding, languages);
+				bodyEncoding, subjectEncoding, languages, fileTemplate);
+
 		
 	}
 
-	public void sendMsg(final String fullName, final String uid, final String newPassword) throws AddressException, MessagingException {
+	public void sendMsg(final String userName, final String uid, final String newPassword) throws AddressException, MessagingException {
 
-		LOG.debug("send new password email to user uid: " + uid );
+		LOG.debug("send new password email to user "+ userName+ " - uid: " + uid  );
 		
-		String body = writeNewPasswordMail(fullName, newPassword);
+		String body = writeNewPasswordMail(userName, newPassword);
 
 		super.sendMsg(body);
 	}
-	private String writeNewPasswordMail(final String fullName, final String newPassword) {
+	
+	private String writeNewPasswordMail(final String userName, final String newPassword) {
 		
-		// TODO retrieve the body template from this.fileTemplate 
+		final String body = getBodyTemplate();
 		
-		String body = String.format("%s:  your new password is %s", fullName, newPassword);
+		body.replace("{pwd}", newPassword);
+		
+		LOG.debug("built email: "+ body);
 		
 		return body;
 	}
