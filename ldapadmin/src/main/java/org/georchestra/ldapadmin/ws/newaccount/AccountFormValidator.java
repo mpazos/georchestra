@@ -1,5 +1,8 @@
 package org.georchestra.ldapadmin.ws.newaccount;
 
+import net.tanesha.recaptcha.ReCaptcha;
+import net.tanesha.recaptcha.ReCaptchaResponse;
+
 import org.apache.commons.validator.routines.EmailValidator;
 import org.georchestra.ldapadmin.ws.utils.PasswordUtils;
 import org.springframework.util.StringUtils;
@@ -8,10 +11,19 @@ import org.springframework.validation.Errors;
 
 class AccountFormValidator {
 	
+	private String remoteAddr;
+	private ReCaptcha reCaptcha;
+
+	public AccountFormValidator(final String remoteAddr, final ReCaptcha reCaptcha) {
+		
+		this.remoteAddr = remoteAddr;
+		this.reCaptcha = reCaptcha;
+	}
+
 	public void validate(AccountFormBean form, Errors errors) {
 		
 		if( !StringUtils.hasLength(form.getFirstName())){
-			errors.rejectValue("name", "required", "required");
+			errors.rejectValue("firstName", "required", "required");
 		}
 		
 		if( !StringUtils.hasLength( form.getSurname() ) ){
@@ -24,7 +36,7 @@ class AccountFormValidator {
 		
 		validatePhone(form.getPhone(), errors); 
 
-		validateCaptcha(form.getCaptchaGenerated(), form.getCaptcha(), errors);
+		validateCaptcha(form.getRecaptcha_challenge_field(), form.getRecaptcha_response_field(), errors);
 			
 	}
 
@@ -39,17 +51,27 @@ class AccountFormValidator {
 		}
 	}
 
-	private void validateCaptcha(final String captchaGenerated, final String captcha, Errors errors) {
+	private void validateCaptcha(final String captchaGenerated, final String userResponse, Errors errors) {
 		
-		final String trimmedCaptcha = captcha.trim();
 		
+		final String trimmedCaptcha = userResponse.trim();
+
 		if(!StringUtils.hasLength(trimmedCaptcha)){
-			errors.rejectValue("captcha", "required", "required");
+			errors.rejectValue("recaptcha_response_field", "required", "required");
 		} else {
-			if(!captchaGenerated.equals(trimmedCaptcha)){
-				errors.rejectValue("captcha", "captchaNoMatch", "The texts didn't match");
-				
+			
+			ReCaptchaResponse captchaResponse = this.reCaptcha.checkAnswer(
+					this.remoteAddr, 
+					captchaGenerated, 
+					userResponse);
+			if(!captchaResponse.isValid()){
+				if(!captchaGenerated.equals(trimmedCaptcha)){
+					errors.rejectValue("recaptcha_response_field", "captchaNoMatch", "The texts didn't match");
+					
+				}
 			}
+			
+			
 		}
 	}
 

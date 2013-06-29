@@ -6,6 +6,11 @@ package org.georchestra.ldapadmin.ws.newaccount;
 import java.io.IOException;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+
+import net.tanesha.recaptcha.ReCaptcha;
+import net.tanesha.recaptcha.ReCaptchaResponse;
+
 import org.georchestra.ldapadmin.bs.Moderator;
 import org.georchestra.ldapadmin.ds.AccountDao;
 import org.georchestra.ldapadmin.ds.DataServiceException;
@@ -44,19 +49,22 @@ public final class NewAccountFormController {
 	
 	private MailService mailService;
 
-	private Moderator moderator; 
+	private Moderator moderator;
+
+	private ReCaptcha reCaptcha; 
 
 	@Autowired
-	public NewAccountFormController( AccountDao dao, MailService mailSrv , Moderator moderatorRule){
+	public NewAccountFormController( AccountDao dao, MailService mailSrv , Moderator moderatorRule, ReCaptcha reCaptcha){
 		this.accountDao = dao;
 		this.mailService = mailSrv;
 		this.moderator = moderatorRule;
+		this.reCaptcha = reCaptcha;
 	}
 	
 	@InitBinder
 	public void initForm( WebDataBinder dataBinder) {
 		
-		dataBinder.setAllowedFields(new String[]{"firstName","surname", "email", "phone", "org", "details", "password", "confirmPassword", "role", "captchaGenerated", "captcha"});
+		dataBinder.setAllowedFields(new String[]{"firstName","surname", "email", "phone", "org", "details", "password", "confirmPassword", "role", "recaptcha_challenge_field", "recaptcha_response_field"});
 	}
 	
 	@RequestMapping(value="/public/accounts/new", method=RequestMethod.GET)
@@ -82,14 +90,17 @@ public final class NewAccountFormController {
 	 * @throws IOException 
 	 */
 	@RequestMapping(value="/public/accounts/new", method=RequestMethod.POST)
-	public String create(
-						@ModelAttribute AccountFormBean formBean, 
+	public String create(HttpServletRequest req,
+						@ModelAttribute AccountFormBean formBean,
 						BindingResult result, 
 						SessionStatus sessionStatus) 
 						throws IOException {
-		
-		new AccountFormValidator().validate(formBean, result);
 
+		String remoteAddr = req.getRemoteAddr();
+		new AccountFormValidator(remoteAddr, this.reCaptcha).validate(formBean, result);
+
+		
+		
 		if(result.hasErrors()){
 			
 			return "createAccountForm";

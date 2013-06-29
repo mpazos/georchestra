@@ -4,7 +4,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-    
+
+<%@ page import="net.tanesha.recaptcha.ReCaptcha" %>
+<%@ page import="net.tanesha.recaptcha.ReCaptchaFactory" %>
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -27,8 +31,7 @@
                     </c:if>
                 </s:bind>
             </div>
-
-            <fieldset>
+			<fieldset>
 
 				<p>
 					<form:label path="firstName">First Name *</form:label>
@@ -98,17 +101,16 @@
 			</fieldset>
 
 			<fieldset>
-				<p>
-					<form:label path="captchaGenerated"> GENERATED TEXT (TODO) </form:label>
-					<form:input path="captchaGenerated" readonly=""/>
-				</p>
-				<p>
-					<form:label path="captcha">Type the text *</form:label>
-					<form:input path="captcha" size="30" maxlength="80" />
-				</p>
-				<p>
-					<form:errors path="captcha" cssClass="error" />
-				</p>
+			
+			     <p>
+					<%
+					 ReCaptcha c = ReCaptchaFactory.newReCaptcha("6Lf0h-MSAAAAAOQ4YyRtbCNccU87dlGmokmelZjh", "6Lf0h-MSAAAAAI2nHJfNPDaEXXjsdmn8eKSZUrQZ", false);
+					 out.print(c.createRecaptchaHtml(null, null));
+					%>
+			     </p>
+                <p>
+                    <form:errors path="recaptcha_response_field" cssClass="error" />
+                </p>
 			</fieldset>
 
 			<p>

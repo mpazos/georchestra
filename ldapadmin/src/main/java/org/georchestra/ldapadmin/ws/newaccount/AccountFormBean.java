@@ -6,6 +6,8 @@ package org.georchestra.ldapadmin.ws.newaccount;
 import java.io.Serializable;
 import java.util.List;
 
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 /**
  * This model maintains the account form data.
@@ -15,14 +17,10 @@ import java.util.List;
  */
 public class AccountFormBean implements Serializable{
 
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 6955470190631684934L;
 	
 	private String uid;
-	private String firstNeme;
+	private String firstName;
 	private String surname;
 	
 	private String org;
@@ -31,8 +29,22 @@ public class AccountFormBean implements Serializable{
 	private String details;
 	private String password;
 	private String confirmPassword;
-	private String captchaGenerated;
-	private String captcha;
+	
+	private String recaptcha_challenge_field;
+	private String recaptcha_response_field;	
+	
+	public String getRecaptcha_challenge_field() {
+		return recaptcha_challenge_field;
+	}
+	public void setRecaptcha_challenge_field(String recaptcha_challenge_field) {
+		this.recaptcha_challenge_field = recaptcha_challenge_field;
+	}
+	public String getRecaptcha_response_field() {
+		return recaptcha_response_field;
+	}
+	public void setRecaptcha_response_field(String recaptcha_response_field) {
+		this.recaptcha_response_field = recaptcha_response_field;
+	}
 	
 	
 	public String getUid() {
@@ -42,10 +54,10 @@ public class AccountFormBean implements Serializable{
 		this.uid = uid;
 	}
 	public String getFirstName() {
-		return firstNeme;
+		return firstName;
 	}
 	public void setFirstName(String name) {
-		this.firstNeme = name;
+		this.firstName = name;
 	}
 	public String getOrg() {
 		return org;
@@ -85,20 +97,6 @@ public class AccountFormBean implements Serializable{
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
 	}
-	public String getCaptcha() {
-		return captcha;
-	}
-	public void setCaptcha(String captcha) {
-		this.captcha = captcha;
-	}
-	
-	public String getCaptchaGenerated() {
-		return captchaGenerated;
-	}
-	
-	public void setCaptchaGenerated(String captchaGenerated) {
-		this.captchaGenerated = captchaGenerated;
-	}
 	
 	public String getSurname() {
 		return surname;
@@ -110,13 +108,15 @@ public class AccountFormBean implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "AccountFormBean [uid=" + uid + ", name=" + firstNeme + ", org="
-				+ org + ", email=" + email + ", phone=" + phone + ", details="
-				+ details + ", password=" + password + ", confirmPassword="
-				+ confirmPassword + ", captchaGenerated=" + captchaGenerated
-				+ ", captcha=" + captcha + ", surname=" + surname + "]";
+		return "AccountFormBean [uid=" + uid + ", firstName=" + firstName
+				+ ", surname=" + surname + ", org=" + org + ", email=" + email
+				+ ", phone=" + phone + ", details=" + details + ", password="
+				+ password + ", confirmPassword=" + confirmPassword
+				+ ", recaptcha_challenge_field=" + recaptcha_challenge_field
+				+ ", recaptcha_response_field=" + recaptcha_response_field
+				+ "]";
 	}
-
+	
 
 	
 }

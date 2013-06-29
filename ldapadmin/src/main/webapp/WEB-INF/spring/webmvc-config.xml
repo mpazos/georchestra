@@ -47,6 +47,10 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" 
         p:prefix="/WEB-INF/views/public/"
         p:suffix=".jsp" />
+
+	<bean id='recaptcha' class='net.tanesha.recaptcha.ReCaptchaImpl'>
+		<property name='privateKey' value='6Lf0h-MSAAAAAI2nHJfNPDaEXXjsdmn8eKSZUrQZ'/>
+    </bean>
     
     <!-- LDAP connection -->
     <bean id="contextSource" class="org.springframework.ldap.core.support.LdapContextSource">
