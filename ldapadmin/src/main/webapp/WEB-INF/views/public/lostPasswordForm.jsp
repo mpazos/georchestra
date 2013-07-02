@@ -9,12 +9,12 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link href="<c:url value="/styles/form.css" />" rel="stylesheet"  type="text/css" />     
-    <title>Create Account Form</title>
+    <link href="<c:url value="/styles/ldapadmin.css" />" rel="stylesheet"  type="text/css" />     
+    <title>Lost Password Form</title>
 </head>
 <body>
     <div id="formsContent" style="center">
-        <h2>Lost Password</h2>
+        <h2><s:message code="lostPasswordForm.title"/> </h2>
         <form:form id="form" method="post" modelAttribute="lostPasswordFormBean" cssClass="cleanform">
 
             <div class="header">
@@ -23,14 +23,14 @@
                 </c:if>
                 <s:bind path="*">
                     <c:if test="${status.error}">
-                        <div id="message" class="error">Form has errors</div>
+                        <div id="message" class="error"><s:message code="form.error" /> </div>
                     </c:if>
                 </s:bind>
             </div>
 
             <fieldset>
 				<p>
-					<form:label path="email">Type your e-mail </form:label>
+					<form:label path="email"><s:message code="email.label"/> </form:label>
 					<form:input path="email" size="30" maxlength="80"/>
 				</p>
 				<p>
@@ -39,7 +39,7 @@
 			</fieldset>
 
 			<p>
-				<button type="submit">Submit</button>
+				<button type="submit"><s:message code="submit.label" /></button>
 			</p>
 		</form:form>
     </div>

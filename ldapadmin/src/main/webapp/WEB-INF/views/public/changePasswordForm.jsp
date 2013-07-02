@@ -9,8 +9,8 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link href="<c:url value="/styles/form.css" />" rel="stylesheet"  type="text/css" />     
-    <title>Chante password form</title>
+    <link href="<c:url value="/styles/ldapadmin.css" />" rel="stylesheet"  type="text/css" />     
+    <title>Change password form</title>
 </head>
 <body>
     <div id="formsContent" style="center">
@@ -23,14 +23,14 @@
                 </c:if>
                 <s:bind path="*">
                     <c:if test="${status.error}">
-                        <div id="message" class="error">Form has errors</div>
+                        <div id="message" class="error"><s:message code="form.error" /></div>
                     </c:if>
                 </s:bind>
             </div>
 
 			<fieldset>
 				<p>
-					<form:label path="password">Password *</form:label>
+					<form:label path="password"><s:message code="password.label"/> *</form:label>
 					<form:password path="password" size="30" maxlength="80"/>
 				</p>
 				<p>
@@ -38,7 +38,7 @@
 				</p>
 
 				<p>
-					<form:label path="confirmPassword">Confirm password *</form:label>
+					<form:label path="confirmPassword"><s:message code="confirmPassword.label"/> *</form:label>
 					<form:password path="confirmPassword" size="30" maxlength="80"/>
 				</p>
 				<p>
@@ -48,7 +48,7 @@
 			</fieldset>
 
 			<p>
-				<button type="submit">Submit</button>
+				<button type="submit"><s:message code="submit.label" /></button>
 			</p>
 		</form:form>
     </div>

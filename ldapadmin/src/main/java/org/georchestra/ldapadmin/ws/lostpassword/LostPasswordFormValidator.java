@@ -1,9 +1,7 @@
 package org.georchestra.ldapadmin.ws.lostpassword;
 
-import org.apache.commons.validator.routines.EmailValidator;
-import org.springframework.util.StringUtils;
+import org.georchestra.ldapadmin.ws.utils.EmailUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 
 /**
  * Validates the password form. 
@@ -14,22 +12,10 @@ import org.springframework.validation.Errors;
  */
 class LostPasswordFormValidator {
 
-	public void validate(LostPasswordFormBean formBean, BindingResult result) {
+	public void validate(LostPasswordFormBean form, BindingResult errors) {
 		
-		validateEmail(formBean.getEmail(), result);
+		EmailUtils.validate(form.getEmail(), errors);
 		
 	}
-	
-	private void validateEmail(final String email, Errors errors) {
-		
-		if( !StringUtils.hasLength(email)){
-			errors.rejectValue("email", "required", "required");
-		} else {
-			if(!EmailValidator.getInstance().isValid(email)){
-				errors.rejectValue("email", "invalidFormat", "Invalid Format");
-			}
-		}
-	}
-	
 
 }

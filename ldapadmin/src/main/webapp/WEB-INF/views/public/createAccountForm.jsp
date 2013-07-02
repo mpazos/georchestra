@@ -13,7 +13,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link href="<c:url value="/styles/form.css" />" rel="stylesheet"  type="text/css" />     
+    <link href="<c:url value="/styles/ldapadmin.css" />" rel="stylesheet"  type="text/css" />     
     <title>Create Account Form</title>
 </head>
 
@@ -28,7 +28,7 @@
                 </c:if>
                 <s:bind path="*">
                     <c:if test="${status.error}">
-                        <div id="message" class="error"><s:message code="createAccountFrom.error" /></div>
+                        <div id="message" class="error"><s:message code="form.error" /></div>
                     </c:if>
                 </s:bind>
             </div>

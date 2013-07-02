@@ -4,7 +4,9 @@ import net.tanesha.recaptcha.ReCaptcha;
 import net.tanesha.recaptcha.ReCaptchaResponse;
 
 import org.apache.commons.validator.routines.EmailValidator;
+import org.georchestra.ldapadmin.ws.utils.EmailUtils;
 import org.georchestra.ldapadmin.ws.utils.PasswordUtils;
+import org.georchestra.ldapadmin.ws.utils.UserNameUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 
@@ -22,15 +24,9 @@ class AccountFormValidator {
 
 	public void validate(AccountFormBean form, Errors errors) {
 		
-		if( !StringUtils.hasLength(form.getFirstName())){
-			errors.rejectValue("firstName", "firstName.error.required", "required");
-		}
-		
-		if( !StringUtils.hasLength( form.getSurname() ) ){
-			errors.rejectValue("surname", "surname.error.required", "required");
-		}
+		UserNameUtils.validate( form.getFirstName(), form.getSurname(), errors ); 
 
-		validateEmail(form.getEmail(), errors);
+        EmailUtils.validate(form.getEmail(), errors);
 		
 		PasswordUtils.validate( form.getPassword(), form.getConfirmPassword(), errors);
 		
@@ -40,16 +36,6 @@ class AccountFormValidator {
 			
 	}
 
-	private void validateEmail(final String email, Errors errors) {
-		
-		if( !StringUtils.hasLength(email)){
-			errors.rejectValue("email", "email.error.required", "required");
-		} else {
-			if(!EmailValidator.getInstance().isValid(email)){
-				errors.rejectValue("email", "email.error.invalidFormat", "Invalid Format");
-			}
-		}
-	}
 
 	private void validateCaptcha(final String captchaGenerated, final String userResponse, Errors errors) {
 		

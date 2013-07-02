@@ -1,13 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
+
 <html>
 <head>
-<title>Welcome</title>
+<title>email was sent</title>
 </head>
 <body>
-	<h3>
-	An e-mail was sent with a new password. 
-	Please, check your e-mail box.
-	</h3>
+	<h3><s:message code="emailWasSent.body" /> </h3>
 	
 	<ul>
 		<li>

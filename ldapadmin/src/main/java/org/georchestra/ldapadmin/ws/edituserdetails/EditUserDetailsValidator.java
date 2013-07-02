@@ -3,6 +3,7 @@
  */
 package org.georchestra.ldapadmin.ws.edituserdetails;
 
+import org.georchestra.ldapadmin.ws.utils.UserNameUtils;
 import org.springframework.validation.BindingResult;
 
 /**
@@ -11,8 +12,9 @@ import org.springframework.validation.BindingResult;
  */
 public class EditUserDetailsValidator {
 
-	public void validate(EditUserDetailsFormBean formBean, BindingResult resultErrors) {
-		// TODO Auto-generated method stub
+	public void validate(EditUserDetailsFormBean form, BindingResult errors) {
+		
+		UserNameUtils.validate( form.getFirstName(), form.getSurname(), errors ); 
 		
 	}
 

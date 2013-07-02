@@ -9,12 +9,12 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link href="<c:url value="/styles/form.css" />" rel="stylesheet"  type="text/css" />     
+    <link href="<c:url value="/styles/ldapadmin.css" />" rel="stylesheet"  type="text/css" />     
     <title>User Details</title>
 </head>
 <body>
     <div id="formsContent" style="center">
-        <h2>User Details</h2>
+        <h2><s:message code="userDetailsForm.title"/> </h2>
         <form:form id="form" method="post" modelAttribute="editUserDetailsFormBean" cssClass="cleanform">
 
             <div class="header">
@@ -23,7 +23,7 @@
                 </c:if>
                 <s:bind path="*">
                     <c:if test="${status.error}">
-                        <div id="message" class="error">Form has errors</div>
+                        <div id="message" class="error"><s:message code="form.error"/></div>
                     </c:if>
                 </s:bind>
             </div>
@@ -31,7 +31,7 @@
             <fieldset>
 
                 <p>
-                    <form:label path="firstName"> First Name </form:label>
+                    <form:label path="firstName"> <s:message code="firstName.label"/> </form:label>
                     <form:input path="firstName" size="30" maxlength="80"/>
                 </p>
                 <p>
@@ -39,7 +39,7 @@
                 </p>
 
 				<p>
-					<form:label path="surname">Surname </form:label>
+					<form:label path="surname"><s:message code="surname.label"/>  </form:label>
 					<form:input path="surname" size="30" maxlength="80"/>
 				</p>
 				<p>
@@ -47,74 +47,53 @@
 				</p>
 
                 <p>
-                    <form:label path="org">Organization </form:label>
+                    <form:label path="org"><s:message code="organization.label" />  </form:label>
                     <form:input path="org" size="30" maxlength="80"/>
-                </p>
-                <p>
-                    <form:errors path="org" cssClass="error" />
                 </p>
 
 				<p>
-					<form:label path="title" >Title</form:label>
+					<form:label path="title" ><s:message code="title.label" /> </form:label>
 					<form:input path="title" size="30" maxlength="80"/>
-				</p>
-				<p>
-					<form:errors path="title" cssClass="error" />
 				</p>
 				
 			</fieldset>
 			
 			<fieldset>
-			    <legend>Address</legend>
+			    <legend> <s:message code="address.label" /> </legend>
                 <p>
-                    <form:label path="postOfficeBox">Post Office Box</form:label>
-                    <form:input path="postOfficeBox" size="30" maxlength="80"/>
-                </p>
-                <p>
-                    <form:errors path="postOfficeBox" cssClass="error" />
+                    <form:label path="postOfficeBox"> <s:message code="postOfficeBox.label" /> </form:label>
+                    <form:input path="postOfficeBox" size="20" maxlength="20"/>
                 </p>
 
                 <p>
-                    <form:label path="postalAddress">Postal Address</form:label>
+                    <form:label path="postalAddress"> <s:message code="postalAddress.label"/> </form:label>
                     <form:textarea path="postalAddress" rows="4" cols="30"/>
                 </p>
-                <p>
-                    <form:errors path="postalAddress" cssClass="error" />
-                </p>
 
                 <p>
-                    <form:label path="postalCode">Postcode</form:label>
+                    <form:label path="postalCode"> <s:message code="postalCode.label"/> </form:label>
                     <form:input path="postalCode" size="20" maxlength="20"/>
-                </p>
-                <p>
-                    <form:errors path="postalCode" cssClass="error" />
                 </p>
                 
                 <p>
-                    <form:label path="registeredAddress">Postal Address</form:label>
+                    <form:label path="registeredAddress"> <s:message code="registeredAddress.label"/> </form:label>
                     <form:textarea path="registeredAddress" rows="4" cols="40"/>
-                </p>
-                <p>
-                    <form:errors path="registeredAddress" cssClass="error" />
                 </p>
 
                 <p>
-                    <form:label path="physicalDeliveryOfficeName">Postcode</form:label>
+                    <form:label path="physicalDeliveryOfficeName"><s:message code="physicalDeliveryOfficeName.label" /> </form:label>
                     <form:input path="physicalDeliveryOfficeName" size="20" maxlength="20"/>
-                </p>
-                <p>
-                    <form:errors path="physicalDeliveryOfficeName" cssClass="error" />
                 </p>
                 
                 <p>
 	                <a href=<c:out value="/ldapadmin/public/accounts/changePassword?uid=${editUserDetailsFormBean.uid}" />  > 
-	                    Change Password
+	                    <s:message code="changePassword.link" /> 
 	                </a>
                 </p>
             </fieldset>
 
 			<p>
-				<button type="submit">Submit</button>
+				<button type="submit"><s:message code="submit.label" /></button>
 			</p>
 		</form:form>
     </div>
