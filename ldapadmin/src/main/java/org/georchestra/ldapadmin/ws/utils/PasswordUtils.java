@@ -28,21 +28,22 @@ public final class PasswordUtils  {
 		
 		if( !StringUtils.hasLength(pwd1)){
 			
-			errors.rejectValue("password", "required", "required");
+			errors.rejectValue("password", "password.error.required", "required");
+			
 		}
 		if( !StringUtils.hasLength(pwd2)){
 			
-			errors.rejectValue("confirmPassword", "required", "required");
+			errors.rejectValue("confirmPassword", "confirmPassword.error.required", "required");
 		}
 		if( StringUtils.hasLength(pwd1) && StringUtils.hasLength(pwd2) ){
 			
 			if(!pwd1.equals(pwd2)){
-				errors.rejectValue("confirmPassword", "pwdNotEquals", "These passwords don't match");
+				errors.rejectValue("confirmPassword", "confirmPassword.error.pwdNotEquals", "These passwords don't match");
 				
 			} else {
 				
 				if(pwd1.length() < SIZE ){
-					errors.rejectValue("password", "sizeError", "The password does have at least 8 characters");
+					errors.rejectValue("password", "password.error.sizeError", "The password does have at least 8 characters");
 				}
 			}
 		}

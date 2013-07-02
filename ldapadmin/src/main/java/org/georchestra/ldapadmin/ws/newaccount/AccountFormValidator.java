@@ -23,11 +23,11 @@ class AccountFormValidator {
 	public void validate(AccountFormBean form, Errors errors) {
 		
 		if( !StringUtils.hasLength(form.getFirstName())){
-			errors.rejectValue("firstName", "required", "required");
+			errors.rejectValue("firstName", "firstName.error.required", "required");
 		}
 		
 		if( !StringUtils.hasLength( form.getSurname() ) ){
-			errors.rejectValue("surname", "required", "required");
+			errors.rejectValue("surname", "surname.error.required", "required");
 		}
 
 		validateEmail(form.getEmail(), errors);
@@ -43,10 +43,10 @@ class AccountFormValidator {
 	private void validateEmail(final String email, Errors errors) {
 		
 		if( !StringUtils.hasLength(email)){
-			errors.rejectValue("email", "required", "required");
+			errors.rejectValue("email", "email.error.required", "required");
 		} else {
 			if(!EmailValidator.getInstance().isValid(email)){
-				errors.rejectValue("email", "invalidFormat", "Invalid Format");
+				errors.rejectValue("email", "email.error.invalidFormat", "Invalid Format");
 			}
 		}
 	}
@@ -57,7 +57,7 @@ class AccountFormValidator {
 		final String trimmedCaptcha = userResponse.trim();
 
 		if(!StringUtils.hasLength(trimmedCaptcha)){
-			errors.rejectValue("recaptcha_response_field", "required", "required");
+			errors.rejectValue("recaptcha_response_field", "recaptcha_response_field.error.required", "required");
 		} else {
 			
 			ReCaptchaResponse captchaResponse = this.reCaptcha.checkAnswer(
@@ -66,12 +66,10 @@ class AccountFormValidator {
 					userResponse);
 			if(!captchaResponse.isValid()){
 				if(!captchaGenerated.equals(trimmedCaptcha)){
-					errors.rejectValue("recaptcha_response_field", "captchaNoMatch", "The texts didn't match");
+					errors.rejectValue("recaptcha_response_field", "recaptcha_response_field.error.captchaNoMatch", "The texts didn't match");
 					
 				}
 			}
-			
-			
 		}
 	}
 
@@ -80,7 +78,7 @@ class AccountFormValidator {
 		if (StringUtils.hasLength(phone.trim())) {
 			for (int i = 0; i < phone.length(); ++i) {
 				if ((Character.isDigit(phone.charAt(i))) == false) {
-					errors.rejectValue("phone", "nonNumeric", "The phone should be numeric");
+					errors.rejectValue("phone", "phone.error.nonNumeric", "The phone should be numeric");
 					break;
 				}
 			}

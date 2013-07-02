@@ -16,9 +16,10 @@
     <link href="<c:url value="/styles/form.css" />" rel="stylesheet"  type="text/css" />     
     <title>Create Account Form</title>
 </head>
+
 <body>
     <div id="formsContent" style="center">
-        <h2>New Account</h2>
+        <h2><s:message code="createAccountFrom.title"/></h2>
         <form:form id="form" method="post" modelAttribute="accountFormBean" cssClass="cleanform">
 
             <div class="header">
@@ -27,14 +28,15 @@
                 </c:if>
                 <s:bind path="*">
                     <c:if test="${status.error}">
-                        <div id="message" class="error">Form has errors</div>
+                        <div id="message" class="error"><s:message code="createAccountFrom.error" /></div>
                     </c:if>
                 </s:bind>
             </div>
+            
 			<fieldset>
 
 				<p>
-					<form:label path="firstName">First Name *</form:label>
+					<form:label path="firstName"><s:message code="firstName.label" /> *</form:label>
 					<form:input path="firstName" size="30" maxlength="80"/>
 				</p>
 				<p>
@@ -42,7 +44,7 @@
 				</p>
 
                 <p>
-                    <form:label path="surname">Surname Name *</form:label>
+                    <form:label path="surname"><s:message code="surname.label"/> *</form:label>
                     <form:input path="surname" size="30" maxlength="80"/>
                 </p>
                 <p>
@@ -50,7 +52,7 @@
                 </p>
 
 				<p>
-					<form:label path="email">e-mail *</form:label>
+					<form:label path="email"> <s:message code="email.label" /> *</form:label>
 					<form:input path="email" size="30" maxlength="80"/>
 				</p>
 				<p>
@@ -58,7 +60,7 @@
 				</p>
 
 				<p>
-					<form:label path="phone">Phone</form:label>
+					<form:label path="phone"><s:message code="phone.label"/> </form:label>
 					<form:input path="phone" size="30" maxlength="80"/>
 				</p>
 				<p>
@@ -66,16 +68,12 @@
 				</p>
 				
 				<p>
-					<form:label path="org">Organization </form:label>
+					<form:label path="org"><s:message code="organization.label" />  </form:label>
 					<form:input path="org" size="30" maxlength="80"/>
 				</p>
-				<p>
-					<form:errors path="org" cssClass="error" />
-				</p>
-
 
 				<p>
-					<form:label path="details"> Details </form:label>
+					<form:label path="details"><s:message code="details.label" />  </form:label>
 					<form:textarea path="details" rows="3" cols="30" />
 				</p>
 
@@ -83,7 +81,7 @@
 
 			<fieldset>
 				<p>
-					<form:label path="password">Password *</form:label>
+					<form:label path="password"><s:message code="password.label" /> *</form:label>
 					<form:password path="password" size="30" maxlength="80"/>
 				</p>
 				<p>
@@ -91,7 +89,7 @@
 				</p>
 
 				<p>
-					<form:label path="confirmPassword">Confirm password *</form:label>
+					<form:label path="confirmPassword"><s:message code="confirmPassword.label" /> *</form:label>
 					<form:password path="confirmPassword" size="30" maxlength="80"/>
 				</p>
 				<p>
@@ -114,7 +112,7 @@
 			</fieldset>
 
 			<p>
-				<button type="submit">Submit</button>
+				<button type="submit"><s:message code="submit.label"/> </button>
 			</p>
 		</form:form>
     </div>

@@ -98,8 +98,6 @@ public final class NewAccountFormController {
 
 		String remoteAddr = req.getRemoteAddr();
 		new AccountFormValidator(remoteAddr, this.reCaptcha).validate(formBean, result);
-
-		
 		
 		if(result.hasErrors()){
 			

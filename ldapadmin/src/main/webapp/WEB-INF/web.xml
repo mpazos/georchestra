@@ -65,10 +65,10 @@
      -->
     <error-page>
         <exception-type>java.lang.Exception</exception-type>
-        <location>/uncaughtException</location>
+        <location>/WEB-INF/views/uncaughtException.jsp</location>
     </error-page>
     <error-page>
         <error-code>404</error-code>
-        <location>/resourceNotFound</location>
+        <location>/WEB-INF/views/resourceNotFound.jsp</location>
     </error-page>
 </web-app>
