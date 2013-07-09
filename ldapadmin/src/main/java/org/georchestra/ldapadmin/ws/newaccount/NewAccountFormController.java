@@ -104,7 +104,7 @@ public final class NewAccountFormController {
 			return "createAccountForm";
 		}
 		
-		// insert the new account 
+		// inserts the new account 
 		try {
 			
 			Account account =  AccountFactory.createBrief(

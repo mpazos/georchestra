@@ -4,13 +4,14 @@
 package org.georchestra.ldapadmin.ws.lostpassword;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import org.georchestra.ldapadmin.ds.AccountDao;
 import org.georchestra.ldapadmin.ds.DataServiceException;
 import org.georchestra.ldapadmin.ds.NotFoundException;
+import org.georchestra.ldapadmin.ds.UserTokenDao;
 import org.georchestra.ldapadmin.dto.Account;
 import org.georchestra.ldapadmin.mailservice.MailService;
-import org.georchestra.ldapadmin.ws.utils.PasswordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,9 +31,9 @@ import org.springframework.web.bind.support.SessionStatus;
  * 
  * <li>Present a form in order to ask for the user's mail.</li>
  * 
- * <li>If the given email matches one of the LDAP users, an email is sent to this user with a new strong password.</li>
+ * <li>If the given email matches one of the LDAP users, an email is sent to this user with a unique http URL to reset his password.</li>
  * 
- * <li>From this moment on, and for a configurable delay (say, one day by default), both passwords (old & new) will be considered as valid.</li>
+ * <li>As result of this interaction the view EmailSentForm.jsp is presented</li>
  * </ul>
  * </p>
  * 
@@ -44,6 +45,7 @@ public class LostPasswordFormController  {
 	
 	private AccountDao accountDao;
 	private MailService mailService;
+	private UserTokenDao userTokenDao;
 	
 	@Autowired
 	public LostPasswordFormController( AccountDao dao, MailService mailSrv){
@@ -68,7 +70,8 @@ public class LostPasswordFormController  {
 	}
 	
 	/**
-	 * Generates a new password, then an e-mail is sent to the user to inform that a new password is available.
+	 * Generates a new unique http URL based on a token, then an e-mail is sent to the user with instruction to change his password.
+	 * 
 	 * 
 	 * @param formBean		Contains the user's email
 	 * @param resultErrors 	will be updated with the list of found errors. 
@@ -93,15 +96,16 @@ public class LostPasswordFormController  {
 		}
 		
 		try {
-			// Finds the user using the email as key, if it exists a new password is generated.
-			// The new password is stored and an e-mail is sent to the user.
+			// Finds the user using the email as key, if it exists a new token is generated to include in the unique http URL.
 			Account account = this.accountDao.findByEmail(formBean.getEmail());
 			
-			final String newPassword =  PasswordUtils.generateNewPassword();
+			String token = UUID.randomUUID().toString();
+					
+			this.userTokenDao.addToken(account.getUid(), token);
 			
-			this.accountDao.addNewPassword(account.getUid(), newPassword);
+			String url = makeURL(token);
 
-			this.mailService.sendPassowrd(account.getUid(), account.getCommonName(), newPassword, account.getEmail());
+			this.mailService.sendChangePassowrdURL(account.getUid(), account.getCommonName(), url, account.getEmail());
 			
 			sessionStatus.setComplete();
 			
@@ -118,5 +122,16 @@ public class LostPasswordFormController  {
 			return "lostPasswordForm";
 			
 		} 
+	}
+
+	/**
+	 * Create the URL to change the password based on the provided token  
+	 * @param token
+	 * 
+	 * @return a new URL to change password
+	 */
+	private String makeURL(String token) {
+
+		return "/public/accounts/changePassword?token="+ token;
 	}
 }

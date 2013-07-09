@@ -39,8 +39,10 @@ public final class MailService {
 		} 
 	}
 
+	
 	public void sendPassowrd(final String uid, final String userName, final String newPassword, final String toEmail) {
-
+		
+	//TODO deprecated	
 		try {
 			NewPasswordEmail email = this.emailFactory.createNewPasswordEmail(new String[]{toEmail});
 			
@@ -50,6 +52,22 @@ public final class MailService {
 			
 			LOG.error(e);
 		} 
+	}
+
+
+	/**
+	 * Sent an email to the user whit the unique URL required to change his password.
+	 * 
+	 * @param uid
+	 * @param commonName
+	 * @param url
+	 * @param email
+	 * 
+	 */
+	public void sendChangePassowrdURL(final String uid, final String commonName, final String url, final String email) {
+		
+		// TODO Auto-generated method stub
+		
 	}
 
 

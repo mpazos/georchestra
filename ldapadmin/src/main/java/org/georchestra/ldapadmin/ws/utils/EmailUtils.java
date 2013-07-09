@@ -8,6 +8,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 
 /**
+ * Utility class to manage the email.
+ * 
  * @author Mauricio Pazos
  *
  */

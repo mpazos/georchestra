@@ -21,8 +21,12 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 /**
+ * This controller is responsible of manage the user interactions required for changing the user account's password.
+ * <p>
+ * This controller is associated to the changePasswordForm.jsp view and {@link ChangePasswordFormBean}. 
+ * </p>
+ * 
  * @author Mauricio Pazos
- *
  */
 @Controller
 @SessionAttributes(types=ChangePasswordFormBean.class)
@@ -42,6 +46,17 @@ public class ChangePasswordFormController {
 		dataBinder.setAllowedFields(new String[]{"password", "confirmPassword"});
 	}
 	
+	/**
+	 * Initializes the {@link ChangePasswordFormBean} with the uid provided as parameter. 
+	 * The changePasswordForm view is provided as result of this method.  
+	 * 
+	 * @param uid	user id
+	 * @param model 
+	 * 
+	 * @return changePasswordForm view to display 
+	 * 
+	 * @throws IOException
+	 */
 	@RequestMapping(value="/public/accounts/changePassword", method=RequestMethod.GET)
 	public String setupForm(@RequestParam("uid") String uid, Model model) throws IOException{
 		
@@ -55,7 +70,7 @@ public class ChangePasswordFormController {
 	}
 	
 	/**
-	 * Creates a new account in ldap.
+	 * Changes the password in the ldap store.
 	 * 
 	 * @param formBean
 	 * @param result
