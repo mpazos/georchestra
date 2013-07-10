@@ -1,5 +1,7 @@
 package org.georchestra.ldapadmin.ds;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,7 +58,7 @@ public class UserTokenDao {
 	}
 
 
-	public void addToken(String uid, String token) throws DataServiceException {
+	public void insertToken(String uid, String token) throws DataServiceException {
 		
 		if(LOG.isDebugEnabled()){
 			String msg = "DatabaseUser: " + databaseUser +"; " + "DatabasePassword: " + databasePassword +"; " + "JdbcURL: " + jdbcURL;
@@ -65,9 +67,13 @@ public class UserTokenDao {
 		try {
 			InsertUserTokenCommand cmd = new InsertUserTokenCommand();
 			cmd.setConnection(this.dataServiceConfiguration .getConnection());
-			Map<String, String> row = new HashMap<String, String>(2);
+			Map<String, Object> row = new HashMap<String, Object>(3);
 			row.put(InsertUserTokenCommand.UID_COLUMN, uid);
 			row.put(InsertUserTokenCommand.TOKEN_COLUMN,  token);
+			
+			Timestamp time = new Timestamp(System.currentTimeMillis());
+			row.put(InsertUserTokenCommand.TIMESTAMP_COLUMN,  time);
+			
 			cmd.setRowValues( row );
 			cmd.execute();
 
@@ -78,6 +84,11 @@ public class UserTokenDao {
 			throw new DataServiceException(e);
 		}
 		
+	}
+
+	public String findUserByToken(String token)  throws DataServiceException, NotFoundException{
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

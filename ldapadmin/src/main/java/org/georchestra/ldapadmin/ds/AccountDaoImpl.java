@@ -46,10 +46,10 @@ public final class AccountDaoImpl implements AccountDao{
 	
 
 	/**
-	 * @see {@link AccountDao#create(Account, String)}
+	 * @see {@link AccountDao#insert(Account, String)}
 	 */
 	@Override
-	public void create(final Account account, final String groupID) throws DataServiceException, DuplicatedEmailException{
+	public void insert(final Account account, final String groupID) throws DataServiceException, DuplicatedEmailException{
 	
 		assert account != null;
 		

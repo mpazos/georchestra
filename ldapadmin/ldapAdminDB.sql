@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.1.9
 -- Dumped by pg_dump version 9.1.9
--- Started on 2013-07-09 21:22:36 CEST
+-- Started on 2013-07-10 16:05:23 CEST
 
 SET statement_timeout = 0;
 SET client_encoding = 'SQL_ASCII';
@@ -21,7 +21,7 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 1892 (class 0 OID 0)
+-- TOC entry 1893 (class 0 OID 0)
 -- Dependencies: 162
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
@@ -50,8 +50,8 @@ CREATE TABLE "USER_TOKEN" (
 ALTER TABLE public."USER_TOKEN" OWNER TO postgres;
 
 --
--- TOC entry 1884 (class 2606 OID 16429)
--- Dependencies: 161 161 1886
+-- TOC entry 1885 (class 2606 OID 16429)
+-- Dependencies: 161 161 1887
 -- Name: uid; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -60,7 +60,16 @@ ALTER TABLE ONLY "USER_TOKEN"
 
 
 --
--- TOC entry 1891 (class 0 OID 0)
+-- TOC entry 1883 (class 1259 OID 16431)
+-- Dependencies: 161 1887
+-- Name: TOKEN_INDEX; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE UNIQUE INDEX "TOKEN_INDEX" ON "USER_TOKEN" USING btree (token);
+
+
+--
+-- TOC entry 1892 (class 0 OID 0)
 -- Dependencies: 5
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
 --
@@ -71,7 +80,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2013-07-09 21:22:36 CEST
+-- Completed on 2013-07-10 16:05:23 CEST
 
 --
 -- PostgreSQL database dump complete

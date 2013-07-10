@@ -70,7 +70,6 @@ public final class NewAccountFormController {
 	@RequestMapping(value="/public/accounts/new", method=RequestMethod.GET)
 	public String setupForm(Model model) throws IOException{
 
-		
 		AccountFormBean formBean = new AccountFormBean();
 		
 		model.addAttribute(formBean);
@@ -119,7 +118,7 @@ public final class NewAccountFormController {
 
 			String groupID = this.moderator.requiresSignup() ? Group.PENDING_USERS : Group.SV_USER; 
 			
-			this.accountDao.create(account, groupID);
+			this.accountDao.insert(account, groupID);
 
 			if(this.moderator.requiresSignup() ){
 				this.mailService.sendNewAccount(account.getUid(), account.getCommonName(), this.moderator.getModeratorEmail());

@@ -11,27 +11,27 @@ import org.georchestra.ogcservstatistics.dataservices.AbstractDataCommand;
 import org.georchestra.ogcservstatistics.dataservices.DataCommandException;
 
 /**
- * Inserts the token associated to the user in the table "USER_TOKEN".
+ * Inserts the <b>token</b> associated to the user in the table "USER_TOKEN".
  * 
  * @author Mauricio Pazos
- *
  */
 final class InsertUserTokenCommand extends AbstractDataCommand {
 
 	public final static String UID_COLUMN = "uid";
 	public final static String TOKEN_COLUMN = "token";
+	public final static String TIMESTAMP_COLUMN = "timeStamp";
 
-	private static final String SQL_INSERT= "INSERT INTO USER_TOKEN("+UID_COLUMN+","+ TOKEN_COLUMN+ ") VALUES (?, ?)";
+	private static final String SQL_INSERT= "INSERT INTO USER_TOKEN("+UID_COLUMN+","+ TOKEN_COLUMN+ ","+TIMESTAMP_COLUMN+") VALUES (?, ?, ?)";
 	
-	private Map<String, String> rowValues;
+	private Map<String, Object> rowValues;
 
 	/**
 	 * Sets the uid and token in the command.
 	 * To
 	 * 
-	 * @param row (UID_COLUMN, value)(TOKEN_COLUMN, value)
+	 * @param row (UID_COLUMN, value)(TOKEN_COLUMN, value) (TIMESTAMP_COLUMN, value)
 	 */
-	public void setRowValues(final Map<String, String> row) {
+	public void setRowValues(final Map<String, Object> row) {
 
 		assert row.keySet().size() == 2;
 		
@@ -44,14 +44,18 @@ final class InsertUserTokenCommand extends AbstractDataCommand {
         assert this.connection != null: "database connection is null, use setConnection";
 
         PreparedStatement pStmt = this.connection.prepareStatement(SQL_INSERT);
+
         pStmt.setString(1, (String)this.rowValues.get(UID_COLUMN));
 		pStmt.setString(2, (String)this.rowValues.get(TOKEN_COLUMN));
+		pStmt.setString(3, (String)this.rowValues.get(TIMESTAMP_COLUMN));
 		
 		return pStmt;
 	}
 	
 
-	/* (non-Javadoc)
+	/**
+	 * Execute the sql insert to add the new row (uid, token, timestamp)
+	 *  
 	 * @see org.georchestra.ogcservstatistics.dataservices.DataCommand#execute()
 	 */
 	@Override

@@ -59,7 +59,7 @@ public class LostPasswordFormController  {
 		dataBinder.setAllowedFields(new String[]{"email"});
 	}
 	
-	@RequestMapping(value="/public/accounts/newPassword", method=RequestMethod.GET)
+	@RequestMapping(value="/public/accounts/lostPassword", method=RequestMethod.GET)
 	public String setupForm(Model model) throws IOException{
 
 		LostPasswordFormBean formBean = new LostPasswordFormBean();
@@ -81,8 +81,8 @@ public class LostPasswordFormController  {
 	 * 
 	 * @throws IOException 
 	 */
-	@RequestMapping(value="/public/accounts/newPassword", method=RequestMethod.POST)
-	public String generateNewPassword(
+	@RequestMapping(value="/public/accounts/lostPassword", method=RequestMethod.POST)
+	public String generateToken(
 						@ModelAttribute LostPasswordFormBean formBean, 
 						BindingResult resultErrors, 
 						SessionStatus sessionStatus) 
@@ -101,9 +101,9 @@ public class LostPasswordFormController  {
 			
 			String token = UUID.randomUUID().toString();
 					
-			this.userTokenDao.addToken(account.getUid(), token);
+			this.userTokenDao.insertToken(account.getUid(), token);
 			
-			String url = makeURL(token);
+			String url = makeChangePasswordURL(token);
 
 			this.mailService.sendChangePassowrdURL(account.getUid(), account.getCommonName(), url, account.getEmail());
 			
@@ -130,7 +130,7 @@ public class LostPasswordFormController  {
 	 * 
 	 * @return a new URL to change password
 	 */
-	private String makeURL(String token) {
+	private String makeChangePasswordURL(String token) {
 
 		return "/public/accounts/changePassword?token="+ token;
 	}
