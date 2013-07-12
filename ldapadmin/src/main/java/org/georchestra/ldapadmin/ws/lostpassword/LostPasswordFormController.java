@@ -43,9 +43,13 @@ import org.springframework.web.bind.support.SessionStatus;
 @SessionAttributes(types=LostPasswordFormBean.class)
 public class LostPasswordFormController  {
 	
+	// collaborations 
 	private AccountDao accountDao;
 	private MailService mailService;
 	private UserTokenDao userTokenDao;
+	
+	// properties
+	private String ApplicationUrl =""; // TODO configure
 	
 	@Autowired
 	public LostPasswordFormController( AccountDao dao, MailService mailSrv, UserTokenDao userTokenDao){
@@ -136,8 +140,11 @@ public class LostPasswordFormController  {
 	 * 
 	 * @return a new URL to change password
 	 */
-	private String makeChangePasswordURL(String token) {
+	private String makeChangePasswordURL(final String token) {
 
-		return "/public/accounts/changePassword?token="+ token;
+		StringBuilder strBuilder = new StringBuilder(this.ApplicationUrl);
+		strBuilder.append( "/public/accounts/newPassword?token=").append(token);
+		
+		return strBuilder.toString();
 	}
 }

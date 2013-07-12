@@ -119,13 +119,15 @@ public class NewPasswordFormController {
 			return "newPasswordForm";
 		}
 
-		// change the user's password
+		// changes the user's password and removes the token 
 		try {
 
 			String uid = formBean.getUid();
 			String  password = formBean.getPassword();
 			
 			this.accountDao.changePassword(uid, password);
+
+			this.userTokenDao.delete(uid);
 			
 			sessionStatus.setComplete();
 			
