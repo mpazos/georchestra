@@ -21,6 +21,8 @@ import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.filter.EqualsFilter;
 
 /**
+ * Maintains the group of users in the ldap store.
+ * 
  * @author Mauricio Pazos
  *
  */

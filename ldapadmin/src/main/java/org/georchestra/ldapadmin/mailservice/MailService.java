@@ -66,6 +66,11 @@ public final class MailService {
 	 */
 	public void sendChangePassowrdURL(final String uid, final String commonName, final String url, final String email) {
 		
+		if(LOG.isDebugEnabled()){
+			LOG.debug("uid: "+uid+ "- commonName" + commonName + " - url: " + url + " - email: " + email);
+		}
+		
+		
 		// TODO Auto-generated method stub
 		
 	}

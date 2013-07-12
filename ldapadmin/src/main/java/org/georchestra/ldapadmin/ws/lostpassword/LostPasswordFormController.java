@@ -48,9 +48,10 @@ public class LostPasswordFormController  {
 	private UserTokenDao userTokenDao;
 	
 	@Autowired
-	public LostPasswordFormController( AccountDao dao, MailService mailSrv){
+	public LostPasswordFormController( AccountDao dao, MailService mailSrv, UserTokenDao userTokenDao){
 		this.accountDao = dao;
 		this.mailService = mailSrv;
+		this.userTokenDao = userTokenDao;
 	}
 	
 	@InitBinder
@@ -100,7 +101,12 @@ public class LostPasswordFormController  {
 			Account account = this.accountDao.findByEmail(formBean.getEmail());
 			
 			String token = UUID.randomUUID().toString();
-					
+			
+			// if there is a previous token it is removed
+			if( this.userTokenDao.exist(account.getUid()) ) {
+				this.userTokenDao.delete(account.getUid());
+			}
+			
 			this.userTokenDao.insertToken(account.getUid(), token);
 			
 			String url = makeChangePasswordURL(token);
