@@ -11,16 +11,16 @@ import org.apache.commons.logging.LogFactory;
 import org.georchestra.lib.mailservice.Email;
 
 /**
- * Email to send when the user requests for a new password.
- * 
+ * Manages the change password email. This mail is send when a user has lost his password.
+ *  
  * @author Mauricio Pazos
- * 
+ *
  */
-class NewPasswordEmail extends Email {
+class ChangePasswordEmail extends Email {
+
+	private static final Log LOG = LogFactory.getLog(ChangePasswordEmail.class.getName());
 	
-	private static final Log LOG = LogFactory.getLog(NewPasswordEmail.class.getName());
-	
-	public NewPasswordEmail(
+	public ChangePasswordEmail(
 			String[] recipients, 
 			String emailSubject,
 			String smtpHost, 
@@ -38,22 +38,29 @@ class NewPasswordEmail extends Email {
 		
 	}
 
-	public void sendMsg(final String userName, final String uid, final String newPassword) throws AddressException, MessagingException {
+	public void sendMsg(final String userName, final String uid, final String url) throws AddressException, MessagingException {
 
-		LOG.debug("send new password email to user "+ userName+ " - uid: " + uid  );
+		if(LOG.isDebugEnabled() ){
+			
+			LOG.debug("send change password email to user "+ userName+ " - uid: " + uid  );
+		}
 		
-		String body = writeNewPasswordMail(userName, newPassword);
+		String body = writeNewPasswordMail(userName, url);
 
 		super.sendMsg(body);
 	}
 	
-	private String writeNewPasswordMail(final String userName, final String newPassword) {
+	private String writeNewPasswordMail(final String userName, final String url) {
 		
 		final String body = getBodyTemplate();
 		
-		body.replace("{pwd}", newPassword);
+		body.replace("{name}", userName);
+		body.replace("{url}", url);
 		
-		LOG.debug("built email: "+ body);
+		if(LOG.isDebugEnabled() ){
+			
+			LOG.debug("built email: "+ body);
+		}
 		
 		return body;
 	}

@@ -11,6 +11,7 @@ import org.georchestra.ldapadmin.ds.AccountDao;
 import org.georchestra.ldapadmin.ds.DataServiceException;
 import org.georchestra.ldapadmin.ds.NotFoundException;
 import org.georchestra.ldapadmin.ds.UserTokenDao;
+import org.georchestra.ldapadmin.ws.utils.PasswordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -112,7 +113,9 @@ public class NewPasswordFormController {
 						SessionStatus sessionStatus) 
 						throws IOException {
 		
-		new NewPasswordFormValidator().validate(formBean, result);
+		
+		PasswordUtils.validate( formBean.getPassword(), formBean.getConfirmPassword(), result);
+
 		
 		if(result.hasErrors()){
 			

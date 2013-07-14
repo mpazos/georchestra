@@ -6,6 +6,8 @@ package org.georchestra.ldapadmin.ds;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import org.georchestra.lib.sqlcommand.AbstractUpdateCommand;
+
 /**
  * Deletes the user_token association.
  * 

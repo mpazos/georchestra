@@ -4,10 +4,7 @@
 package org.georchestra.ldapadmin.ds;
 
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Searches the user_token association which matches with the provided token.
@@ -15,7 +12,7 @@ import java.util.Map;
  * @author Mauricio Pazos
  *
  */
-final class QueryByTokenCommand extends org.georchestra.ldapadmin.ds.AbstractQueryCommand{
+final class QueryByTokenCommand extends org.georchestra.lib.sqlcommand.AbstractQueryCommand{
 
 
 	private String token;

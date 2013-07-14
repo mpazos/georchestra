@@ -12,6 +12,7 @@ import org.georchestra.ldapadmin.ds.NotFoundException;
 import org.georchestra.ldapadmin.ds.UserTokenDao;
 import org.georchestra.ldapadmin.dto.Account;
 import org.georchestra.ldapadmin.mailservice.MailService;
+import org.georchestra.ldapadmin.ws.utils.EmailUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -93,7 +94,8 @@ public class LostPasswordFormController  {
 						SessionStatus sessionStatus) 
 						throws IOException {
 		
-		new LostPasswordFormValidator().validate(formBean, resultErrors);
+		EmailUtils.validate(formBean.getEmail(), resultErrors);
+
 		
 		if(resultErrors.hasErrors()){
 			

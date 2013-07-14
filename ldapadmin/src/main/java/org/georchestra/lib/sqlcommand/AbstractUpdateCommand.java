@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.georchestra.ldapadmin.ds;
+package org.georchestra.lib.sqlcommand;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -10,12 +10,17 @@ import org.georchestra.ogcservstatistics.dataservices.AbstractDataCommand;
 import org.georchestra.ogcservstatistics.dataservices.DataCommandException;
 
 /**
- * Executes Insert, Update and Delete SQL command
+ * Executes Insert, Update and Delete SQL command.
+ * 
+ * <p>
+ * The subclass must provide the sql command to execute. To do that the {@link AbstractUpdateCommand#prepareStatement()} method 
+ * </p>
+ * 
  * 
  * @author Mauricio Pazos
  *
  */
-abstract class AbstractUpdateCommand extends AbstractDataCommand{
+public abstract class AbstractUpdateCommand extends AbstractDataCommand{
 	
 	
 

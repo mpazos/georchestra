@@ -40,38 +40,31 @@ public final class MailService {
 	}
 
 	
-	public void sendPassowrd(final String uid, final String userName, final String newPassword, final String toEmail) {
-		
-	//TODO deprecated	
-		try {
-			NewPasswordEmail email = this.emailFactory.createNewPasswordEmail(new String[]{toEmail});
-			
-			email.sendMsg(userName, uid, newPassword);
-		
-		} catch (Exception e) {
-			
-			LOG.error(e);
-		} 
-	}
-
 
 	/**
 	 * Sent an email to the user whit the unique URL required to change his password.
 	 * 
-	 * @param uid
-	 * @param commonName
-	 * @param url
-	 * @param email
+	 * @param uid user id
+	 * @param commonName user full name
+	 * @param url 	url where the user can change his password
+	 * @param userEmail user email
 	 * 
 	 */
-	public void sendChangePassowrdURL(final String uid, final String commonName, final String url, final String email) {
+	public void sendChangePassowrdURL(final String uid, final String commonName, final String url, final String userEmail) {
 		
 		if(LOG.isDebugEnabled()){
-			LOG.debug("uid: "+uid+ "- commonName" + commonName + " - url: " + url + " - email: " + email);
+			LOG.debug("uid: "+uid+ "- commonName" + commonName + " - url: " + url + " - email: " + userEmail);
 		}
-		
-		
-		// TODO Auto-generated method stub
+
+		try{
+			ChangePasswordEmail email = this.emailFactory.createChangePasswordEmail(new String[]{userEmail});
+			
+			email.sendMsg(commonName, uid, url);
+			
+		} catch (Exception e) {
+			
+			LOG.error(e);
+		} 
 		
 	}
 

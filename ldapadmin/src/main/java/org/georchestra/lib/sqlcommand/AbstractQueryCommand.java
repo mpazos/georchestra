@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.georchestra.ldapadmin.ds;
+package org.georchestra.lib.sqlcommand;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,21 +11,21 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.georchestra.ldapadmin.ds.DatabaseSchema;
 import org.georchestra.ogcservstatistics.dataservices.AbstractDataCommand;
 import org.georchestra.ogcservstatistics.dataservices.DataCommandException;
-import org.georchestra.ogcservstatistics.dataservices.QueryCommand;
 
 /**
  * Maintains the abstract behavior required to execute a SQL query. 
  * The subclass must implement the methods:
  * <pre>
- * prepareStatement() 
- * getRow()
+ * {@link AbstractQueryCommand#prepareStatement()}  
+ * {@link AbstractQueryCommand#getRow(ResultSet)}
  * </pre>
  * 
  * @author Mauricio Pazos
  */
-abstract class AbstractQueryCommand extends AbstractDataCommand {
+public abstract class AbstractQueryCommand extends AbstractDataCommand {
 
 	private LinkedList<Map<String,Object>> resultList;
 

@@ -3,7 +3,6 @@
  */
 package org.georchestra.ldapadmin.ds;
 
-import javax.naming.NamingException;
 
 /**
  * 

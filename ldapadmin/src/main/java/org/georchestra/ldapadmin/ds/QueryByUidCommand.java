@@ -13,7 +13,7 @@ import java.sql.SQLException;
  * @author Mauricio Pazos
  *
  */
-class QueryByUidCommand extends org.georchestra.ldapadmin.ds.AbstractQueryCommand {
+class QueryByUidCommand extends org.georchestra.lib.sqlcommand.AbstractQueryCommand {
 
 	private String uid;
 	
