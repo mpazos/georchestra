@@ -37,9 +37,14 @@
 	</bean>
 
 	<bean id="accountDao" class="org.georchestra.ldapadmin.ds.AccountDaoImpl">
-		<property name="ldapTemplate" ref="ldapTemplate" />
-		<property name="groupDao" ref="groupDao" />
+        <constructor-arg ref="ldapTemplate" />
+        <constructor-arg ref="groupDao" />
 	</bean>
+	
+	<!-- 
+        <property name="ldapTemplate" ref="ldapTemplate" />
+        <property name="groupDao" ref="groupDao" />
+    -->
 
     <!-- userTokenDao  -->
     <bean id="userTokenDao" class="org.georchestra.ldapadmin.ds.UserTokenDao">
@@ -117,4 +122,9 @@
         <property name="requiresSignup" value="false" />
         <property name="moderatorEmail" value="moderator@mail" />
     </bean>
+    
+    <bean id="expiredTokenManagement" class="org.georchestra.ldapadmin.bs.ExpiredTokenManagement">
+        <property name="delayInDays" value="2" />
+    </bean>
+    
 </beans>

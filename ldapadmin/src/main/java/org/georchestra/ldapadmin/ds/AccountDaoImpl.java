@@ -10,6 +10,7 @@ import javax.naming.Name;
 
 import org.georchestra.ldapadmin.dto.Account;
 import org.georchestra.ldapadmin.dto.AccountFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ldap.core.ContextMapper;
 import org.springframework.ldap.core.DirContextAdapter;
 import org.springframework.ldap.core.DirContextOperations;
@@ -27,7 +28,16 @@ public final class AccountDaoImpl implements AccountDao{
 	
 	private LdapTemplate ldapTemplate;
 	private GroupDao groupDao;
-
+	
+	
+	@Autowired
+	public AccountDaoImpl( LdapTemplate ldapTemplate, GroupDao groupDao) {
+	
+		this.ldapTemplate =ldapTemplate;
+		this.groupDao = groupDao;
+	}	
+	
+	
 	public LdapTemplate getLdapTemplate() {
 		return ldapTemplate;
 	}

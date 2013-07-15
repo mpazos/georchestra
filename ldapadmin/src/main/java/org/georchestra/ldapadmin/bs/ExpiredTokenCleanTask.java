@@ -40,7 +40,7 @@ class ExpiredTokenCleanTask implements Runnable {
 		Calendar calendar = Calendar.getInstance();
 		
 		long now = calendar.getTimeInMillis();
-		Date expired = new Date(now + this.delayInMillisecconds);
+		Date expired = new Date(now - this.delayInMillisecconds);
 
 		try {
 			List<Map<String, Object>>  userTokenToDelete = userTokenDao.findBeforeDate(expired);

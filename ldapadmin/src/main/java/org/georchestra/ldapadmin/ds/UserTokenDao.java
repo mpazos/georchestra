@@ -88,8 +88,8 @@ public class UserTokenDao {
 			row.put(DatabaseSchema.UID_COLUMN, uid);
 			row.put(DatabaseSchema.TOKEN_COLUMN,  token);
 			
-			Timestamp time = new Timestamp(System.currentTimeMillis());
-			row.put(DatabaseSchema.CREATEION_DATE_COLUMN,  time);
+			Timestamp currentDay = new Timestamp(new Date().getTime());
+			row.put(DatabaseSchema.CREATEION_DATE_COLUMN,  currentDay);
 			
 			cmd.setRowValues( row );
 			cmd.execute();

@@ -51,8 +51,10 @@ class QueryUserTokenExpiredCommand extends org.georchestra.lib.sqlcommand.Abstra
 	protected PreparedStatement prepareStatement() throws SQLException {
 
 		PreparedStatement pStmt = this.connection.prepareStatement(getSQLStatement());
+		
+		Timestamp time = new Timestamp(this.beforeDate.getTime());
 
-		pStmt.setTimestamp(1, (Timestamp) this.beforeDate);
+		pStmt.setTimestamp(1, (Timestamp) time);
 
 		return pStmt;
 	}
