@@ -1,6 +1,5 @@
 package org.georchestra.ldapadmin.ds;
 
-import java.util.Date;
 import java.util.List;
 
 import org.georchestra.ldapadmin.dto.Account;
@@ -51,17 +50,9 @@ public interface AccountDao {
 	 */
 	void changePassword(final String uid, final String password)throws DataServiceException;
 
-	/**
-	 * Remove the new password
-	 * 
-	 * @param uid
-	 * @throws DataServiceException
-	 * @throws NotFoundException
-	 */
-	void resetNewPassword(final String uid)throws DataServiceException, NotFoundException;
 
 	/**
-	 * Delets the account
+	 * Deletes the account
 	 * 
 	 * @param account
 	 * @throws DataServiceException
@@ -93,15 +84,6 @@ public interface AccountDao {
 	Account findByEmail(final String email) throws DataServiceException, NotFoundException;
 	
 
-	/**
-	 * Returns the accounts which new password befor the date
-	 *  
-	 * @param date
-	 * 
-	 * @return {@link Account}
-	 */
-	List<Account> findNewPasswordBeforeDate(final Date date);
-
 	
 	/**
 	 * Add the new password. This method is part of the "lost password" workflow to maintan the old password and the new password until the
@@ -111,4 +93,8 @@ public interface AccountDao {
 	 * @param newPassword
 	 */
 	void addNewPassword(String uid, String newPassword);
+	
+
+
+	
 }

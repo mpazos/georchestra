@@ -6,22 +6,24 @@ package org.georchestra.ldapadmin.ds;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-
 /**
- * Command to search a row, in the user_token table, by uid.
+ * Searches the tokens before date provided. 
  * 
  * @author Mauricio Pazos
  *
  */
-class QueryByUidCommand extends org.georchestra.lib.sqlcommand.AbstractQueryCommand {
+class QueryUserTokenExpiredCommand extends org.georchestra.lib.sqlcommand.AbstractQueryCommand {
 
-	private String uid;
 	
-	public void setUid(final String uid){
-		this.uid = uid;
+	private Date beforeDate;
+	
+	public void setBeforeDate(final Date beforeDate){
+		this.beforeDate= beforeDate;
 	}
 			
 	
@@ -37,11 +39,10 @@ class QueryByUidCommand extends org.georchestra.lib.sqlcommand.AbstractQueryComm
 		sql.append(" SELECT ")
 				.append(DatabaseSchema.UID_COLUMN).append(",").append(DatabaseSchema.TOKEN_COLUMN ).append(",").append(DatabaseSchema.CREATEION_DATE_COLUMN )
 				.append(" FROM ").append(DatabaseSchema.TABLE_USER_TOKEN)
-				.append(" WHERE uid = ?");
+				.append(" WHERE "+DatabaseSchema.CREATEION_DATE_COLUMN +" <= ?");
 		
 		return sql.toString();
 	}
-	
 	
 	/**
 	 * Prepares the Statement setting the year and month.
@@ -51,7 +52,7 @@ class QueryByUidCommand extends org.georchestra.lib.sqlcommand.AbstractQueryComm
 
 		PreparedStatement pStmt = this.connection.prepareStatement(getSQLStatement());
 
-		pStmt.setString(1, this.uid);
+		pStmt.setTimestamp(1, (Timestamp) this.beforeDate);
 
 		return pStmt;
 	}

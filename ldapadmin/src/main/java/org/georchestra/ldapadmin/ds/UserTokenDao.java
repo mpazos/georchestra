@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,11 +25,10 @@ import org.apache.commons.logging.LogFactory;
  *
  */
 public class UserTokenDao {
-	 
+	
 	private static final Log LOG = LogFactory.getLog(UserTokenDao.class.getName());
 	
 	private Connection connection = null;
-	
 	
 	private String databaseUser;
 	private String databasePassword;
@@ -136,6 +136,27 @@ public class UserTokenDao {
 		}
 	}
 
+
+	
+	public List<Map<String, Object>> findBeforeDate(Date expired) throws DataServiceException {
+		try {
+			QueryUserTokenExpiredCommand cmd = new QueryUserTokenExpiredCommand();
+			
+			cmd.setConnection(getConnection());
+
+			cmd.setBeforeDate(expired);
+			cmd.execute();
+
+			List<Map<String, Object>> result = cmd.getResult();
+			
+			return result;
+			
+		} catch (Exception e) {
+			throw new DataServiceException(e);
+		}
+	}
+	
+	
 	public boolean exist(String uid) throws DataServiceException {
 		
 		try {
@@ -173,7 +194,6 @@ public class UserTokenDao {
 			throw new DataServiceException(e);
 		}
 	}
-	
 	
 
 	private Connection getConnection() throws  DataServiceException {

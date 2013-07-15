@@ -6,12 +6,10 @@ package org.georchestra.lib.sqlcommand;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.georchestra.ldapadmin.ds.DatabaseSchema;
 import org.georchestra.ogcservstatistics.dataservices.AbstractDataCommand;
 import org.georchestra.ogcservstatistics.dataservices.DataCommandException;
 
@@ -81,15 +79,9 @@ public abstract class AbstractQueryCommand extends AbstractDataCommand {
 	 * @return a Map<fieldName, fieldValue>
 	 * @throws SQLException
 	 */
-	protected Map<String, Object> getRow(ResultSet rs) throws SQLException {
-		
-		Map<String,Object> row = new HashMap<String, Object>(3);
-		row.put(DatabaseSchema.UID_COLUMN, rs.getString(DatabaseSchema.UID_COLUMN));
-		row.put(DatabaseSchema.TOKEN_COLUMN, rs.getString(DatabaseSchema.TOKEN_COLUMN));
-		row.put(DatabaseSchema.CREATEION_DATE_COLUMN, rs.getTimestamp(DatabaseSchema.CREATEION_DATE_COLUMN));
-		
-		return row;
-	}
+	protected abstract Map<String, Object> getRow(ResultSet rs) throws SQLException;
+	
+	
 	
 	
 	

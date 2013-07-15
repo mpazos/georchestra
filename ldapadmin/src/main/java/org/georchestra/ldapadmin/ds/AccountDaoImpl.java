@@ -439,23 +439,6 @@ public final class AccountDaoImpl implements AccountDao{
 	}
 
 
-	@Override
-	public List<Account> findNewPasswordBeforeDate(Date date) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * Resets the new password
-	 */
-	@Override
-	public void resetNewPassword(String uid) throws DataServiceException,
-			NotFoundException {
-		// TODO Auto-generated method stub
-		
-	}
-
-
 
 	
 }

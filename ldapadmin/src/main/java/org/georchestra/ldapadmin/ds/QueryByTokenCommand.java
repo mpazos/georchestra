@@ -4,7 +4,10 @@
 package org.georchestra.ldapadmin.ds;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Searches the user_token association which matches with the provided token.
@@ -49,6 +52,17 @@ final class QueryByTokenCommand extends org.georchestra.lib.sqlcommand.AbstractQ
 		pStmt.setString(1, this.token);
 
 		return pStmt;
+	}
+
+	@Override
+	protected Map<String, Object> getRow(ResultSet rs) throws SQLException {
+		
+		Map<String,Object> row = new HashMap<String, Object>(3);
+		row.put(DatabaseSchema.UID_COLUMN, rs.getString(DatabaseSchema.UID_COLUMN));
+		row.put(DatabaseSchema.TOKEN_COLUMN, rs.getString(DatabaseSchema.TOKEN_COLUMN));
+		row.put(DatabaseSchema.CREATEION_DATE_COLUMN, rs.getTimestamp(DatabaseSchema.CREATEION_DATE_COLUMN));
+		
+		return row;
 	}
 
 
