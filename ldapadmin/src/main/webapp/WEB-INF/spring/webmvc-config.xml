@@ -124,7 +124,7 @@
     </bean>
     
     <bean id="expiredTokenManagement" class="org.georchestra.ldapadmin.bs.ExpiredTokenManagement">
-        <property name="delayInDays" value="2" />
+        <property name="delayInDays" value="1" />
     </bean>
     
 </beans>
