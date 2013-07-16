@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -88,7 +89,10 @@ public class UserTokenDao {
 			row.put(DatabaseSchema.UID_COLUMN, uid);
 			row.put(DatabaseSchema.TOKEN_COLUMN,  token);
 			
-			Timestamp currentDay = new Timestamp(new Date().getTime());
+			
+			Calendar cal = Calendar.getInstance();
+			Date date = cal.getTime();
+			Timestamp currentDay = new Timestamp(date.getTime());
 			row.put(DatabaseSchema.CREATEION_DATE_COLUMN,  currentDay);
 			
 			cmd.setRowValues( row );

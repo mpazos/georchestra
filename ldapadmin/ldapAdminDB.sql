@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.1.9
 -- Dumped by pg_dump version 9.1.9
--- Started on 2013-07-14 12:29:07 CEST
+-- Started on 2013-07-16 11:53:16 CEST
 
 SET statement_timeout = 0;
 SET client_encoding = 'SQL_ASCII';
@@ -53,7 +53,7 @@ SET default_with_oids = false;
 CREATE TABLE user_token (
     uid character varying NOT NULL,
     token character varying,
-    creation_date time with time zone
+    creation_date timestamp with time zone
 );
 
 
@@ -90,7 +90,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2013-07-14 12:29:07 CEST
+-- Completed on 2013-07-16 11:53:16 CEST
 
 --
 -- PostgreSQL database dump complete

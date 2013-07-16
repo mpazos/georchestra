@@ -29,15 +29,10 @@ public final class ExpiredTokenManagement {
 	
 	private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
-	/** the default period */
-	private final static int DEFAULT_PERIOD_DAYS = 1;
-	
 	/** delay in days to execute the cleaning task */ 
-	private int delayInDays = DEFAULT_PERIOD_DAYS; 
+	private int delayInDays = -1; 
 	
 	public ExpiredTokenManagement() {
-		
-		start();
 	}
 
 	public int getDelayInDays() {
@@ -48,7 +43,11 @@ public final class ExpiredTokenManagement {
 		this.delayInDays = delayInDays;
 	}
 
-	protected void start(){
+	public void start(){
+		
+		if(delayInDays == -1 ){
+			throw new IllegalStateException("delayInDays property hasn't been set in the configuration bean.");
+		}
 		
 		long delay = toMilliseconds(this.delayInDays);
 
