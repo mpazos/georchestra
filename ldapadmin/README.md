@@ -91,3 +91,31 @@ Notes
 -----
 
 All emails sent by the application should be configurable by the way of templates, as for extractorapp.
+
+
+System Requirements
+-------------------
+
+ * WEB Containger (Tomcat)
+ * LDAP Server
+ * Postgress
+
+
+Install
+-------
+
+Postresql
+to create the data base use the following script
+
+[georchestra]/ldapAdmin/
+
+
+
+
+
+
+
+
+
+
+
