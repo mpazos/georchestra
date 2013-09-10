@@ -1,0 +1,25 @@
+Version 300
+Charset "Neutral"
+Delimiter ","
+CoordSys Earth Projection 3, 104, "m", 3, 46.5, 49, 44, 700000, 6600000
+Columns 16
+  SOUSTYPE Char(254)
+  RID Char(254)
+  DATE Char(254)
+  HEURE Char(254)
+  AMPLITUDE Char(254)
+  ARCS Char(254)
+  LARGIMPULS Char(254)
+  MONTSIGN Char(254)
+  AXEELLIPSE Char(254)
+  KI2 Char(254)
+  EXENTRIC Char(254)
+  ANGELLIPSE Char(254)
+  MODLOCALIS Char(254)
+  DEPARTEMEN Char(254)
+  CODEINSEE Char(254)
+  COMMUNE Char(254)
+Data
+
+Point 448125.426929857 6407399.9937937
+    Symbol (35,0,12)

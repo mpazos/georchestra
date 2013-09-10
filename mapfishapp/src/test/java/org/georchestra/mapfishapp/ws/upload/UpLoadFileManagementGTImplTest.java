@@ -164,6 +164,19 @@ public class UpLoadFileManagementGTImplTest {
 		testGetGeofileToJSON(fullName, "EPSG:2154" );
 	}
 
+	/**
+	 * The layer's crs is 2154
+	 * 
+	 * @throws Exception
+	 */
+	@Test 
+	public void testMIFbaseCRS2154() throws Exception {
+		
+		String fileName = "2154_accidents.mif";
+		String fullName = makeFullName(fileName);
+		
+		testGetGeofileToJSON(fullName, "EPSG:2154" );
+	}
 	
 	/** 
 	 * Tests the coordinates order.

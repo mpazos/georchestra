@@ -109,19 +109,26 @@ public class MIFProjReader {
      */
 	private void readPrjFile(MIFFileTokenizer prj, ConcurrentHashMap<Integer, String> mapEpsgToMifCoordSys, ConcurrentHashMap<String, Integer> mapMifCoordSysToEpsg)
         throws IOException {
-        try {
 
+		try {
         	while (prj.readLine()) {
             
         		String line = prj.getLine();
                 if (line.contains(SRID_PATTERN)) {
-                    String strEpsg = line.subSequence(line.indexOf(SRID_PATTERN)+2,line.lastIndexOf(QUOTE)).toString();
+                	// scans the EPSG code
+                	int beginEpsg = line.indexOf(SRID_PATTERN)+2;
+                    String lineHead = line.substring(beginEpsg );
+                    int endEpsg = lineHead.indexOf(QUOTE);
+                    String strEpsg = lineHead.subSequence(0, endEpsg).toString();
                     Integer epsg = Integer.parseInt(strEpsg);
-                    String mifCoordSys = line.substring(line.lastIndexOf(QUOTE)+2);
+                    
+					// scans the Coord Sys
+                    String mifCoordSys = lineHead.substring(endEpsg+2);
                     mifCoordSys = mifCoordSys.replaceAll("\\s", "");
                     
+                    // load the CRS maps
                     if (!mapEpsgToMifCoordSys.containsKey( epsg )) {
-                        mapEpsgToMifCoordSys.put(epsg, mifCoordSys); 
+                    	mapEpsgToMifCoordSys.put(epsg, mifCoordSys); 
                     }
                     if (!mapMifCoordSysToEpsg.containsKey(mifCoordSys)) {
                     	mapMifCoordSysToEpsg.put(mifCoordSys, epsg); 
