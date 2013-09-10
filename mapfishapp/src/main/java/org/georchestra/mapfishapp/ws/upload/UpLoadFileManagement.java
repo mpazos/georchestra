@@ -349,7 +349,7 @@ public class UpLoadFileManagement {
 	        	SimpleFeatureCollection featureCollection = this.reader.getFeatureCollection(new File(fileName), this.fileDescriptor.geoFileType, crs);
 	        	
 	        	//int decimals = getDigits(featureCollection);
-				FeatureJSON fjson = new FeatureJSON2(new GeometryJSON(18)); // TODO this is a workaround to solve the crs bug
+				FeatureJSON fjson = new FeatureJSON2(new GeometryJSON(18)); // TODO FeatureJSON2  is a workaround to solve the crs bug
 	        	
 	        	SimpleFeatureType schema = featureCollection.getSchema();
 				fjson.setFeatureType(schema);

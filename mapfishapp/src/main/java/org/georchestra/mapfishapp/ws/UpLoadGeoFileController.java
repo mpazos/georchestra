@@ -87,6 +87,17 @@ public final class UpLoadGeoFileController {
 			}
 			
 		},
+		
+		ioError{
+			@Override
+			public String getMessage( final String detail){
+				return "{\"success\":\"false\", \"msg\": \"input/output error: "+ detail + "\"}"; }
+		}, 
+		unknownCRS{
+				@Override
+				public String getMessage( final String detail){
+					return "{\"success\":\"false\", \"msg\": \"unknown coordinate system: "+ detail + "\"}"; }
+			}, 
 		unsupportedFormat{
 			@Override
 			public String getMessage( final String detail){return "{\"success\":false, \"msg\": \"unsupported file type\"}"; }
@@ -94,7 +105,7 @@ public final class UpLoadGeoFileController {
 		sizeError{
 			@Override
 			public String getMessage(String detail) {
-				return "{\"success\": \"false\", \"msg\": \"file exceeds the limit\" "	+ detail + "}";
+				return "{\"success\": \"false\", \"msg\": \"file exceeds the limit:  "	+ detail + "\"}";
 			}
 		},
 		multiplefiles{
@@ -309,17 +320,21 @@ public final class UpLoadGeoFileController {
 			
 			// create a CRS object from the srs parameter
 			CoordinateReferenceSystem crs = null;
-			try {
-				String srsParam = request.getParameter("srs");
-				if(!"".equals(srsParam)){
+			String srsParam = request.getParameter("srs");
+			if( (srsParam != null) && (srsParam.length() > 0)){
+				try {
+					
 					crs = CRS.decode(srsParam);
+					
+				} catch (NoSuchAuthorityCodeException e) {
+					
+					writeResponse(response, Status.unknownCRS, srsParam );
+					return;
+
+				} catch (FactoryException e) {
+					writeResponse(response, Status.ioError, e.getMessage() );
+					return;
 				}
-			} catch (NoSuchAuthorityCodeException e) {
-				LOG.error(e.getMessage());
-				throw new IllegalArgumentException(e);
-			} catch (FactoryException e) {
-				LOG.error(e.getMessage());
-				throw new IOException(e);
 			}
 			
 			// encode the feature collection as json string
@@ -330,8 +345,8 @@ public final class UpLoadGeoFileController {
 			writeResponse(response, Status.ok, jsonFeatureCollection);
 		
 		} catch (IOException e) {
-			LOG.error(e);
-			throw new IOException(e);
+			writeResponse(response, Status.ioError, e.getMessage() );
+			return;
 		} finally{
 			if(workDirectory!= null) cleanTemporalDirectory(workDirectory);
 		}
