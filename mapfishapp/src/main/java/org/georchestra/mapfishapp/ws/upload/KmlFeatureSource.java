@@ -18,11 +18,13 @@ import org.apache.commons.logging.LogFactory;
 import org.geotools.data.Query;
 import org.geotools.data.collection.ListFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureCollection;
+import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
 import org.geotools.geometry.jts.JTS;
 import org.geotools.referencing.CRS;
 import org.geotools.xml.Configuration;
 import org.geotools.xml.PullParser;
 import org.opengis.feature.simple.SimpleFeature;
+import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.MathTransform;
 import org.xml.sax.Attributes;
@@ -181,21 +183,27 @@ class KmlFeatureSource {
                 Geometry geom = (Geometry) f.getDefaultGeometry();
                 
                 int srid = geom.getFactory().getSRID();
-                if (srid < 0) {
+                if (srid <= 0) {
                     srid = 4326; // set the default
                     sourceCRS = CRS.decode("EPSG:" + srid);
                 }
                 geom.setSRID(srid);
 
+                SimpleFeatureType type; 
                 if (mathTransform != null) {
                     // transformation is required
+                    type = SimpleFeatureTypeBuilder.retype( f.getFeatureType(), targetCRS);
+                    
                     Geometry reprojectedGeometry = JTS.transform(geom, mathTransform);
+                    reprojectedGeometry.setSRID(CRS.lookupEpsgCode(targetCRS, true));
                     f.setDefaultGeometry(reprojectedGeometry);
-                }
-                if (list == null) {
-                    list = new ListFeatureCollection(f.getFeatureType());
+                } else {
+                    type = f.getFeatureType();
                 }
                 
+                if (list == null) {
+                    list = new ListFeatureCollection(type);
+                }
                 list.add(f);
             }
             

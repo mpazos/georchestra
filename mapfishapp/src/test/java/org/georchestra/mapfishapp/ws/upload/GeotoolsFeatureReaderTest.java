@@ -205,7 +205,9 @@ public class GeotoolsFeatureReaderTest {
 	}
 	
 	
-	@Test
+
+    
+    @Test
 	public void testMIFFormatTo2154() throws Exception {
 		
 		final int epsgCode = 2154;
@@ -440,6 +442,19 @@ public class GeotoolsFeatureReaderTest {
 		
 	}
 
+    @Test
+    public void testKMLFormatTo2154() throws Exception {
+        
+        final int epsgCode = 2154;
+
+        String fullName = makeFullName("kml_4326_accidents.kml");
+        File file = new File(fullName);
+        
+        SimpleFeatureCollection fc = reader.getFeatureCollection(file, FileFormat.kml, CRS.decode("EPSG:"+ epsgCode));
+        
+        assertFeatureCollection(fc,  1, epsgCode);
+    }
+	
 	/**
 	 * Returns path+fileName
 	 * @param fileName
